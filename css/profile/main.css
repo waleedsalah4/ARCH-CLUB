@@ -1,0 +1,91 @@
+:root{
+    --primary-color: #6A4CFF;
+    --main-dark-color: #0C0B0E;
+    --main-gray-color: #232229;
+    --main-icon-color: #FFACA9;
+    --hover-bg-color: #1B1923; 
+    --main-background:linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), conic-gradient(from 142.8deg at 37.82% 47.52%, #3D2E87 0deg, rgba(48, 41, 80, 0) 346.88deg, #3D2E87 360deg);
+    --root-font-size: 100%;
+}
+
+
+html{
+    font-size: var(--root-font-size);
+}
+
+
+.hidden {
+    display: none;
+}
+
+
+
+.current-camera-icon{
+    position: absolute;
+    top: .6em;
+    left: 7.5em;
+    font-size: 3.5em;
+    opacity: .8;
+    color: #C8C6CE;
+    cursor: pointer;
+}
+
+.current-camera-icon:hover{
+   opacity: 1;
+   color: white;
+
+}
+
+
+.logo{
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 2.25rem;
+    line-height: 43px;
+}
+
+.circle-profile-img{
+    width: 15em;
+    height:15em;
+    padding: 1.5em;
+    border-radius: 500px;
+    border:4px dashed var(--main-icon-color);
+    box-sizing: border-box;
+}
+
+.circle-profile-img:hover{
+    opacity: .9;
+}
+
+.btn-follow-profile{
+    color: white;
+    font-size: 1.375rem;
+    font-weight: bold;
+    margin-top: 60px;
+    outline: none;
+    border: none;
+    width: 450px;
+    height: 55px;
+    background: #6A4CFF;
+    border-radius: 11px;
+
+}
+
+.follow-following{
+    transition: .2s;
+    border: none;
+}
+
+
+.btn-following-profile{
+    color: #2E2828;
+    font-size: 1.375rem;
+    font-weight: bold;
+    margin-top: 60px;
+    outline: none;
+    width: 450px;
+    height: 55px;
+    background: #FFACA9;
+    border-radius: 11px;
+    
+}

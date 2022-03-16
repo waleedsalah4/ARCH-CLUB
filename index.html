@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../assets/chatroom-icon.png">
+
+    <!-- adding bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <!-- link main css -->
+    <link rel="stylesheet" href="./css/landpage.css">
+
+    <title>ARCH CLUB</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #0C0B0E;">
+        <div class="container-xxl">
+           <a href="#intro" class="navbar-brand fw-bold">
+               <span class="text-secodary" style="color: #6A4CFF;">
+                   ARCH
+               </span> CLUB
+           </a>
+           <!-- toggle button for mobile nav -->
+           <button class="navbar-toggler" type="button"  data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+           </button>
+
+           <!-- navbar links -->
+            <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                      <a class="nav-link px-4 fs-4 text-white" aria-current="page" href="./archclub/sign/signIn.html">Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="btn rounded-pill px-5 fs-4 text-white gradient-button-nav" href="#">Join</a>
+                    </li>
+                    
+                  </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- main image & intro text -->
+    <main id="intro">
+        <div class="container-lg">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-md-3 text-center text-md-start text-white mx-5 mb-5 px-3">
+                    <p class="fs-5">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto maxime perspiciatis totam esse laboriosam consequuntur iste repellendus.</p>
+
+                    <!-- <a href="#" class="btn btn-lg rounded-pill px-4 fs-4 fw-bold text-white gradient-button">Join Now</a> -->
+                    <a href="./sign/index.html" class="gradient-button gradient-button-effect">
+                        Join Now
+                    </a>
+
+                </div>
+                <div class="col-sm-6 text-center d-md-block">
+                    <img class="img-fluid" src="./assets/main-page-img.svg" alt="main-img">
+                </div>
+            </div>
+        </div>
+    </main>
+    
+</body>
+</html>

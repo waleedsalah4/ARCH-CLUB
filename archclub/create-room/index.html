@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" type="image/png" href="../../assets/chatroom-icon.png">
+    <link rel="stylesheet" href="../../css/createRoom.css">
+    <title>ARCH CLUB | Create Room</title>
+</head>
+<body>
+    <section class="container">
+        <div>logo</div>
+        <div class="create-room">
+            <div class="header">
+                <h2>SetUp your Room!</h2>
+            </div>
+            <div class="room-name">
+                <input type="text" placeholder="room Name">
+            </div>
+            <div class="category-select">
+                <div>
+                    <label for="categories">Category</label>
+                </div>
+                <div>
+                    <select id="categories">
+                        <!-- <option value="ai">ai</option>
+                        <option value="programming">programming</option>
+                        <option value="education">education</option> -->
+                    </select>
+                </div>
+            </div>
+            <div class="room-type">
+
+                <div>
+                    <h4 class="type-header">Private</h4>
+                    <h6 class="type-text">only people have the link will join</h6>
+                </div>
+                <!-- <div>
+                    <p>switch</p>
+                </div> -->
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                        
+                    </div>
+            </div>
+            <div class="create-btn">
+                <button>Create</button>
+            </div>
+        </div>
+    </section>
+
+
+    <script type="module" src="../../js/rooms/createRoom.js"></script>
+</body>
+</html>

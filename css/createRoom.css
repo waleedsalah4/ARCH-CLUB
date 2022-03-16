@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+:root{
+    /* ===== Colors ===== */
+    --body-color: #0C0B0E;
+    --primary-color-light: #FFFFFF;
+
+    --tran: all 0.3s ease;
+}
+body{
+    background-color: var(--body-color);
+    color: var(--primary-color-light);
+    font-family: 'Rubik', Arial, Helvetica, sans-serif;
+}
+.container {
+    /* position: relative; */
+    width: 100%;
+}
+
+.container .create-room {
+    margin: 50px auto;
+    width: 600px;
+    height: 600px;
+    background: conic-gradient(from 140.08deg at 49.86% 51.06%, #1E1C1C 0deg, #1F1A30 135deg, #3E317A 360deg);
+    border-radius: 55px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 65px 5px;
+    padding: 2rem;
+
+}
+@media  (max-width: 600px) {
+    /* For mobile phones: */
+    .container .create-room {
+      width: 400px;
+      height: 400px;
+      gap: 30px 5px;
+    }
+}
+
+
+/* start create room*/
+
+
+.header{
+    font-weight: bold;
+    font-size: 27px;
+    text-align: center;
+}
+
+.create-room .room-name{
+    width: 100%;
+    text-align: center;
+}
+.room-name input {
+    width: 75%;
+    padding: 10px;
+    outline: none;
+    border-radius: 11px;
+    border: none;
+    font-size: 16px;
+}
+
+.category-select {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+.category-select label{
+    font-size: 16px;
+    font-weight: bold;
+}
+#categories {
+    padding: 0.4rem;
+    border-radius: 11px;
+    border: none;
+    outline: none;
+}
+
+.room-type {
+    width: 70%;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+
+.room-type .toggle-switch{
+    position: absolute;
+    right: 0;
+    height: 100%;
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.toggle-switch .switch{
+    position: relative;
+    height: 22px;
+    width: 40px;
+    border-radius: 25px;
+    background-color: var(--primary-color-light);
+    transition: var(--tran);
+}
+
+.toggle-switch .switch::before{
+    content: '';
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    background-color: var(--body-color);
+    transition: var(--tran);
+}
+.toggle-switch.public .switch::before{
+    left: 20px;
+}
+
+
+.create-btn {
+    width: 100%;
+    text-align: center;
+}
+.create-btn button {
+    padding: 10px;
+    width: 75%;
+    border-radius: 11px;
+    border: none;
+    font-size: 16px;
+    background-color: var(--primary-color-light);
+}

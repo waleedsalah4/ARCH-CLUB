@@ -1,0 +1,132 @@
+/* Google Font Import - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+*{
+    font-family: 'Rubik', Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    /* ===== Colors ===== */
+    --body-color: #0C0B0E;
+    --sidebar-color: #232229;
+    --primary-color: #999191;
+    --primary-color-light: #FFFFFF;
+    --secondary-color: #6A4CFF; 
+  
+}
+
+body{
+    min-height: 100vh;
+    background-color: var(--body-color);
+    color: var(--primary-color-light);
+    transition: var(--tran-05);
+}
+
+/*for all sign pages*/
+.main-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px 2px;
+    margin-top: 50px;
+}
+.sign-container{
+    width: 400px;
+}
+
+
+.sign-container h2 {
+    margin: 0 0 45px;
+}
+
+.form {
+    padding: 30px 40px;
+}
+
+.form-control {
+    margin-bottom: 10px;
+    padding-bottom: 20px;
+    /* position: relative; */
+}
+/*---------------*/
+
+
+  
+.basic-style {
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+}
+  
+.form-control input {
+    background-color: var(--sidebar-color);
+    color: var(--primary-color-light);
+   
+}
+
+.submit-btn {
+    background-color: var(--secondary-color);
+    color: var(--primary-color-light);
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.forgot-pass{
+    text-align: end;
+    margin-top: -10px;
+}
+
+.link {
+    color: #39A9D7;
+}
+
+/* forgot password page and reset page*/
+
+.forgot-form {
+    box-shadow: 1px 2px 7px #141221;
+    border-radius: 10px;
+}
+.forgot-text {
+    text-align: center;
+}
+.forgot-text i {
+    font-size: 30px;
+}
+.feed-back {
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+    gap: 2px 4px;
+    padding: 10px;
+}
+.feed-back.sucsses{
+    background: #6a4cff;
+}
+
+.feed-back.fail{
+    background:#ac071f;
+}
+
+.feed-back-text {
+    display: inline-block;
+}
+.feed-back i {
+    cursor: pointer;
+}
+.feed-back a {
+    font-size: 17px;
+    text-decoration: none;
+    color: var(--primary-color-light);
+    background: var(--sidebar-color);
+    padding: 6px;
+    border-radius: 3px;
+    cursor: pointer;
+}

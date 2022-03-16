@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/home.css">
+    <link rel="stylesheet" href="../../css/room.css">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <title>ARCH CLUB | ROOM</title>
+</head>
+<body>
+    <nav class="nav sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="../../assets/logo.png" alt="logo">
+                </span>
+
+                <div class="text logo-text">
+                    <span class="name">ARCH CLUB</span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-right toggle' id="toggle"></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+
+                <!-- <li class="search-box">
+                    <i class='bx bx-search icon'></i>
+                    <input type="text" placeholder="Search...">
+                </li> -->
+
+                <ul class="menu-links">
+                    <li class="nav-link active">
+                        <a href="#">
+                            <i class='bx bx-home-alt icon'></i>
+                            <span class="text nav-text">Home</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class='bx bx-search-alt icon'></i>
+                            <span class="text nav-text">Discover</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class='bx bxs-user-voice icon'></i>
+                            <span class="text nav-text">My podcasts</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class='bx bx-broadcast icon'></i>
+                            <span class="text nav-text">Podcasts</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class='bx bxs-user icon'></i>
+                            <span class="text nav-text">Profile</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <li class="">
+                    <a href="#">
+                        <i class='bx bx-log-out icon' ></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+
+                <!-- <li class="mode">
+                    <div class="sun-moon">
+                        <i class='bx bx-moon icon moon'></i>
+                        <i class='bx bx-sun icon sun'></i>
+                    </div>
+                    <span class="mode-text text">Dark mode</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li> -->
+                
+            </div>
+        </div>
+
+    </nav>
+    <section class="home">
+        <div class="logo">
+            logo
+        </div>
+        <div class="room-container">
+            <div class="in-room">
+                <div class="speak-listen">
+                    <div class="talkers">
+                        <p class="talkers-count">4</p>
+                        <button id="getSpeakers" class="talkers-text room-nav">Speakers</button>
+                    </div>
+                    <div class="Audinces">
+                        <p class="audinces-count">4</p>
+                        <button id="getAudinces" class="audinces-text room-nav">Audinces</button>
+                    </div>
+                </div>
+                
+                <div class="current-talkers">
+                    <!-- <div class="talkers-card"> 
+                        <div class="user-img">
+                            <img src="./user.jpg" alt="user">
+                            <i class='bx bxs-star host' style='color:#c5be2a'></i>
+                            <i class='bx bxs-microphone user-mic'></i>
+                        </div>
+                        <div>
+                            <span>|'|'|'|' |'|'|'|' |'|'|'|'</span>
+                        </div>
+                    </div>
+                    
+                    <div class="talkers-card">
+                        <div class="user-img">
+                            <img src="./user.jpg" alt="user">
+                            <i class='bx bxs-microphone user-mic'></i>
+                        </div>
+                        <div>
+                            <span>|'|'|'|' |'|'|'|' |'|'|'|'</span>
+                        </div>
+                    </div>
+
+                    <div class="talkers-card">
+                        <div class="user-img">
+                            <img src="./user.jpg" alt="user">
+                            <i class='bx bxs-microphone user-mic'></i>
+                        </div>
+                        <div>
+                            <span>|'|'|'|' |'|'|'|' |'|'|'|'</span>
+                        </div>
+                    </div>
+
+                    <div class="talkers-card">
+                        <div class="user-img">
+                            <img src="./user.jpg" alt="user">
+                            <i class='bx bxs-microphone user-mic'></i>
+                        </div>
+                        <div>
+                            <span>|'|'|'|' |'|'|'|' |'|'|'|'</span>
+                        </div>
+                    </div>
+                    <div class="talkers-card">
+                        <div class="user-img">
+                            <img src="./user.jpg" alt="user">
+                            <i class='bx bxs-microphone user-mic'></i>
+                        </div>
+                        <div>
+                            <span>|'|'|'|' |'|'|'|' |'|'|'|'</span>
+                        </div>
+                    </div>
+                    <div class="talkers-card">
+                        <div class="user-img">
+                            <img src="./user.jpg" alt="user">
+                            <i class='bx bxs-microphone user-mic'></i>
+                        </div>
+                        <div>
+                            <span>|'|'|'|' |'|'|'|' |'|'|'|'</span>
+                        </div>
+                    </div>-->
+                </div>
+                
+            </div>
+            <div class="controls">
+                <div class="control-header">
+                    <button id="control-button" class="control-text room-nav">Controls</button>
+                </div>
+                <div class="all-displayRoom">
+                    <div class="display-title hide">
+                        <p class="room-nav"></p>
+                    </div>
+                    <div class="display-controls">
+
+                    </div>
+                    <div class="display-users" id="design-scrollbar">
+                        <!-- <div class="users-list">
+                            <div class="user-img">
+                                <img src="./user.jpg" alt="user-img">
+                            </div>
+                            <div>
+                                <h3 class="user-name">Tony Smart</h3>
+                                <p class="user-followers">223.154 Followers</p>
+                            </div>
+                            <div>
+                                <button class="control-btn">Make Audience</button>
+                            </div>
+                        </div>
+                        <div class="users-list">
+                            <div class="user-img">
+                                <img src="./user.jpg" alt="user-img">
+                            </div>
+                            <div>
+                                <h3 class="user-name">Tony Smart</h3>
+                                <p class="user-followers">223.154 Followers</p>
+                            </div>
+                            <div>
+                                <button class="control-btn">Make Audience</button>
+                            </div>
+                        </div>
+                        <div class="users-list">
+                            <div class="user-img">
+                                <img src="./user.jpg" alt="user-img">
+                            </div>
+                            <div>
+                                <h3 class="user-name">Tony Smart</h3>
+                                <p class="user-followers">223.154 Followers</p>
+                            </div>
+                            <div>
+                                <button class="control-btn">Make Audience</button>
+                            </div>
+                        </div>
+                        <div class="users-list">
+                            <div class="user-img">
+                                <img src="./user.jpg" alt="user-img">
+                            </div>
+                            <div>
+                                <h3 class="user-name">Tony Smart</h3>
+                                <p class="user-followers">223.154 Followers</p>
+                            </div>
+                            <div>
+                                <button class="control-btn">Make Audience</button>
+                            </div>
+                        </div>
+                        <div class="users-list">
+                            <div class="user-img">
+                                <img src="./user.jpg" alt="user-img">
+                            </div>
+                            <div>
+                                <h3 class="user-name">Tony Smart</h3>
+                                <p class="user-followers">223.154 Followers</p>
+                            </div>
+                            <div>
+                                <button class="control-btn">Make Audience</button>
+                            </div>
+                        </div>
+                        <div class="users-list">
+                            <div class="user-img">
+                                <img src="./user.jpg" alt="user-img">
+                            </div>
+                            <div>
+                                <h3 class="user-name">Tony Smart</h3>
+                                <p class="user-followers">223.154 Followers</p>
+                            </div>
+                            <div>
+                                <button class="control-btn">Make Audience</button>
+                            </div>
+                        </div>
+                        <div class="users-list">
+                            <div class="user-img">
+                                <img src="./user.jpg" alt="user-img">
+                            </div>
+                            <div>
+                                <h3 class="user-name">Tony Smart</h3>
+                                <p class="user-followers">223.154 Followers</p>
+                            </div>
+                            <div>
+                                <button class="control-btn">Make Audience</button>
+                            </div>
+                        </div>
+                        <div class="users-list">
+                            <div class="user-img">
+                                <img src="./user.jpg" alt="user-img">
+                            </div>
+                            <div>
+                                <h3 class="user-name">Tony Smart</h3>
+                                <p class="user-followers">223.154 Followers</p>
+                            </div>
+                            <div>
+                                <button class="control-btn">Make Audience</button>
+                            </div>
+                        </div> -->
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="module" src="../../js/rooms/room.js"></script>
+
+</body>
+</html>
+
+<!-- 
+controls
+    <div class="all-displayRoom">
+                    <div>
+                        <button class="control-btn">Leave Room</button>
+                    </div>
+                    <div>
+                        <button class="control-btn">Ask To Talk</button>
+                    </div>
+                    <div>
+                        <button class="control-btn mic"> 
+                            <span class="control-mic">
+                                <i class='bx bx-microphone-off'></i>
+                            </span>
+                            Mic on
+                        </button>
+                    </div>
+                </div>
+ -->

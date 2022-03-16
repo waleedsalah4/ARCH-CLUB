@@ -1,0 +1,311 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    box-sizing: border-box;
+    font-size: 62.5%;
+}
+@media only screen and (max-width: 68.75em) {
+    html {
+        font-size: 50%;
+    }
+}
+
+:root{
+    --body-color: #0C0B0E;
+    --sidebar-color: #232229;
+    --primary-color-light: #FFFFFF;
+    --secondary-color: #6A4CFF;
+    --tran: all 0.3s ease;
+}
+
+.home .logo{
+    text-align: right;
+    color: var(--primary-color-light);
+}
+
+.room-container {
+    /* position: absolute;
+    width: 900px;
+    height: 620px;
+    left: 130px;
+    top: 63px; */
+    margin: 50px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), conic-gradient(from 142.8deg at 37.82% 47.52%, #3D2E87 0deg, rgba(48, 41, 80, 0) 346.88deg, #3D2E87 360deg);
+    color: var(--primary-color-light);
+    border-radius: 38px;
+    display: flex;
+    flex-direction: row;
+    padding: 2rem;
+    gap: 10px 40px;
+    min-width: 30rem;
+}
+@media only screen and (max-width: 750px) {
+    .room-container{
+        flex-direction: column;
+        margin: 0;
+    }
+}
+
+.in-room {
+    width: 62%;
+    display: flex;
+    flex-direction: column;
+    gap: 7rem;
+    border-right: 1px solid var(--primary-color);
+    overflow: auto;
+}
+@media only screen and (max-width: 750px) {
+    .in-room{
+        width: 100%;
+        text-align: center;
+    }
+}
+.speak-listen {
+    display: flex;
+    flex-direction: row;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+}
+
+/* for 'speakers' 'Audience' 'Controls' buttons  */
+.room-nav{
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: 500;
+    padding-top: 0.5rem;
+    cursor: pointer;
+}
+.talkers-count,
+.audinces-count {
+    font-size: 1.5rem;
+}
+
+.talkers-text:hover{
+    color: var(--primary-color-light);
+}
+.audinces-text:hover{
+    color: var(--primary-color-light);
+}
+
+/* room speakers*/
+.current-talkers {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4.5rem 8rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .current-talkers{
+        gap: 4.5rem 5rem;
+    }
+}
+
+.talkers-card {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    text-align: center;
+}
+
+@media only screen and (max-width: 800px) {
+    .talkers-card {
+        width: 35%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .talkers-card {
+        width: 28%;
+    }
+}
+
+.talkers-card .user-img {
+    width: 9rem;
+    height: 9rem;
+    position: relative;
+}
+.user-img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3.5px dashed var(--secondary-color);
+    /* mix-blend-mode: screen; */
+    box-sizing: border-box;
+} 
+@media only screen and (max-width: 600px) {
+    .talkers-card .user-img {
+        width: 5rem;
+        height: 5rem;
+    }
+}
+.user-img .host {
+    position: absolute;
+    right: 14.13%;
+    bottom: 5%;
+}
+
+.user-img .user-mic{
+    position: absolute;
+    left: 100%;
+    font-size: 3.5rem;
+    color: #9A9292;
+}
+@media only screen and (max-width: 600px) {
+    .user-img .user-mic {
+        font-size: 1.5rem;
+    }
+}
+
+/* -----------room controls-----------------*/  
+.controls{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 7rem;
+    text-align: center;
+}
+@media only screen and (max-width: 750px) {
+    .controls{
+        width: 100%;
+    }
+}
+.controls .control-header {
+    border-bottom: 1px solid var(--primary-color);
+}
+.control-text {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.control-text:hover{
+    color: var(--primary-color-light);
+}
+
+.all-displayRoom {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+.control-btn{
+    background: var(--secondary-color);
+    color: var(--primary-color-light);
+    border: none;
+    border-radius: 1.1rem;
+    padding: 1rem;
+    width: 18rem;
+    font-size: 1.7rem;
+    font-weight: 500;
+}
+
+@media only screen and (max-width: 800px) {
+    .control-btn {
+        width: 12rem;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .control-btn {
+        width: 8rem;
+    }
+}
+
+.room-control .mic {
+    background-color: var(--sidebar-color);
+}
+
+.control-btn .control-mic {
+    margin-right: 1.2rem;
+}
+
+.display-controls{
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+.display-controls.hide {
+    display: none;
+}
+/* for showing all speakers and listener in all displayRomm class */
+.all-displayRoom .display-title{
+    text-align: left;
+}
+.display-title.hide{
+    display: none;
+}
+
+.all-displayRoom .display-users{
+    height: 35rem;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem 1rem;
+    
+}
+/* .display-users.hide {
+    display: none;
+} */
+
+.display-users .users-list {
+    display: flex;
+    flex-direction: row;
+    gap: 0.2rem 3rem;
+    text-align: left;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+.display-users .users-list .user-img {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+}
+.display-users .users-list .user-img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: none;
+}
+.display-users .users-list button {
+    width: 8rem;
+    font-size: 1rem;
+}
+
+/* design scroll bar */
+#design-scrollbar::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+	border-radius: 10px;
+}
+
+#design-scrollbar::-webkit-scrollbar
+{
+	width: 10px;
+    
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+#design-scrollbar::-webkit-scrollbar-thumb
+{
+	background-color: #AAA;
+	border-radius: 10px;
+	/* background-image: -webkit-linear-gradient(90deg,
+	                                          rgba(0, 0, 0, .2) 25%,
+											  transparent 25%,
+											  transparent 50%,
+											  rgba(0, 0, 0, .2) 50%,
+											  rgba(0, 0, 0, .2) 75%,
+											  transparent 75%,
+											  transparent) */
+}
