@@ -11,13 +11,14 @@ const backbtn = document.querySelector('.back-btn');
 const oldPassword = document.querySelector('#oldPassword');
 const newPassword = document.querySelector('#newPassword');
 const confirmPassword = document.querySelector('#confirmPassword');
-
+const url = 'https://audiocomms-podcast-platform.herokuapp.com';
 
 
 
 //data validation
 
 //1) edit form
+/*
 const emailValidation = function(emailValue){
     const atIndx = emailValue.indexOf('@');
     const dotIndx = emailValue.indexOf('.');
@@ -30,21 +31,11 @@ const emailValidation = function(emailValue){
 
     return true;
 }
+*/
 
 
-submitEditBtn.addEventListener('click',function(e){
 
-    e.preventDefault();
-    //console.log(editUserName.value);
-    if(!editUserName.value && !editEmail.value){
-        alert('Enter some changes to be submited :)');
-    }
-
-    emailValidation(editEmail.value);
-
-})
-
-//2)change password form
+//change password form
 
 changePassFormBtn.addEventListener('click',function(e){
     e.preventDefault();
@@ -67,8 +58,6 @@ changePassFormBtn.addEventListener('click',function(e){
 
 
 });
-
-
 
 
 
@@ -101,4 +90,55 @@ backbtn.addEventListener('click',()=>{
     editForm.classList.remove('hidden');
     chngPassForm.classList.add('hidden');
 })
+
+
+
+///////////////////////////////////////////////// change email or name /////////////////////////////////////////////////////////
+
+
+submitEditBtn.addEventListener('click',function(e){
+
+    e.preventDefault();
+    //console.log(editUserName.value);
+    if(!editUserName.value && !editEmail.value){
+        alert('Enter some changes to be submited :)');
+    }
+
+    /* if(emailValidation(editEmail.value)){ }*/ 
+    changeNameAndEmail();
+    
+
+   
+
+})
+
+
+
+
+const changeNameAndEmail = async function(data){
+    
+
+        const changeData = {
+            name: editUserName.value,
+            email: editEmail.value
+        }
+        console.log(changeData);
+
+        const response = await fetch(`${url}/api/v1/users/updateMe`,{
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(changeData)
+    });
+
+        const res = await response.json();
+        console.log(res);
+         const user = res.user;
+        localStorage.setItem('user-data', JSON.stringify(user));       
+
+    
+}
+
 

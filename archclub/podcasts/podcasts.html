@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- including font awsome, google fonts,bootstrap5-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,500;1,400&display=swap" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
+    <link href="../../css/profile/all.min.css" rel="stylesheet">
+    <link href="../../css/profile/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../css/profile/main.css">
+    <link href="../../css/profile/profile.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/discover.css">
+    <link rel="stylesheet" href="../../css/podcasts.css">
+    <title>edit-profile</title>
+
+</head>
+<body>
+    
+    <div class="header-container d-flex justify-content-between">
+        <div class="logo edit-logo">Logo</div>
+
+        <img  src="../../assets/user.jpg" alt="user profile picture" class="circle-profile-img">
+    </div>
+   
+
+    <!-- start the side bar-->
+    
+        <div class="sideBar ">
+            <div class="top">
+                <div class="logo">Logo</div>
+                <div class="bar-icon-container"> 
+                    <i class="fa-solid fa-bars bar-icon   appear"></i> 
+                </div>
+                <!--<i class="fa-solid fa-bars-staggered bar-icon open"></i>--> 
+            </div>
+
+            <ul class="nav" >
+                <li class="navbar-item bar-item active highlight">
+                    
+                    <i class="fa-solid fa-house bar-icons"></i>
+                    <h3>Home</h3>
+                
+                </li>
+
+                <li class="navbar-item bar-item">
+                    <i class="fa-solid fa-circle-chevron-down bar-icons "></i>
+                    <h3>Discover</h3>
+                </li>
+
+                <li class="navbar-item bar-item">
+                    <i class="fa-solid fa-video bar-icons "></i>
+                    <h3>My Podcasts</h3>
+                <!--  <i class="fa-solid fa-circle-plus  "></i>-->
+                </li>
+
+                <li class="navbar-item bar-item">
+                    <i class="fa-solid fa-user-ninja bar-icons "></i>
+                    <h3>Podcasts</h3>
+                </li>
+
+                <a href="index.html">
+                    <li class="navbar-item bar-item">
+                        <i class="fa-solid fa-user bar-icons "></i>
+                        <h3>Profile</h3>
+                    </li>
+                </a>
+
+                <li class="navbar-item bar-item">
+                    <i class="fa-solid fa-arrow-right-from-bracket bar-icons "></i>
+                    <h3>Logout</h3>
+                </li>
+            </ul>
+        </div>
+        <!-- end the side bar-->
+
+        
+
+        
+        <div class="container flex-column">
+           
+
+            <div class="search">
+
+                <li class="search-box text-center d-flex ">
+                   <!--  <i class="fa-solid  ms-3 "></i> -->
+                   <img src="../../assets/search.svg" alt="" class="searchIcon">
+                    <input type="text" placeholder="Search..." class="search-input">
+                </li>
+            </div>
+                
+            <div class="categories-container d-flex">
+                <div class="categorie-component active">
+                    All
+                </div>
+
+                <div class="categorie-component">
+                    Education
+                </div>
+
+                <div class="categorie-component">
+                    Gaming
+                </div>
+
+                <div class="categorie-component">
+                    Health
+                </div>
+
+                <div class="categorie-component">
+                    Music
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="podcasts-veiw-container d-flex">
+
+                <div class="podcast-component">
+                    <div class="pic">
+                        <img src="../../assets/user1.png" alt="user podcast">
+                    </div>
+                    <div class="description p-2">
+                        <div class="podcast-name text-light fw-bold  fs-5">Graduation Project</div>
+                        <p class="p-1 ">By <span class="fw-bold">Will Smith</span></p>
+                        <hr>
+                        <div class="inner-infos">
+
+                            <div class="d-flex justify-content-between"> 
+                                <div class="d-flex">
+                                    <img src="../../assets/squareIcon.svg" alt="icon">
+                                    <p class="category">Education</p>
+                                </div>
+                                <img src="../../assets/cloud-download.svg" alt="">
+                            </div>
+
+                            <div class="d-flex justify-content-between"> 
+                                <div class="d-flex">
+                                    <img src="../../assets/clock.svg" alt="">
+                                    <p class="duration">1h 34m</p>
+                                </div>
+                                <button class="play-podcast-btn">
+                                    <img src="../../assets/circle-play-solid.svg" alt="" >
+                                    Play</button>
+                            </div> 
+                        </div>
+                    </div> 
+                </div>
+
+                <div class="podcast-component">
+                    <div class="pic">
+                        <img src="../../assets/user1.png" alt="user podcast">
+                    </div>
+                    <div class="description p-2">
+                        <div class="podcast-name text-light fw-bold  fs-5">Graduation Project</div>
+                        <p class="p-1 ">By <span class="fw-bold">Will Smith</span></p>
+                        <hr>
+                        <div class="inner-infos">
+
+                            <div class="d-flex justify-content-between"> 
+                                <div class="d-flex">
+                                    <img src="../../assets/squareIcon.svg" alt="icon">
+                                    <p class="category">Education</p>
+                                </div>
+                                <img src="../../assets/cloud-download.svg" alt="">
+                            </div>
+
+                            <div class="d-flex justify-content-between"> 
+                                <div class="d-flex">
+                                    <img src="../../assets/clock.svg" alt="">
+                                    <p class="duration">1h 34m</p>
+                                </div>
+                                <button class="play-podcast-btn">
+                                    <img src="../../assets/circle-play-solid.svg" alt="" >
+                                    Play</button>
+                            </div> 
+                        </div>
+                    </div> 
+                </div>
+
+                <div class="podcast-component">
+                    <div class="pic">
+                        <img src="../../assets/user1.png" alt="user podcast">
+                    </div>
+                    <div class="description p-2">
+                        <div class="podcast-name text-light fw-bold  fs-5">Graduation Project</div>
+                        <p class="p-1 ">By <span class="fw-bold">Will Smith</span></p>
+                        <hr>
+                        <div class="inner-infos">
+
+                            <div class="d-flex justify-content-between"> 
+                                <div class="d-flex">
+                                    <img src="../../assets/squareIcon.svg" alt="icon">
+                                    <p class="category">Education</p>
+                                </div>
+                                <img src="../../assets/cloud-download.svg" alt="">
+                            </div>
+
+                            <div class="d-flex justify-content-between"> 
+                                <div class="d-flex">
+                                    <img src="../../assets/clock.svg" alt="">
+                                    <p class="duration">1h 34m</p>
+                                </div>
+                                <button class="play-podcast-btn">
+                                    <img src="../../assets/circle-play-solid.svg" alt="" >
+                                    Play</button>
+                            </div> 
+                        </div>
+                    </div> 
+                </div>
+
+                <div class="podcast-component">
+                    <div class="pic">
+                        <img src="../../assets/user1.png" alt="user podcast">
+                    </div>
+                    <div class="description p-2">
+                        <div class="podcast-name text-light fw-bold  fs-5">Graduation Project</div>
+                        <p class="p-1 ">By <span class="fw-bold">Will Smith</span></p>
+                        <hr>
+                        <div class="inner-infos">
+
+                            <div class="d-flex justify-content-between"> 
+                                <div class="d-flex">
+                                    <img src="../../assets/squareIcon.svg" alt="icon">
+                                    <p class="category">Education</p>
+                                </div>
+                                <img src="../../assets/cloud-download.svg" alt="">
+                            </div>
+
+                            <div class="d-flex justify-content-between"> 
+                                <div class="d-flex">
+                                    <img src="../../assets/clock.svg" alt="">
+                                    <p class="duration">1h 34m</p>
+                                </div>
+                                <button class="play-podcast-btn">
+                                    <img src="../../assets/circle-play-solid.svg" alt="" >
+                                    Play</button>
+                            </div> 
+                        </div>
+                    </div> 
+                </div>
+
+
+            </div>
+
+           
+     
+        </div>
+
+
+    
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
+    <script src="../../js/profile/all.min.js"></script>
+    <script src="../../js/profile/bootstrap.bundle.min.js"></script>
+    <script src="../../js/profile/side-bar.js"></script>
+    <!-- <script src="../../js/profile/edit-profile.js"></script> -->
+</body>
+</html>
