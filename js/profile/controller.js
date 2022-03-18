@@ -216,6 +216,32 @@ const renderMainInfo = function(data){
 getMainInfo();
 
 
+//////////////////////////////////////////////////////////// get user's data onload ///////////////////////////////////////////////
+
+const getMe = async function(){
+
+    try{
+
+        const response = await fetch(`${url}/api/v1/users/me`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+
+        const res = await response.json(); 
+        console.log(res);
+        localStorage.setItem('user-data', JSON.stringify(res.user));
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+window.addEventListener('load',(e)=>{
+    getMe();
+});
+
 
 //////////////////////////////////////////////////////////// uploading podcast ///////////////////////////////////////////////
 //1)generate signature
@@ -403,6 +429,13 @@ const fetchFollowing = async function(){
     }
 }
 
+const messageEmptyMarkup = function(){
+    return `
+     <p>
+        its empty here..
+     </p>
+    `;
+}
 
 const renderFollowing = function(){
     //1)fetch data
@@ -412,9 +445,11 @@ const renderFollowing = function(){
     const followingData = JSON.parse(localStorage.getItem('my-following'));
 
     //followingData
+    followingData? 
     followingData.forEach(f=>{
         followingContainer.insertAdjacentHTML('beforeend', followingMarkup(f.following));
-    });
+    }) :
+    followingContainer.insertAdjacentHTML('beforeend', messageEmptyMarkup);
     
 }
 
@@ -469,9 +504,11 @@ const renderFollowers = function(){
     const followersgData = JSON.parse(localStorage.getItem('my-followers'));
 
     //followersgData
+    followersgData? 
     followersgData.forEach(f=>{
         followersContainer.insertAdjacentHTML('beforeend', followersMarkup(f.follower));
-    });
+    }):
+    followersContainer.insertAdjacentHTML('beforeend', messageEmptyMarkup);
     
 }
 
