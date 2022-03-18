@@ -1,4 +1,6 @@
-'use strict';
+
+import { getMe, url ,generateSignature ,uploadPodcast,fetchFollowing , fetchFollowers} from '../utilities/requests.js';
+
 
 //elements
 const bar = document.querySelector('.sideBar');
@@ -12,7 +14,6 @@ const podcastComponentHeading = document.querySelector('.podcast-component-headi
 const hideDisplaySide = ['podcast-content','followers-content' ,'following-content'];
 const barLinks = document.querySelectorAll('.sideBar ul .bar-item');
 const generalBtn = document.querySelectorAll('.cBtn');
-const url = 'https://audiocomms-podcast-platform.herokuapp.com';
 const addPodcast = document.querySelector('.add-podcast-btn');
 const podcastContainer = document.getElementById('podcast-container');
 const followingContainer = document.getElementById('following-container');
@@ -184,8 +185,8 @@ const followBTn = function(){
 ///////////////////////////////////////////////////// rendering profile main infos ///////////////////
 
 const getMainInfo = function(){
-    const userData =JSON.parse(localStorage.getItem("user-data"));
-    renderMainInfo(userData)
+    const userData = JSON.parse(localStorage.getItem('user-data') );
+    renderMainInfo(userData);
     
 }
 
@@ -213,95 +214,21 @@ const renderMainInfo = function(data){
     document.querySelector('.main-info').addEventListener('click',hideDisplaySideInfo);
 }
 
-getMainInfo();
+
 
 
 //////////////////////////////////////////////////////////// get user's data onload ///////////////////////////////////////////////
 
-const getMe = async function(){
 
-    try{
 
-        const response = await fetch(`${url}/api/v1/users/me`,{
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        });
-
-        const res = await response.json(); 
-        console.log(res);
-        localStorage.setItem('user-data', JSON.stringify(res.user));
-    }
-    catch(err){
-        console.log(err);
-    }
-}
-
-window.addEventListener('load',(e)=>{
-    getMe();
+window.addEventListener('load',()=>{
+     getMe();
+    getMainInfo(); 
 });
 
 
 //////////////////////////////////////////////////////////// uploading podcast ///////////////////////////////////////////////
-//1)generate signature
 
-
-
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMzBjNDZkYWExMDQ3MDAxNmUwMjAwMiIsImlhdCI6MTY0NzQxNzk2NiwiZXhwIjoxNjU1MTkzOTY2fQ.FngIREfI53tfzDTvMQnqcp4NWrvKm7Vrb6p3ccPGxWk";
-const generateSignature = async function(){
-
-    try { 
-    const response = await fetch(`${url}/api/v1/podcasts/generateSignature`,{
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        }
-    });
-
-   // const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/generateSignature`);
-
-    
-    const res = await response.json();
-    
-    if(res.status !== 'fail'){
-        
-        const signature = res;
-
-        localStorage.setItem('user-signature', JSON.stringify(signature));
-               /*  localStorage.setItem('user-token', JSON.stringify(token));
-                localStorage.setItem('isLoggedIn', true); */
-    
-    }
-}
-    catch(er){
-        console.log(er);
-    }
-
-}
-
-
-const uploadPodcast = async function(){
-    try{
-        generateSignature();
-        const signature = JSON.parse(localStorage.getItem('user-signature'));
-
-        const response = await fetch(`${url}/v1_1/${signature.cloudName}/video/upload?api_key=${signature.apiKey}&timestamp=${signature.timestamp}&signature=${signature.signature}`,
-        {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-        }
-            );
-        
-        console.log(response);
-    }
-
-    catch(err){
-        console.log(err);
-    }
-}
 
 addPodcast.addEventListener('click',uploadPodcast);
 
@@ -355,14 +282,14 @@ const fetchPodcasts =  async function(){
         const response = await fetch(`${url}/api/v1/podcasts/me`,{
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`,
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
             }
     });
 
     const res = await response.json();
     localStorage.setItem('myPodcasts',JSON.stringify(res.data));
-    localStorage.setItem('numberOfMyPodcasts',JSON.stringify(res.results))
-   // console.log(res);
+    localStorage.setItem('numberOfMyPodcasts',JSON.stringify(res.results));
+    console.log(res);
 
 }
     catch(err){
@@ -398,7 +325,7 @@ const followingMarkup = function(f){
         <li class="d-flex justify-content-between">
                                 <div class="d-flex"> 
                                     <img src=${f.photo} alt="">
-                                    <p >${f.name} <br> <span>${f.following?f.followers : 0} Followers</span> </p>
+                                    <p >${f.name} <br> <span>${f.following?f.followers : 0} ${f.following==1? 'Follower': 'Followers'}</span> </p>
                                 </div>
                                 <div> 
                                     <button class="cBtn following-btn">Following</button>
@@ -408,26 +335,6 @@ const followingMarkup = function(f){
     `;
 }
 
-const fetchFollowing = async function(){
-    
-    try{
-        const response = await fetch(`${url}/api/v1/users/me/following`,{
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-    });
-
-    const res = await response.json();
-    localStorage.setItem('my-following',JSON.stringify(res.data));
-    localStorage.setItem('number-of-my-following',JSON.stringify(res.results))
-    //console.log(res);
-
-}
-    catch(err){
-        console.log(err);
-    }
-}
 
 const messageEmptyMarkup = function(){
     return `
@@ -465,7 +372,7 @@ const followersMarkup = function(f){
     <li class="d-flex justify-content-between">
                                 <div class="d-flex"> 
                                     <img src=${f.photo} alt="">
-                                    <p >${f.name} <br> <span>${f.following?f.followers : 0} Followers</span> </p>
+                                    <p >${f.name} <br> <span>${f.following?f.followers : 0} ${f.following==1? 'Follower': 'Followers'}</span> </p>
                                 </div>
                                 <div> 
                                     <button class="cBtn following-btn">Following</button>
@@ -475,26 +382,7 @@ const followersMarkup = function(f){
     `;
 }
 
-const fetchFollowers = async function(){
-    
-    try{
-        const response = await fetch(`${url}/api/v1/users/me/followers`,{
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
-    });
 
-    const res = await response.json();
-    localStorage.setItem('my-followers',JSON.stringify(res.data));
-    localStorage.setItem('number-of-my-followers',JSON.stringify(res.results))
-    console.log(res);
-
-}
-    catch(err){
-        console.log(err);
-    }
-}
 
 const renderFollowers = function(){
     //1)fetch data
