@@ -65,15 +65,52 @@
      <!---------- start main content---->
     
     <div class="podcast-container">
-        <div class="user-info">
+        <!-- <div class="user-info">
             <div class="user-img">
-                <img src="../../assets/user.jpg" alt="user-img">
+                <img id="user-img" src="../../assets/user.jpg" alt="user-img" >
             </div>
             <div class="user-name">
                 <h3>User Name</h3>
+                <p>Track Name</p>
             </div>
         </div>
-        <div class="visualizer-container" id="visualizer-container">
+        <div class="player-container">
+            <div class="current-time">00:00</div>
+            <input type="range" min="1" max="100" class="seek_player" id="seek_player">
+            <div class="total-duration">00:00</div>
+        </div>
+        <div class="player-container">
+            <i class="fa-solid fa-volume-low"></i>
+            <input type="range" min="1" max="100" value="99" class="volume_player">
+            <i class="fa-solid fa-volume-high"></i>
+        </div>
+        <div class="player-buttons">
+            <div class="like-track">
+                <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
+            <div class="prev-track">
+                <i class="fa-solid fa-backward-step fa-2x"></i>
+            </div>
+            <div class="playpause-track">
+                <i class="fa-solid fa-circle-play fa-3x"></i>
+            </div>
+            <div class="next-track">
+                <i class="fa-solid fa-forward-step fa-2x"></i>
+            </div>
+            <div class="repeat-track">
+                <i class="fa-solid fa-rotate-right fa-2x"></i>
+            </div>
+        </div>
+        <div id="wave">
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+            <span class="stroke"></span>
+        </div> -->
+        <!-- <div class="visualizer-container" id="visualizer-container">
             |-|-|-|-|-|-|-|-
         </div>
         <div class="podacast-time">
@@ -94,11 +131,12 @@
                     <i class="fa-solid fa-forward-step"></i>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <script src="../../js/profile/all.min.js"></script>
     <script src="../../js/profile/bootstrap.bundle.min.js"></script>
     <script src="../../js/profile/side-bar.js"></script>
+    <script type="module" src="../../js/podcast/podcastPalyer.js"></script>
 </body>
 </html>

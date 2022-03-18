@@ -1,0 +1,33 @@
+.search{
+    margin-top: 2em;
+    margin-right:3em ;
+}
+
+.search li{
+    list-style: none;
+}
+
+.search-box {
+    background-color: #25242D;
+    width: 24em;
+    height: 3.3em;
+    border-radius: 2em;
+    padding: 9px;
+    margin-top: 3em;
+    margin-bottom: 1em;
+}
+
+.search-box .searchIcon{
+    color: white;
+    /* width: 1rem;
+    height: 5rem; */
+    margin-left: 1em ;
+}
+.search-input{
+    background-color: #25242D;
+    color: #928F9B;
+    border: none;
+    outline: none;
+    width: 80%;
+    font-size: 1.4rem;
+}

@@ -1,0 +1,75 @@
+.container{
+    margin-left: 10em;
+}
+
+
+.search{
+    margin-top: -4em;
+    
+}
+
+.search-box {
+    width: 35em;
+    height: 3em;
+}
+
+.search-input{
+    margin-left: 1em;
+}
+
+.categories-container{
+    width: 50em;
+    flex-wrap: wrap;
+}
+
+.categorie-component{
+    background-color: #25242D;
+    color: #C8C6CE;
+    padding: 1em;
+    margin: 1em;
+    border-radius: 2em;
+    min-width: 6em;
+    height: 3.5em;
+    text-align: center;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.categorie-component:hover{
+    background-color: var(--primary-color) ;
+}
+
+.categorie-component.active{
+    background-color: var(--primary-color) ;
+}
+
+.podcasts-veiw-container{
+    flex-wrap: wrap;
+}
+
+.podcast-component{
+    margin-left: 5em;
+}
+
+/*feed back*/
+
+.feed-back {
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2px 4px;
+    padding: 10px;
+}
+
+
+.feed-back.fail{
+    background:#ac071f;
+}
+
+.feed-back-text {
+    display: inline-block;
+}
+.feed-back .clear-feed-back{
+    cursor: pointer;
+}

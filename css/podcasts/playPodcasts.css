@@ -40,6 +40,162 @@
     border-radius: 50%;
 
 }
+.user-info .user-name {
+    text-align: center;
+}
+
+.player-buttons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.active {
+    color: var(--main-dark-color);
+}
+
+.like-track,
+.repeat-track,
+.playpause-track,
+.prev-track,
+.next-track
+ {
+    padding: 25px;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    cursor: pointer;
+}
+.like-track:hover,
+.repeat-track:hover,
+.playpause-track:hover,
+.prev-track:hover,
+.next-track:hover {
+    opacity: 1.0;
+}
+
+.like-track.liked {
+    color: var(--primary-color);
+}
+
+.player-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.seek_player,
+.volume_player {
+    -webkit-appearance: none ;
+    -moz-appearance: none ;
+    appearance: none;
+    height: 5px;
+    background: #83a9ff;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+}
+.seek_player::-webkit-slider-thumb,
+.volume_player::-webkit-slider-thumb{
+    -webkit-appearance: none ;
+    -moz-appearance: none ;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: var(--text-color);
+    border: 3px solid #3774ff;
+    cursor: pointer;
+    border-radius: 100%;
+}
+
+.seek_player:hover,
+.volume_player:hover {
+    opacity: 1.0;
+}
+.seek_player {
+    width: 50%;
+}
+.volume_player {
+    width: 25%;
+}
+
+.current-time,
+.total-duration {
+    padding: 10px;
+}
+.fa-volume-low,
+.fa-volume-high{
+    padding: 10px;
+}
+
+i.fa-circle-play,
+i.fa-circle-puase,
+i.fa-backward-step
+i.fa-forward-step{
+    cursor: pointer;
+}
+
+.rotate{
+    animation: rotation 8s infinite linear;
+}
+@keyframes rotation{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(359deg);
+    }
+}
+
+.loader {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.loader .stroke {
+    background: var(--text-color);
+    height: 150%;
+    width: 10px;
+    border-radius: 50px;
+    margin: 0px 2px;
+    animation: animate 1.4s linear infinite;
+}
+
+@keyframes animate{
+    50%{
+        height: 20%;
+        background: #4286f4;
+    }
+    100%{
+        height: 100%;
+    }
+}
+.stroke:nth-child(1){
+    animation-delay: 0s;
+}
+.stroke:nth-child(2){
+    animation-delay: 0.3s;
+}
+.stroke:nth-child(3){
+    animation-delay: 0.6s;
+}
+.stroke:nth-child(4){
+    animation-delay: 0.9s;
+}
+.stroke:nth-child(5){
+    animation-delay: 0.6s;
+}
+.stroke:nth-child(6){
+    animation-delay: 0.3s;
+}
+.stroke:nth-child(7){
+    animation-delay: 0s;
+}
+
+
 .podcast-controller {
     background: var(--text-color);
     color: var(--main-gray-color);

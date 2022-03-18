@@ -1,0 +1,34 @@
+.logo{
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 2.25rem;
+    line-height: 43px;
+}
+
+.edit-logo{
+    margin: 1.5rem 8rem;
+}
+
+.header-container img{
+    width: 7em;
+    height: 7em;
+    padding: .7em;
+    border: 4px dashed var(--primary-color);
+    margin-right: 4em; 
+    margin-top: 2em;
+}
+
+
+
+.circle-profile-img{
+    width: 15em;
+    height:15em;
+    padding: 1.5em;
+    border-radius: 500px;
+    border:4px dashed var(--main-icon-color);
+    box-sizing: border-box;
+}
+
+.circle-profile-img:hover{
+    opacity: .9;
+}
