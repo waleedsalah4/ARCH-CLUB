@@ -93,9 +93,15 @@ const displayPodPlayer = (data) => {
         repeatTrack()
     })
 
-    // console.log(likedIcon)
+    volume_player.addEventListener('click', ()=> {
+        setVolume()
+    })
 
-    
+    seek_player.addEventListener('click', () => {
+        seekTo()
+    })
+
+    // console.log(likedIcon)
     liked_track.addEventListener('click', ()=>{
         if(liked_track.classList.contains('liked')){
             disLikePodcastById(token, podcastId)
@@ -106,15 +112,6 @@ const displayPodPlayer = (data) => {
 
 }
 
-// function checkIsLiked(){
-    
-//         if(liked_track.classList.contains('liked')){
-//             console.log('likkked')
-//         } else {
-//             console.log('not Liked')
-//         }
-    
-// }
 
 
 
@@ -242,7 +239,7 @@ function seekTo() {
 }
 
 function setVolume() {
-    curr_track.volume = volume_player.value / 100;
+    curr_track.volume =  document.querySelector('.volume_player').value / 100;
 }
 function setUpdate() {
     let seekPosition = 0
