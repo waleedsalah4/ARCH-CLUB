@@ -1,5 +1,5 @@
 import { loadSpinner, clearLoader } from '../loader.js';
-import { getCategories, getAllPodcasts } from '../utilities/requests.js';
+import { getCategories, getAllPodcasts, getPodcastsByCategoryName } from '../utilities/requests.js';
 
 const podcastContainer = document.querySelector('.podcasts-veiw-container')
 let podcastfeedBackDiv;
@@ -39,9 +39,18 @@ const createCategory = async() => {
     for(let i=0; i<categoreisItems.length; i++){
         categoreisItems[i].onclick = function(){
             removeAllCtegorActive();
-
             categoreisItems[i].classList.add('active')
-            console.log(categoreisItems[i].textContent)
+
+            //get podcasts by category name
+            podcastContainer.innerHTML = '';
+            loadSpinner(podcastContainer);
+            if(categoreisItems[i].textContent === 'All'){
+                getAllPodcasts()
+            } else {
+                getPodcastsByCategoryName(categoreisItems[i].textContent);
+            }
+            clearLoader()
+            // console.log(categoreisItems[i].textContent)
         }
     }
 }
@@ -54,6 +63,7 @@ function removeAllCtegorActive() {
         item.classList.remove('active')
     );
 }
+
 
 //******************************************************************* */
 //---------------podcasts----------------------
@@ -75,7 +85,9 @@ export const displayPodcasts = (podcast) => {
                         <img src="../../assets/squareIcon.svg" alt="icon">
                         <p class="category">${podcast.category}</p>
                     </div>
-                    <img src="../../assets/cloud-download.svg" alt="download">
+                    <a href="${podcast.audio.url}" download="${podcast.name}">
+                        <img src="../../assets/cloud-download.svg" alt="download">
+                    </a>
                 </div>
 
                 <div class="d-flex justify-content-between"> 
@@ -83,9 +95,9 @@ export const displayPodcasts = (podcast) => {
                         <img src="../../assets/clock.svg" alt="">
                         <p class="duration">${Math.floor(podcast.audio.duration / 60)} : ${ Math.floor(podcast.audio.duration - Math.floor(podcast.audio.duration / 60) * 60)}</p>
                     </div>
-                    <button class="play-podcast-btn">
+                    <a href="./play-podcasts.html#${podcast._id}" target="_blank" class="play-podcast-btn">
                         <img src="../../assets/circle-play-solid.svg" alt="play" >
-                        Play</button>
+                        Play</a>
                 </div> 
             </div>
         </div> 

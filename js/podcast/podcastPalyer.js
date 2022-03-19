@@ -1,6 +1,6 @@
 const token = JSON.parse(localStorage.getItem('user-token'))
-const tempId = '62320d4813eb0800162867f7'
-// const id = window.location.hash.replace('#', '');
+// const tempId = '62320d4813eb0800162867f7'
+const podcastId = window.location.hash.replace('#', '');
 
 const podcastContainer = document.querySelector('.podcast-container')
 
@@ -98,9 +98,9 @@ const displayPodPlayer = (data) => {
     
     liked_track.addEventListener('click', ()=>{
         if(liked_track.classList.contains('liked')){
-            disLikePodcastById(token, tempId)
+            disLikePodcastById(token, podcastId)
         } else {
-            likePodcastById(token, tempId)
+            likePodcastById(token, podcastId)
         }
     })
 
@@ -185,7 +185,7 @@ const getPodcastbyId = async(token, id) => {
     }
 }
 
-getPodcastbyId(token, tempId)
+getPodcastbyId(token, podcastId)
 
 
 

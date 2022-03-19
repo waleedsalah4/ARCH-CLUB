@@ -53,8 +53,12 @@
    
     outline: none;
     border: none;
+    text-decoration: none;
 }
 
+.play-podcast-btn:hover {
+    color: white;
+}
 
 .description .inner-infos{
     line-height: 1.78;
@@ -64,6 +68,6 @@
 .description .inner-infos img{
     width: 2rem;
     height: 2rem;
-    margin: 2px;
+    margin: 3px;
     line-height: 1.7px;
 }
