@@ -1,5 +1,5 @@
 
-import { getMe, url ,generateSignature ,uploadPodcast,fetchFollowing , fetchFollowers} from '../utilities/requests.js';
+import { getMe, url  ,uploadPodcast,fetchFollowing , fetchFollowers} from '../utilities/requests.js';
 
 
 //elements
@@ -18,6 +18,8 @@ const addPodcast = document.querySelector('.add-podcast-btn');
 const podcastContainer = document.getElementById('podcast-container');
 const followingContainer = document.getElementById('following-container');
 const followersContainer = document.getElementById('followers-container');
+const podcastPopup = document.querySelector('.popup-overlay-podcast');
+const file = document.getElementById('podcast-file');
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //event handlers
@@ -200,7 +202,7 @@ const renderMainInfo = function(data){
                    <div class="inside  text-center"> 
                         <h2 class="user-name mt-4 p-5 pb-4 fw-bold">${data.name}</h2>
                         <div class="info  main-info fs-4">
-                            <div class="podcasts"> ${localStorage.getItem('numberOfMyPodcasts')} <br> <span class="active podcasts">Podcasts</span></div>
+                            <div class="podcasts"> ${localStorage.getItem('numberOfMyPodcasts')? localStorage.getItem('numberOfMyPodcasts') : 0} <br> <span class="active podcasts">Podcasts</span></div>
                             <div class="followers"> ${data.followers} <br> <span class="followers">Followers</span></div>
                             <div class="following"> ${data.following}<br> <span class="following">Following</span></div>
                         </div>
@@ -209,6 +211,14 @@ const renderMainInfo = function(data){
                     </div>
                   `;
     
+    podcastComponentHeading.innerHTML = `
+                ${JSON.parse(localStorage.getItem('user-data')).name}'s Podcasts
+                <button class="add-podcast-btn">
+                        <i class="fa-solid fa-circle-plus fs-3 me-4"></i>
+                        Add podcast
+                    </button>
+                    `;
+
     profileVeiw.insertAdjacentHTML("beforeend",markup);
     document.querySelector('.follow-following').addEventListener('click',followBTn);
     document.querySelector('.main-info').addEventListener('click',hideDisplaySideInfo);
@@ -217,40 +227,83 @@ const renderMainInfo = function(data){
 
 
 
-//////////////////////////////////////////////////////////// get user's data onload ///////////////////////////////////////////////
 
-
-
-window.addEventListener('load',()=>{
-     getMe();
-    getMainInfo(); 
-});
 
 
 //////////////////////////////////////////////////////////// uploading podcast ///////////////////////////////////////////////
 
+const podcastInfosForm = function(file){
+    const podName = document.getElementById('podcast-name').value;
+    const podCategory = document.getElementById('podcast-category').value;
+    if(podName == '') {
+        alert('podcast Must Have a Name!');
 
-addPodcast.addEventListener('click',uploadPodcast);
+    }
+    else{
+        console.log(podName,podCategory);
+        uploadPodcast(file,podName,podCategory);
+    }
+    
+    
+
+}
+
+
+const uploadPodcastContain = async function(){
+    podcastPopup.classList.remove('hidden');
+
+    document.querySelector('.popup-overlay').addEventListener('click',(e)=>{
+        if(!e.target.classList.contains('popup-overlay')) return;
+    
+        podcastPopup.classList.add('hidden');
+    })
+
+    document.getElementById('upload-podcast').addEventListener('click',  function(e){
+        e.preventDefault();
+        podcastInfosForm(file);
+    });
+
+}
+
+
+document.getElementById('podcast-file').addEventListener('change',uploadPodcastContain);
 
 
 //////////////////////////////////////////// render podcasts //////////////////////////////////
+const messageEmptyMarkup = function(){
+    return `
+     <p class="emptyMessage">
+        its empty here..
+     </p>
+    `;
+}
 
-const podcastMarkup = function(userData , podcastData){
+const getDuration = function(duration){
+    let h = duration>=3600? duration/60 :0;
+
+    let m = duration>=60? Math.round(duration/60): 0;
+    
+    return `${h}h ${m}m`;
+}
+
+const podcastMarkup = function(podcastData){
+    const duration = getDuration(podcastData.audio.duration);
+    console.log(duration);
     return `
     <div class="podcast-component">
                             <div class="pic">
-                                <img src=${userData.photo} alt="user podcast">
+                                <img src=${podcastData.createdBy.photo} alt="user podcast">
                             </div>
                             <div class="description p-2">
-                                <div class="podcast-name text-light fw-bold  fs-5">Graduation Project</div>
-                                <p class="p-1 ">By <span class="fw-bold">${userData.name}</span></p>
+                                <div class="podcast-name text-light fw-bold  fs-5">${podcastData.name}</div>
+                                <p class="p-1 ">By <span class="fw-bold">${podcastData.createdBy.name}</span></p>
                                 <hr>
                                 <div class="inner-infos">
 
                                     <div class="d-flex justify-content-between info"> 
                                         <div class="d-flex">
                                             <img src="../../assets/squareIcon.svg" alt="icon">
-                                            <p class="category">Education</p>
+                                            <p class="category">${podcastData.category}</p>
                                         </div>
                                         <img src="../../assets/cloud-download.svg" style ="cursor:pointer" alt="">
                                     </div>
@@ -258,7 +311,7 @@ const podcastMarkup = function(userData , podcastData){
                                     <div class="d-flex justify-content-between info"> 
                                         <div class="d-flex">
                                             <img src="../../assets/clock.svg" alt="">
-                                            <p class="duration">1h 34m</p>
+                                            <p class="duration">${duration}</p>
                                         </div>
                                         <button class="play-podcast-btn">
                                             <img src="../../assets/circle-play-solid.svg" alt="" >
@@ -289,7 +342,7 @@ const fetchPodcasts =  async function(){
     const res = await response.json();
     localStorage.setItem('myPodcasts',JSON.stringify(res.data));
     localStorage.setItem('numberOfMyPodcasts',JSON.stringify(res.results));
-    console.log(res);
+    
 
 }
     catch(err){
@@ -297,22 +350,23 @@ const fetchPodcasts =  async function(){
     }
 }
 
-const renderPodcasts = function(){
+const renderPodcasts = async function(){
     //1)fetch data
-    fetchPodcasts();
+    await fetchPodcasts();
 
     //2)render podcasts
-    const userData = JSON.parse(localStorage.getItem('user-data'));
-    const podcastData = JSON.parse(localStorage.getItem('myPodcasts'));
+    const podcastData = await JSON.parse(localStorage.getItem('myPodcasts'));
 
     //podcastData
-    [1,2,3].forEach(pod=>{
-        podcastContainer.insertAdjacentHTML('beforeend', podcastMarkup(userData,pod));
-    });
+    podcastData.length !=0?
+    podcastData.forEach(pod=>{
+        podcastContainer.insertAdjacentHTML('beforeend', podcastMarkup(pod));
+    }):
+    podcastContainer.insertAdjacentHTML('beforeend', messageEmptyMarkup);
     
 }
 
-renderPodcasts();
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -336,23 +390,17 @@ const followingMarkup = function(f){
 }
 
 
-const messageEmptyMarkup = function(){
-    return `
-     <p>
-        its empty here..
-     </p>
-    `;
-}
 
-const renderFollowing = function(){
+
+const renderFollowing = async function(){
     //1)fetch data
-    fetchFollowing();
+    await fetchFollowing();
 
     //2)render podcasts
-    const followingData = JSON.parse(localStorage.getItem('my-following'));
+    const followingData = await JSON.parse(localStorage.getItem('my-following'));
 
     //followingData
-    followingData? 
+    followingData.length !=0? 
     followingData.forEach(f=>{
         followingContainer.insertAdjacentHTML('beforeend', followingMarkup(f.following));
     }) :
@@ -360,7 +408,7 @@ const renderFollowing = function(){
     
 }
 
-renderFollowing();
+
 
 
 
@@ -384,15 +432,15 @@ const followersMarkup = function(f){
 
 
 
-const renderFollowers = function(){
+const renderFollowers = async function(){
     //1)fetch data
-    fetchFollowers();
+    await fetchFollowers();
 
     //2)render podcasts
-    const followersgData = JSON.parse(localStorage.getItem('my-followers'));
+    const followersgData = await JSON.parse(localStorage.getItem('my-followers'));
 
     //followersgData
-    followersgData? 
+    followersgData.length !=0? 
     followersgData.forEach(f=>{
         followersContainer.insertAdjacentHTML('beforeend', followersMarkup(f.follower));
     }):
@@ -400,8 +448,20 @@ const renderFollowers = function(){
     
 }
 
-renderFollowers();
 
+
+
+//////////////////////////////////////////////////////////// get user's data onload ///////////////////////////////////////////////
+
+
+
+window.addEventListener('load',async function(){
+   await getMe();
+   await renderPodcasts();
+   await renderFollowing();
+   await renderFollowers();
+   getMainInfo();
+});
 
 
 

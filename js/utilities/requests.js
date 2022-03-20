@@ -65,28 +65,75 @@ export const generateSignature = async function(){
 
 }
 
+/********* */
+export const createPodcast = async function(podcastData,podName,podCategory){
 
-export const uploadPodcast = async function(){
     try{
-        generateSignature();
-        const signature = JSON.parse(localStorage.getItem('user-signature'));
+        
+        const podcastBody = {
+            "name": podName,
+            "category": podCategory,
+            "audio": {
+                "public_id": podcastData.public_id,
+            }
+    }
+    console.log(podcastBody);
 
-        const response = await fetch(`${url}/v1_1/${signature.cloudName}/video/upload?api_key=${signature.apiKey}&timestamp=${signature.timestamp}&signature=${signature.signature}`,
-        {
+        const response = await fetch(`${url}/api/v1/podcasts`,{
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-            }
+                'content-type': 'application/json'
+            },
+            body : JSON.stringify(podcastBody)
+    }
+    );
+
+    
+
+    const res = await response.json();
+    console.log(res);
+
+}
+    catch(err){
+        console.log(err);
+    }
+
+
+}
+
+
+export const uploadPodcast = async function(file,podName,podCategory){
+    try{
+        //1)generating signature
+        await generateSignature();
+        const signature = JSON.parse(localStorage.getItem('user-signature'));
+
+        let form = new FormData();
+        form.append('file',file.files[0]);
+        form.append('folder',"podcasts");
+        form.append("resource_type", "audio");
+
+        //2)upload to cloudinary
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${signature.cloudName}/video/upload?api_key=${signature.apiKey}&timestamp=${signature.timestamp}&signature=${signature.signature}`,
+        {
+            method: 'POST',
+            body: form,
         }
             );
-        
-        console.log(response);
+
+        const res = await response.json();
+        //3) create podcast
+        console.log(res);
+        await createPodcast(res,podName,podCategory)
     }
 
     catch(err){
         console.log(err);
     }
 }
+
+
 
 export const fetchFollowing = async function(){
     
@@ -123,6 +170,118 @@ export const fetchFollowers = async function(){
     localStorage.setItem('my-followers',JSON.stringify(res.data));
     localStorage.setItem('number-of-my-followers',JSON.stringify(res.results))
 }
+    catch(err){
+        console.log(err);
+    }
+}
+
+
+export const deleteMe = async function(){
+
+    try{
+        const response = await fetch(`${url}/api/v1/users/deleteMe`,{
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            }
+    }
+    );
+
+    const res = await response.json();
+    localStorage.setItem('my-followers',JSON.stringify(res.data));
+    localStorage.setItem('number-of-my-followers',JSON.stringify(res.results))
+}
+    catch(err){
+        console.log(err);
+    }
+}
+
+import {popupMessage,logout} from '../utilities/helpers.js'
+
+export const updatePassword = async function(updatePassBody){
+    try{
+        const response = await fetch(`${url}/api/v1/users/updateMyPassword`,{
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+                'Content-type': 'application/json; charset=UTF-8'
+            },
+            body: JSON.stringify(updatePassBody)
+    }
+    );
+    
+    const res = await response.json();
+    if(res.status != 'fail') {
+        localStorage.setItem('user-data', JSON.stringify(res.data.user));
+        localStorage.setItem('user-token', JSON.stringify(res.token));
+        popupMessage(`Your Password has been changed successfully!, please login again`);
+        setTimeout(logout,5000);
+        
+    }
+    else{
+        if(res.message === 'User recently changed the password! Please log in again.'){
+            popupMessage(`U just changed Your Password, please login again.`)
+            setTimeout(logout,5000);
+        }
+        popupMessage(res.message);
+    }
+    
+    
+}
+
+    catch(err){
+        console.log(err.message);  
+    }
+}
+
+
+export const updateMe = async function(changeData){
+    try{
+
+        const response = await fetch(`${url}/api/v1/users/updateMe`,{
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(changeData)
+    });
+
+        const res = await response.json();
+        //console.log(res);
+         const user = res.user;
+         
+
+        if(res.status != 'success') {
+            popupMessage(res.message);
+            
+            
+        }
+        else{
+            localStorage.setItem('user-data', JSON.stringify(user));
+            popupMessage(`Changed successfully!`);
+        }
+    }
+
+    catch(err){
+        console.log(err);
+    }
+}
+
+export const uploadPhoto = async function(photo){
+    try{
+
+        const response = await fetch(`${url}/api/v1/users/updateMe`,{
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+            body: photo
+    });
+
+        const res = await response.json();
+    }
+
     catch(err){
         console.log(err);
     }

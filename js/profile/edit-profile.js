@@ -1,4 +1,11 @@
 
+import { popupMessage } from "../utilities/helpers.js";
+import { deleteMe,updatePassword ,updateMe, getMe} from "../utilities/requests.js";
+
+
+
+
+
 const editForm = document.querySelector('.edit-form');
 const chngPassForm = document.querySelector('.change-pass-form');
 const submitEditBtn = document.querySelector('.submit-edit-btn');
@@ -6,14 +13,40 @@ const editUserName = document.querySelector('#editName');
 const editEmail = document.querySelector('#editEmail');
 const changePassBtn = document.querySelector('.change-pass');
 const changePassFormBtn = document.querySelector('.submit-change-btn');
-const deleteAcc = document.querySelector('.delete-acc');
+const deleteAcc = document.getElementById('delete-acc');
 const backbtn = document.querySelector('.back-btn');
 const oldPassword = document.querySelector('#oldPassword');
 const newPassword = document.querySelector('#newPassword');
 const confirmPassword = document.querySelector('#confirmPassword');
 const url = 'https://audiocomms-podcast-platform.herokuapp.com';
+const userName = document.querySelector('.user-name');
+const userPhoto = document.querySelector('.user-photo');
 
 
+
+
+
+/////////////////////////// render user data ////////////////////
+
+
+
+const renderUser = function(){
+    const user = JSON.parse(localStorage.getItem('user-data'));
+    editUserName.placeholder = user.name;
+    editEmail.placeholder = user.email;
+    userName.textContent = user.name;
+    userPhoto.src = user.photo;
+
+}
+
+
+export const init = async function(){
+    await getMe();
+    renderUser();
+}
+
+
+window.addEventListener('load',init);
 
 //data validation
 
@@ -95,17 +128,27 @@ backbtn.addEventListener('click',()=>{
 
 ///////////////////////////////////////////////// change email or name /////////////////////////////////////////////////////////
 
-
-submitEditBtn.addEventListener('click',function(e){
-
-    e.preventDefault();
-    //console.log(editUserName.value);
-    if(!editUserName.value && !editEmail.value){
-        alert('Enter some changes to be submited :)');
+const getChangeNameEmail = async function(){
+    
+    const changeData = {
+        name: editUserName.value? editUserName.value: editUserName.placeholder,
+        email: editEmail.value? editEmail.value : editEmail.placeholder
     }
 
-    /* if(emailValidation(editEmail.value)){ }*/ 
-    changeNameAndEmail();
+    updateMe(changeData);
+    
+}
+
+submitEditBtn.addEventListener('click', async function(e){
+
+    e.preventDefault();
+    if(!editUserName.value && !editEmail.value){
+        popupMessage('Enter some changes to be submited :)');
+    }
+
+    
+    await getChangeNameEmail();
+    init();
     
 
    
@@ -115,30 +158,34 @@ submitEditBtn.addEventListener('click',function(e){
 
 
 
-const changeNameAndEmail = async function(data){
-    
 
-        const changeData = {
-            name: editUserName.value,
-            email: editEmail.value
-        }
-        console.log(changeData);
+////////////////////////////////////////////////////// chane password form validation ///////////////////////
 
-        const response = await fetch(`${url}/api/v1/users/updateMe`,{
-            method: 'PATCH',
-            headers: {
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(changeData)
-    });
 
-        const res = await response.json();
-        console.log(res);
-         const user = res.user;
-        localStorage.setItem('user-data', JSON.stringify(user));       
 
-    
+
+
+////////////////////////////////////////////////////////// delete my account ////////////////////////////////
+
+
+deleteAcc.addEventListener('click',()=>{
+
+    deleteMe();
+    localStorage.clear();
+    window.location = '../../index.html';
+});
+
+////////////////////////////////////////////////////////// update my password ////////////////////////////////
+
+
+const updatePassBody = function(){
+    const data ={
+        passwordCurrent: oldPassword.value,
+        password: newPassword.value,
+        passwordConfirm: confirmPassword.value
+    }
+
+    const  result = updatePassword(data);
 }
 
-
+changePassFormBtn.addEventListener('click',updatePassBody);

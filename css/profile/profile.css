@@ -20,6 +20,10 @@ body{
     display: none;
 }
 
+.emptyMessage{
+    font-size: 1.5rem;
+    color: #e8e0d2;
+}
 
 
 /*start side Bar */
