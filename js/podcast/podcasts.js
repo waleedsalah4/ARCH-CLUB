@@ -1,8 +1,14 @@
 import { loadSpinner, clearLoader } from '../loader.js';
-import { getCategories, getAllPodcasts, getPodcastsByCategoryName } from '../utilities/requests.js';
+import { getCategories, getAllMyFollowingPodcasts, getMyFollowingPodcastsByCategoryName } from '../utilities/requests.js';
+
+let playerContentHolder = document.querySelector('.player-content')
+let podPlayerContainer;
+
 
 const podcastContainer = document.querySelector('.podcasts-veiw-container')
+
 let podcastfeedBackDiv;
+let playPodcastBtn;
 
 const categoriesContainer = document.querySelector('.categories-container')
 let categoreisItems = [];
@@ -45,9 +51,9 @@ const createCategory = async() => {
             podcastContainer.innerHTML = '';
             loadSpinner(podcastContainer);
             if(categoreisItems[i].textContent === 'All'){
-                getAllPodcasts()
+                getAllMyFollowingPodcasts()
             } else {
-                getPodcastsByCategoryName(categoreisItems[i].textContent);
+                getMyFollowingPodcastsByCategoryName(categoreisItems[i].textContent);
             }
             clearLoader()
             // console.log(categoreisItems[i].textContent)
@@ -71,13 +77,20 @@ function removeAllCtegorActive() {
 export const displayPodcasts = (podcast) => {
     const markup = `  
     <div class="podcast-component">
-        <div class="pic">
-            <img src="${podcast.createdBy.photo}" alt="user podcast">
+        <div class="pic" title="open podcats in podcasts player">
+            <a href="./play-podcasts.html#${podcast._id}" target="_blank">
+                <img src="${podcast.createdBy.photo}" alt="user podcast">
+            </a>
         </div>
         <div class="description p-2">
             <div class="podcast-name text-light fw-bold  fs-5">${podcast.name}</div>
-            <p class="p-1 ">By <span class="fw-bold">${podcast.createdBy.name}</span></p>
+            <p class="p-1 " title="go to ${podcast.createdBy.name} page">By <span class="fw-bold">${podcast.createdBy.name}</span></p>
+            <div class="likes">
+                <p>${podcast.likes}</p>
+                <i class="fa-solid fa-heart fa-2x"></i>
+            </div>
             <hr>
+            
             <div class="inner-infos">
 
                 <div class="d-flex justify-content-between"> 
@@ -95,9 +108,9 @@ export const displayPodcasts = (podcast) => {
                         <img src="../../assets/clock.svg" alt="">
                         <p class="duration">${Math.floor(podcast.audio.duration / 60)} : ${ Math.floor(podcast.audio.duration - Math.floor(podcast.audio.duration / 60) * 60)}</p>
                     </div>
-                    <a href="./play-podcasts.html#${podcast._id}" target="_blank" class="play-podcast-btn">
+                    <button title="play podcast in this page" class="play-podcast-btn" id="play-podcast-btn-${podcast._id}">
                         <img src="../../assets/circle-play-solid.svg" alt="play" >
-                        Play</a>
+                        Play</button>
                 </div> 
             </div>
         </div> 
@@ -106,13 +119,40 @@ export const displayPodcasts = (podcast) => {
     `;
 
     podcastContainer.insertAdjacentHTML('beforeend', markup)
+    playPodcastBtn = document.querySelector(`#play-podcast-btn-${podcast._id}`)
+    playPodcastBtn.addEventListener('click', () => {
+        if(podPlayerContainer){
+            podPlayerContainer.parentElement.removeChild(podPlayerContainer)
+        }
+        insertPodPlayerElement(podcast.audio.url)
+        // console.log(e.target, playPodcastBtn)
+    })
 }
 
 
+// if(playPodcastBtn) playPodcastBtn.addEventListener('click', () => {
+//     insertPodPlayerElement(podcast.audio.url)
+// })
 
 
-export const podcastFeedback = (message) => {
-    const markup =  `
+export const podcastFeedback = (count, message) => {
+    let markup;
+    if(count === 0){
+        markup =  `
+        <div class="feed-back fail">
+            <div>
+                <p class="feed-back-text">
+                ${message ? message : 'something went wrong'} 
+                </p>
+                <a href="../discover/discover.html">Start discover</a>
+            </div>
+            <div class="clear-feed-back">
+                <i class='fa-solid fa-x'></i>
+            </div>
+        </div>
+        `
+    } else {
+        markup =  `
         <div class="feed-back fail">
             <p class="feed-back-text">
                ${message ? message : 'something went wrong'} 
@@ -122,6 +162,7 @@ export const podcastFeedback = (message) => {
             </div>
         </div>
         `
+    }
     podcastContainer.insertAdjacentHTML('beforeend', markup)
     podcastfeedBackDiv =  document.querySelector('.feed-back')
 
@@ -135,7 +176,26 @@ const clearFeedBack  = (element) => {
     podcastfeedBackDiv = null
 }
 
+const insertPodPlayerElement = (podsrc) => {
+    
+    const markup = `
+        <div class="pod-palyer-container">
+                <div class="pod-player">
+                    <audio src="${podsrc}" autoplay controls></audio>
+                </div>
+                <div id="remove-player-container">
+                    <i class="fa-solid fa-x"></i>
+                </div>
+        </div>
+    `;
+    playerContentHolder.insertAdjacentHTML('beforeend', markup)
+    podPlayerContainer = document.querySelector('.pod-palyer-container')
+    document.querySelector('#remove-player-container').addEventListener('click', ()=> {
+        podPlayerContainer.parentElement.removeChild(podPlayerContainer)
+        podPlayerContainer = null
+    })
+}
 
 
 
-getAllPodcasts()
+getAllMyFollowingPodcasts()

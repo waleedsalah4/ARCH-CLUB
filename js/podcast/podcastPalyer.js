@@ -7,6 +7,8 @@ const podcastContainer = document.querySelector('.podcast-container')
 //variable gonna assigned after elements inserted to the dom
 let liked_track;
 let playpause_btn;
+let forwardTrack;
+let backwardTrack;
 let userImg ;
 
 let seek_player;
@@ -52,19 +54,19 @@ const displayPodPlayer = (data) => {
                 <i id="heart-icon" class="fa-solid fa-heart fa-2x"></i>
             </div>
             <div class="prev-track">
-                <i class="fa-solid fa-backward-step fa-2x"></i>
+                <i class="fa-solid fa-backward fa-2x"></i>
             </div>
             <div class="playpause-track">
                 <i class="fa-solid fa-circle-play fa-3x"></i>
             </div>
             <div class="next-track">
-                <i class="fa-solid fa-forward-step fa-2x"></i>
+                <i class="fa-solid fa-forward fa-2x"></i>
             </div>
             <div class="repeat-track">
                 <i class="fa-solid fa-rotate-right fa-2x"></i>
             </div>
         </div>
-        <div id="wave">
+        <div id="wave" class="wave-loader">
             <span class="stroke"></span>
             <span class="stroke"></span>
             <span class="stroke"></span>
@@ -76,6 +78,8 @@ const displayPodPlayer = (data) => {
     `
     podcastContainer.insertAdjacentHTML('beforeend', markup)
     playpause_btn = document.querySelector('.playpause-track')
+    forwardTrack = document.querySelector('.next-track')
+    backwardTrack = document.querySelector('.prev-track')
     userImg = document.querySelector('#user-img')
     liked_track = document.querySelector('.like-track')
 
@@ -99,6 +103,13 @@ const displayPodPlayer = (data) => {
 
     seek_player.addEventListener('click', () => {
         seekTo()
+    })
+
+    forwardTrack.addEventListener('click', ()=>{
+        increaseSec()
+    })
+    backwardTrack.addEventListener('click', ()=>{
+        decreaseSec()
     })
 
     // console.log(likedIcon)
@@ -178,7 +189,7 @@ const getPodcastbyId = async(token, id) => {
             alert(`${res.message}`);
         }
     } catch(error) {
-        alert(`${res.message}`);
+        alert(`${error.message}`);
     }
 }
 
@@ -222,20 +233,34 @@ function playTrack() {
     curr_track.play();
     isPlaying = true;
     userImg.classList.add('rotate');
-    wave.classList.add('loader')
+    wave.classList.add('show-loader')
     playpause_btn.innerHTML = '<i class="fa-solid fa-circle-pause fa-3x"></i>'
 }
 function pauseTrack() {
     curr_track.pause();
     isPlaying = false;
     userImg.classList.remove('rotate');
-    wave.classList.remove('loader')
+    wave.classList.remove('show-loader')
     playpause_btn.innerHTML = `<i class="fa-solid fa-circle-play fa-3x"></i>`
 }
 
 function seekTo() {
     let seekto = duration * (seek_player.value / 100);
     curr_track.currentTime = seekto;
+}
+
+function increaseSec () {
+    if(curr_track.currentTime < curr_track.duration -5){
+        curr_track.currentTime += 5 
+
+    }
+}
+
+function decreaseSec () {
+    if(curr_track.currentTime > 5){
+        curr_track.currentTime -= 5 
+
+    }
 }
 
 function setVolume() {

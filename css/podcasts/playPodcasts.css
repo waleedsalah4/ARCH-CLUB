@@ -147,15 +147,21 @@ i.fa-forward-step{
     }
 }
 
-.loader {
+.wave-loader {
     height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 12px;
+    visibility: hidden;
 }
 
-.loader .stroke {
+
+.show-loader{
+    visibility: visible;
+}
+
+.wave-loader .stroke {
     background: var(--text-color);
     height: 150%;
     width: 10px;

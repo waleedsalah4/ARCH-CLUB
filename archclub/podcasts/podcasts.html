@@ -88,8 +88,8 @@
     
                     <li class="search-box text-center d-flex ">
                        <!--  <i class="fa-solid  ms-3 "></i> -->
-                       <img src="../../assets/search.svg" alt="" class="searchIcon">
-                        <input type="text" placeholder="Search..." class="search-input">
+                       <img src="../../assets/search.svg" alt="" class="searchIcon" id="search-input-icon">
+                        <input type="search" id="search-podcast" placeholder="Search for podacasts..." class="search-input">
                     </li>
                 </div>
                     
@@ -119,18 +119,24 @@
                 <hr>
     
                 <div class="podcasts-veiw-container d-flex">
-                   
-    <!--
-                    <div class="podcast-component">
+                 <!--   <div class="podcast-component">
                         <div class="pic">
+                            <a href="#123" target="_blank">
                             <img src="../../assets/user1.png" alt="user podcast">
+                        </a>
                         </div>
+                        
                         <div class="description p-2">
+                               
                             <div class="podcast-name text-light fw-bold  fs-5">Graduation Project</div>
                             <p class="p-1 ">By <span class="fw-bold">Will Smith</span></p>
+                            <div class="likes">
+                                <p>4</p>
+                                <i class="fa-solid fa-heart fa-2x"></i>
+                            </div>
+                                  
                             <hr>
                             <div class="inner-infos">
-    
                                 <div class="d-flex justify-content-between"> 
                                     <div class="d-flex">
                                         <img src="../../assets/squareIcon.svg" alt="icon">
@@ -153,7 +159,7 @@
                             </div>
                         </div> 
                     </div>
-     
+      
                     <div class="podcast-component">
                         <div class="pic">
                             <img src="../../assets/user1.png" alt="user podcast">
@@ -245,18 +251,26 @@
                                 </div> 
                             </div>
                         </div> 
-                    </div> -->
+                    </div> 
     
-    
+     -->
                 </div>
-    
-               
-         
+                <!-- end podcasts container -->
             </div>
+            <!-- end searrch, categories, podcasts container -->
+            <div class="player-content">
+                <!-- <div class="pod-palyer-container">
+                    <div class="pod-player">
+                        <audio src="https://res.cloudinary.com/dnpol9y6s/video/upload/v1647607539/podcasts/h0tqa0zdbl4yekqxr6df.mp4" controls></audio>
+                    </div>
+                    <i class="fa-solid fa-x"></i>
+                </div> -->
   
+            </div>
         <script src="../../js/profile/all.min.js"></script>
         <script src="../../js/profile/bootstrap.bundle.min.js"></script>
         <script src="../../js/profile/side-bar.js"></script>
         <script type="module" src="../../js/podcast/podcasts.js"></script>
+         <script type="module" src="../../js/podcast/podacastsSearch.js"></script>
     </body>
 </html>

@@ -61,6 +61,15 @@
     gap: 2px 4px;
     padding: 10px;
 }
+.feed-back a {
+    text-decoration: none;
+    color: #0c0b0e;
+    background: white;
+    padding: 5px;
+    width: fit-content;
+    display: block;
+    border-radius: 6px;
+}
 
 
 .feed-back.fail{
