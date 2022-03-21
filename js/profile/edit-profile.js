@@ -1,4 +1,11 @@
 
+import { popupMessage } from "../utilities/helpers.js";
+import { deleteMe,updatePassword ,updateMe, getMe} from "../utilities/profileReq.js";
+
+
+
+
+
 const editForm = document.querySelector('.edit-form');
 const chngPassForm = document.querySelector('.change-pass-form');
 const submitEditBtn = document.querySelector('.submit-edit-btn');
@@ -6,18 +13,45 @@ const editUserName = document.querySelector('#editName');
 const editEmail = document.querySelector('#editEmail');
 const changePassBtn = document.querySelector('.change-pass');
 const changePassFormBtn = document.querySelector('.submit-change-btn');
-const deleteAcc = document.querySelector('.delete-acc');
+const deleteAcc = document.getElementById('delete-acc');
 const backbtn = document.querySelector('.back-btn');
 const oldPassword = document.querySelector('#oldPassword');
 const newPassword = document.querySelector('#newPassword');
 const confirmPassword = document.querySelector('#confirmPassword');
+const url = 'https://audiocomms-podcast-platform.herokuapp.com';
+const userName = document.querySelector('.user-name');
+const userPhoto = document.querySelector('.user-photo');
 
 
 
+
+
+/////////////////////////// render user data ////////////////////
+
+
+
+const renderUser = function(){
+    const user = JSON.parse(localStorage.getItem('user-data'));
+    editUserName.placeholder = user.name;
+    editEmail.placeholder = user.email;
+    userName.textContent = user.name;
+    userPhoto.src = user.photo;
+
+}
+
+
+export const init = async function(){
+    await getMe();
+    renderUser();
+}
+
+
+window.addEventListener('load',init);
 
 //data validation
 
 //1) edit form
+/*
 const emailValidation = function(emailValue){
     const atIndx = emailValue.indexOf('@');
     const dotIndx = emailValue.indexOf('.');
@@ -30,21 +64,11 @@ const emailValidation = function(emailValue){
 
     return true;
 }
+*/
 
 
-submitEditBtn.addEventListener('click',function(e){
 
-    e.preventDefault();
-    //console.log(editUserName.value);
-    if(!editUserName.value && !editEmail.value){
-        alert('Enter some changes to be submited :)');
-    }
-
-    emailValidation(editEmail.value);
-
-})
-
-//2)change password form
+//change password form
 
 changePassFormBtn.addEventListener('click',function(e){
     e.preventDefault();
@@ -67,8 +91,6 @@ changePassFormBtn.addEventListener('click',function(e){
 
 
 });
-
-
 
 
 
@@ -102,3 +124,68 @@ backbtn.addEventListener('click',()=>{
     chngPassForm.classList.add('hidden');
 })
 
+
+
+///////////////////////////////////////////////// change email or name /////////////////////////////////////////////////////////
+
+const getChangeNameEmail = async function(){
+    
+    const changeData = {
+        name: editUserName.value? editUserName.value: editUserName.placeholder,
+        email: editEmail.value? editEmail.value : editEmail.placeholder
+    }
+
+    updateMe(changeData);
+    
+}
+
+submitEditBtn.addEventListener('click', async function(e){
+
+    e.preventDefault();
+    if(!editUserName.value && !editEmail.value){
+        popupMessage('Enter some changes to be submited :)');
+    }
+
+    
+    await getChangeNameEmail();
+    init();
+    
+
+   
+
+})
+
+
+
+
+
+////////////////////////////////////////////////////// chane password form validation ///////////////////////
+
+
+
+
+
+////////////////////////////////////////////////////////// delete my account ////////////////////////////////
+
+
+deleteAcc.addEventListener('click',()=>{
+
+    deleteMe();
+    localStorage.clear();
+    window.location = '../../index.html';
+});
+
+////////////////////////////////////////////////////////// update my password ////////////////////////////////
+
+
+const updatePassBody = function(){
+    const data ={
+        passwordCurrent: oldPassword.value,
+        password: newPassword.value,
+        passwordConfirm: confirmPassword.value
+    }
+
+    const  result = updatePassword(data);
+}
+
+changePassFormBtn.addEventListener('click',updatePassBody);

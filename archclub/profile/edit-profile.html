@@ -16,6 +16,7 @@
     <link href="../../css/profile/bootstrap.min.css" rel="stylesheet">
 
     <!-- <link href="../../css/profile.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="../../css/sidebar/sidebar.css">
     <link rel="stylesheet" href="../../css/profile/main.css">
     <link href="../../css/profile/profile.css" rel="stylesheet">
     <link rel="stylesheet" href="../../css/profile/edit-profile.css">
@@ -27,56 +28,62 @@
     <div class="logo edit-logo">Logo</div>
 
     <!-- start the side bar-->
-    <div class="bkground">
-        <div class="sideBar ">
-            <div class="top">
-                <div class="logo">Logo</div>
-                <div class="bar-icon-container"> 
-                    <i class="fa-solid fa-bars bar-icon   appear"></i> 
-                </div>
-                <!--<i class="fa-solid fa-bars-staggered bar-icon open"></i>--> 
-            </div>
 
-            <ul class="nav" >
-                <li class="navbar-item bar-item active highlight">
-                    
+    <div class="sideBar ">
+        <div class="top">
+            <div class="logo">Logo</div>
+            <div class="bar-icon-container"> 
+                <i class="fa-solid fa-bars bar-icon   appear"></i> 
+            </div>
+            <!--<i class="fa-solid fa-bars-staggered bar-icon open"></i>--> 
+        </div>
+
+        <ul class="nav" >
+            <li class="navbar-item bar-item active highlight">
+                <a href="../home/index.html">
                     <i class="fa-solid fa-house bar-icons"></i>
                     <h3>Home</h3>
-                
-                </li>
+                </a>
+            </li>
 
-                <li class="navbar-item bar-item">
+            <li class="navbar-item bar-item">
+                <a href="../discover/discover.html">
                     <i class="fa-solid fa-circle-chevron-down bar-icons "></i>
                     <h3>Discover</h3>
-                </li>
+                </a>
+            </li>
 
-                <li class="navbar-item bar-item">
+            <li class="navbar-item bar-item">
+                <a href="../podcasts/podcasts.html">
                     <i class="fa-solid fa-video bar-icons "></i>
                     <h3>My Podcasts</h3>
-                <!--  <i class="fa-solid fa-circle-plus  "></i>-->
-                </li>
-
-                <li class="navbar-item bar-item">
-                    <i class="fa-solid fa-user-ninja bar-icons "></i>
-                    <h3>Podcasts</h3>
-                </li>
-
-                <a href="index.html">
-                    <li class="navbar-item bar-item">
-                        <i class="fa-solid fa-user bar-icons "></i>
-                        <h3>Profile</h3>
-                    </li>
                 </a>
+               <!--  <i class="fa-solid fa-circle-plus  "></i>-->
+            </li>
 
-                <li class="navbar-item bar-item">
-                    <i class="fa-solid fa-arrow-right-from-bracket bar-icons "></i>
-                    <h3>Logout</h3>
-                </li>
-            </ul>
-        </div>
-        <!-- end the side bar-->
+            <li class="navbar-item bar-item">
+                <a href="#">
+                    <i class="fa-solid fa-user-ninja bar-icons "></i>
+                    <h3>Events</h3>
+                </a>
+            </li>
 
-        
+            <li class="navbar-item bar-item">
+                <a href="../profile/index.html">
+                    <i class="fa-solid fa-user bar-icons "></i>
+                    <h3>Profile</h3>
+                </a>
+            </li>
+
+            <li class="navbar-item bar-item">
+                <i class="fa-solid fa-arrow-right-from-bracket bar-icons "></i>
+                <h3>LogOut</h3>
+            </li>
+        </ul>
+    </div>
+     <!-- end the side bar-->
+
+
 
         
         <div class="container">
@@ -87,8 +94,8 @@
                 <div class="static-content">
                     <div class="left-infos">
                        <div class="general">
-                            <img  src="../../assets/user2.png" alt="user profile picture" class="circle-profile-img">
-                            <h2 class="text-light  fw-bold">Will Smith</h2>
+                            <img  src="../../assets/avatar1.svg" alt="user profile picture" class="circle-profile-img user-photo">
+                            <h2 class="text-light  fw-bold user-name"></h2>
                             <a href="changePhoto.html">
                                 <i class="fa-solid fa-camera current-camera-icon"></i>
                             </a>
@@ -123,7 +130,7 @@
 
                 <div class="edit-buttons ">
                     <button class="btn-follow-profile change-pass">Change Password</button>
-                    <button class="btn-follow-profile delete-acc">Delete Account</button>
+                    <button class="btn-follow-profile delete-acc" id="delete-acc">Delete Account</button>
                     <button class="btn-follow-profile back-btn hidden">Back</button>
 
                 </div>
@@ -139,6 +146,6 @@
     <script src="../../js/profile/all.min.js"></script>
     <script src="../../js/profile/bootstrap.bundle.min.js"></script>
     <script src="../../js/profile/side-bar.js"></script>
-    <script src="../../js/profile/edit-profile.js"></script>
+    <script src="../../js/profile/edit-profile.js" type="module"></script>
 </body>
 </html>

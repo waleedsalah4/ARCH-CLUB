@@ -130,6 +130,8 @@ export const displayPodcasts = (podcast) => {
 }
 
 
+
+
 // if(playPodcastBtn) playPodcastBtn.addEventListener('click', () => {
 //     insertPodPlayerElement(podcast.audio.url)
 // })
@@ -196,6 +198,6 @@ const insertPodPlayerElement = (podsrc) => {
     })
 }
 
-
-
 getAllMyFollowingPodcasts()
+
+

@@ -20,9 +20,13 @@ body{
     display: none;
 }
 
+.emptyMessage{
+    font-size: 1.5rem;
+    color: #e8e0d2;
+}
 
 
-/*start side Bar */
+/*start side Bar 
 
 .sideBar{
     position: fixed;
@@ -84,7 +88,7 @@ body{
 
 .sideBar ul .navbar-item{
     height: 65px;
-    width: 290px; /*19%*/
+    width: 290px; 
     display: flex;
     margin-bottom: 30px;
     padding: 18px;
@@ -122,7 +126,7 @@ body{
 
 
 
-/*end side bar */
+end side bar */
 
 
 /*start profile main content*/ 
