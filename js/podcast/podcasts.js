@@ -1,5 +1,6 @@
 import { loadSpinner, clearLoader } from '../loader.js';
-import { getCategories, getAllMyFollowingPodcasts, getMyFollowingPodcastsByCategoryName } from '../utilities/requests.js';
+import {getCategories}from '../utilities/getCategory.js';
+import { getAllMyFollowingPodcasts, getMyFollowingPodcastsByCategoryName } from '../utilities/requests.js';
 
 let playerContentHolder = document.querySelector('.player-content')
 let podPlayerContainer;

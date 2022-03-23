@@ -369,7 +369,7 @@ const followingMarkup = function(f){
         <li class="d-flex justify-content-between">
                                 <div class="d-flex"> 
                                     <img src=${f.photo} alt="">
-                                    <p >${f.name} <br> <span>${f.following?f.followers : 0} ${f.following==1? 'Follower': 'Followers'}</span> </p>
+                                    <p >${f.name} <br> <span>${f.followers ? f.followers : 0} ${f.followers==1? 'Follower': 'Followers'}</span> </p>
                                 </div>
                                 <div> 
                                     <button class="cBtn following-btn">Following</button>

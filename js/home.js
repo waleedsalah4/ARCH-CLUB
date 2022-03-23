@@ -1,5 +1,5 @@
 import { loadSpinner, clearLoader } from './loader.js';
-import { getCategories } from './utilities/requests.js';
+import { getCategories } from './utilities/getCategory.js';
 
 
 const sidebar = document.querySelector('.nav')

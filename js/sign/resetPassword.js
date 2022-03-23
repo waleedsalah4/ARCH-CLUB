@@ -1,7 +1,7 @@
 const mainContainer = document.querySelector('.main-container')
 let feedBackDiv;
 const submitBtn = document.querySelector('.submit-btn')
-const form = document.querySelector('.forgot-form')
+const form = document.querySelector('#resetPassword-form')//reset form
 const password = document.querySelector('#password')
 const confirmPassword = document.querySelector('#passwordConfirm')
 
@@ -49,34 +49,39 @@ const getValues = ()=>{
     }
 
     if(data.password === data.passwordConfirm) {
-        forgotPasswordReq(data)
+        ResetPasswordReq(data)
     } else {
         resetFeedback('fail')
     }
     
 }
 
-const token = '121325njknjknb' //get from url
+const token = window.location.search.split('=')[1] //get from url
 
-const forgotPasswordReq = async (data) => {
-    // submitBtn.textContent = 'Sending Email...'
-    // const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/resetPassword/${token}`, {
-    //     method: 'PATCH',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(data)
-    // });
-    // const res = await response.json();
-    // if(res.status !== 'fail'){
-    //     submitBtn.textContent = 'Send Email';
-    //     resetFeedback('sucsses')
-    // }
-    // else{
-    //     submitBtn.textContent = 'Send Email';
-    //     resetFeedback('fail', res.message);
-    // }
-    console.log(data)
+const ResetPasswordReq = async (data) => {
+    submitBtn.textContent = 'Reseting password...'
+    try{
+        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/resetPassword/${token}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        const res = await response.json();
+        if(res.status !== 'fail'){
+            submitBtn.textContent = 'Reset Password';
+            resetFeedback('sucsses')
+            form.reset();
+        }
+        else{
+            submitBtn.textContent = 'Reset Password';
+            resetFeedback('fail', res.message);
+        }
+    } catch(error) {
+        submitBtn.textContent = 'Reset Password';
+        resetFeedback('fail', error.message);
+    }
 }
 
 

@@ -49,22 +49,27 @@ const getValues = ()=>{
 
 const forgotPasswordReq = async (data) => {
     submitBtn.textContent = 'Sending Email...'
-    const response = await fetch("https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/forgotPassword", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    });
-    const res = await response.json();
+    try {
+        const response = await fetch("https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/forgotPassword", {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        const res = await response.json();
 
-    if(res.status !== 'fail'){
+        if(res.status !== 'fail'){
+            submitBtn.textContent = 'Send Email';
+            feedback('sucsses')
+        }
+        else{
+            submitBtn.textContent = 'Send Email';
+            feedback('fail', res.message);
+        }
+    } catch(erorr){
         submitBtn.textContent = 'Send Email';
-        feedback('sucsses')
-    }
-    else{
-        submitBtn.textContent = 'Send Email';
-        feedback('fail', res.message);
+        feedback('fail', erorr.message);
     }
 }
 

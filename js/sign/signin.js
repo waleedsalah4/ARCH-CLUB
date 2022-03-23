@@ -7,7 +7,7 @@ const chechIfUserIsSign = () => {
     if(isLoggedIn === true) {
         window.location = '../home/index.html'
     } else{
-        console.log(isLoggedIn)
+        return
     }
 }
 
@@ -30,29 +30,34 @@ function getValues () {
 // const url = 'https://audiocomms-podcast-platform.herokuapp.com/';
 
  const fetchData = async(data) =>  {
-    const response = await fetch("https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/login", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    });
-    const res = await response.json();
-
-    if(res.status !== 'fail'){
-        console.log(res);
-        const {data: {user}} = res;
-        const {token} = res;
-
-        localStorage.setItem('user-data', JSON.stringify(user));
-        localStorage.setItem('user-token', JSON.stringify(token));
-        localStorage.setItem('isLoggedIn', true);
-
-        window.location = '../home/index.html'
+    try{
+        const response = await fetch("https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/login", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        const res = await response.json();
+    
+        if(res.status !== 'fail'){
+            console.log(res);
+            const {data: {user}} = res;
+            const {token} = res;
+    
+            localStorage.setItem('user-data', JSON.stringify(user));
+            localStorage.setItem('user-token', JSON.stringify(token));
+            localStorage.setItem('isLoggedIn', true);
+    
+            window.location = '../home/index.html'
+        }
+        else{
+            alert(`${res.message}`);
+        }
+    } catch(error){
+        alert(`${error.message}`);
     }
-    else{
-        alert(`${res.message}`);
-    }
+  
   }
 
 
