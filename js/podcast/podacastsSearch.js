@@ -9,7 +9,7 @@ searchBox.addEventListener('keyup', (e) => {
     if (e.keyCode == 13){
         if(searchBox.value) {
             podcastContainer.innerHTML = ''
-            searchForPodcast(searchBox.value)
+            searchForPodcast(podcastContainer,searchBox.value)
         } 
     }
 })
@@ -17,6 +17,6 @@ searchBox.addEventListener('keyup', (e) => {
 searchIcon.addEventListener('click', () => {
     if(searchBox.value) {
         podcastContainer.innerHTML = ''
-        searchForPodcast(searchBox.value)
+        searchForPodcast(podcastContainer,searchBox.value)
     } 
 })

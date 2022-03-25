@@ -1,12 +1,62 @@
-.edit-logo{
-    margin: 1.5rem 8rem;
+:root{
+    --primary-color: #6A4CFF;
+    --main-dark-color: #0C0B0E;
+    --main-gray-color: #232229;
+    --main-icon-color: #FFACA9;
+    --hover-bg-color: #1B1923; 
+    --main-background:linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), conic-gradient(from 142.8deg at 37.82% 47.52%, #3D2E87 0deg, rgba(48, 41, 80, 0) 346.88deg, #3D2E87 360deg);
+    --root-font-size: 100%;
 }
 
-.container{
+
+html{
+    font-size: var(--root-font-size);
+}
+.hidden {
+    display: none;
+}
+
+.swap-users-podcasts{
+    width: 100%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+}
+.swap-users-podcasts .disc-users,
+.swap-users-podcasts .disc-pods {
+    width: 30%;
+    padding: 1rem;
+    box-shadow: 0px 0px 5px #535456;
+    border-radius: 6px;
+}
+
+.discover-users-btn,
+.discover-pods-btn {
+    width: 100%;
+    background-color: transparent;
+    color: #535456;
+    border: none;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* for active btn */
+.active{
+    color: white;
+}
+
+.podcasts-container{
+    margin-left: 10em;
+    margin-bottom: 10rem;
+}
+
+.container {
     display: flex;
     justify-content: space-between;
     margin-bottom: 2em;
 }
+
 
 .header-container img{
     width: 7em;
@@ -21,7 +71,7 @@
     margin: 2em 2em 2em 7em;
 }
 
- h2{
+.top-podcasters h2{
     color:white;
     margin-bottom: 1rem;
 }
@@ -31,13 +81,62 @@ hr{
     height: .15em !important;
 }
 
+
+
+.side-content .scroll,
+.top-pods-container .scroll,
+.searce-pods-container .scroll{
+    margin-top: 5rem;
+    height: 29rem;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.top-pods-container img,
+.searce-pods-container img{
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    margin-right: .5rem;
+}
+
+.top-pods-container ul li p, 
+.searce-pods-container ul li p {
+    color: white;
+    font-size: 1.375rem;
+    font-weight: 500;
+}
+.top-pods-container ul li p span,
+.searce-pods-container ul li p span{
+    color: #827C7C;
+    font-size: 1rem;
+    font-weight: 500;
+
+} 
+
+
+
 .top-pods-container .scroll {
     margin-top: 2rem;
+    height: 29rem;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
 .top-pods-container ul{
     padding-left:0;
+    list-style: none;
+    width: 30rem;
 }
+
+.top-pods-container ul li,
+.searce-pods-container ul li{
+    padding: .8rem;
+    margin: .3rem;
+   
+} 
+
+
 
 /* 
 .top-podcasters::after{
@@ -49,7 +148,50 @@ hr{
     position: absolute;
 } */
 
+::-webkit-scrollbar{
+    width:.8em;
+}
 
+::-webkit-scrollbar-track{
+    background-color: #535456;
+    border-radius: 100vw;
+   
+}
+
+::-webkit-scrollbar-thumb{
+    background-color: #1B1C1F;
+    border-radius: 100vw;
+    border: 2px solid #28292c ;
+    
+}
+
+
+
+.follow-btn{
+    color: white;
+    font-size: 1.375rem;
+    font-weight: bold;
+    margin-top: 1.3rem;
+    outline: none;
+    width: 130px;
+    height: 45px;
+    background: #6A4CFF;
+    border-radius: 11px;
+    border: none;
+}
+
+.following-btn{
+    color: #2E2828;
+    font-size: 1.375rem;
+    font-weight: bold;
+    margin-top: 1.3rem;
+    outline: none;
+    width: 130px;
+    height: 45px;
+    background: #FFACA9;
+    border-radius: 11px;
+    border: none;
+}
 
 /* start search*/
 
@@ -89,8 +231,7 @@ hr{
 
 .search .results-container{
     background: var(--main-background);
-    width: 35em;
-    height: 25em;
+    width: 30em;
     border-radius: 2em;
 }
 
@@ -110,4 +251,43 @@ hr{
 
 .searce-pods-container ul{
     margin-top: 1em;
+    list-style: none;
+    width: 30rem;
+}
+
+.temp-text {
+    text-align: center;
+    margin-top: 6rem;
+    font-size: 22px;
+}
+
+
+.feed-back {
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2px 4px;
+    padding: 10px;
+}
+.feed-back a {
+    text-decoration: none;
+    color: #0c0b0e;
+    background: white;
+    padding: 5px;
+    width: fit-content;
+    display: block;
+    border-radius: 6px;
+}
+
+
+.feed-back.fail{
+    background:#ac071f;
+}
+
+.feed-back-text {
+    display: inline-block;
+}
+.feed-back .clear-feed-back{
+    cursor: pointer;
 }

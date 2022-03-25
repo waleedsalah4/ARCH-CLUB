@@ -1,13 +1,18 @@
+.podcasts-container{
+    display: flex;
+    flex-wrap: wrap;
+}
 .podcast-component{
     margin: 2rem;
     background-color: #1B1C1F;
     border-radius: 23px;
     width: 458px;
-    /* height: 226px; */
     display: flex;
     color: #535456;
 }
-
+.podcast-component {
+    margin-left: 5em;
+}
 
 .podcast-component-heading{
     margin: 4rem 2rem 3rem;
@@ -44,7 +49,7 @@
 
 .description .likes {
     display: flex;
-    gap: 0pc 15px;
+    gap: 0px 15px;
 }
 
 .pod-palyer-container {

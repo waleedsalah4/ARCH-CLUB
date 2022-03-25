@@ -1,6 +1,9 @@
 import { loadSpinner, clearLoader } from '../loader.js';
 import {getCategories}from '../utilities/getCategory.js';
 import { getAllMyFollowingPodcasts, getMyFollowingPodcastsByCategoryName } from '../utilities/requests.js';
+// import {podcastFeedback} from '../podcast/feedBack.js';
+// import {requesting, podPage} from '../utilities/requests.js';
+let podPage = 1
 
 let playerContentHolder = document.querySelector('.player-content')
 let podPlayerContainer;
@@ -8,7 +11,7 @@ let podPlayerContainer;
 
 const podcastContainer = document.querySelector('.podcasts-veiw-container')
 
-let podcastfeedBackDiv;
+
 let playPodcastBtn;
 
 const categoriesContainer = document.querySelector('.categories-container')
@@ -52,9 +55,9 @@ const createCategory = async() => {
             podcastContainer.innerHTML = '';
             loadSpinner(podcastContainer);
             if(categoreisItems[i].textContent === 'All'){
-                getAllMyFollowingPodcasts()
+                getAllMyFollowingPodcasts(podcastContainer,podPage)
             } else {
-                getMyFollowingPodcastsByCategoryName(categoreisItems[i].textContent);
+                getMyFollowingPodcastsByCategoryName(podcastContainer,categoreisItems[i].textContent);
             }
             clearLoader()
             // console.log(categoreisItems[i].textContent)
@@ -137,7 +140,7 @@ export const displayPodcasts = (podcast) => {
 //     insertPodPlayerElement(podcast.audio.url)
 // })
 
-
+/*
 export const podcastFeedback = (count, message) => {
     let markup;
     if(count === 0){
@@ -178,7 +181,7 @@ const clearFeedBack  = (element) => {
     if(element) element.parentElement.removeChild(element)
     podcastfeedBackDiv = null
 }
-
+*/
 const insertPodPlayerElement = (podsrc) => {
     
     const markup = `
@@ -199,6 +202,27 @@ const insertPodPlayerElement = (podsrc) => {
     })
 }
 
-getAllMyFollowingPodcasts()
+window.addEventListener('load', () =>{
+    getAllMyFollowingPodcasts(podcastContainer, podPage)
+ });
 
+// let newScrolltop = 0
 
+// window.addEventListener('scroll', () => {
+// 	const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+//     // console.log(scrollHeight,scrollTop,clientHeight)
+// 	if(requesting){
+//         if(clientHeight + scrollTop > scrollHeight - 5 && scrollTop > newScrolltop) {
+//             console.log(requesting)
+//             newScrolltop = scrollTop
+//             console.log(newScrolltop)
+//             setTimeout(getPage, 1500)
+    
+//         }
+
+//     }
+// });
+
+// const getPage =() => {
+//     getAllMyFollowingPodcasts(podcastContainer,podPage)
+// }

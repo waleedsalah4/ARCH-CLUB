@@ -1,14 +1,18 @@
-import {displayPodcasts ,podcastFeedback} from '../podcast/podcasts.js';
+import {displayPodcasts} from '../podcast/podcasts.js';
+import { loadSpinner,clearLoader } from '../loader.js';
+import { podcastFeedback } from '../podcast/feedBack.js';
 
-
+// export let requesting = true;
+// export let podPage = 1;
 
 const token = JSON.parse(localStorage.getItem('user-token'))
 
 
 
-export const getAllMyFollowingPodcasts = async() => {
+export const getAllMyFollowingPodcasts = async(podcastContainer ,page) => {
     try {
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/following/me`, {
+        loadSpinner(podcastContainer)
+        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/following/me?limit=3&page=${page}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -18,20 +22,33 @@ export const getAllMyFollowingPodcasts = async() => {
         
         if(res.status !== 'fail'){
             const {data} = res;
-            data.length > 0 ? data.map(d => displayPodcasts(d)) : podcastFeedback(0,'your followings have no podcasts yet')
+            clearLoader()
+            
+            if(data.length > 0 ){
+                data.map(d => displayPodcasts(d))
+                
+            }else {
+                // requesting = false;
+                // podPage=1;
+                podcastFeedback(podcastContainer,'your followings have no podcasts yet',0)
+            }
+            
+            
         }
         else{
-            podcastFeedback(res.message);
+            clearLoader()
+            podcastFeedback(podcastContainer,res.message);
         }
     } catch(error) {
         // alert(error.message)
-        podcastFeedback(error.message)
+        clearLoader()
+        podcastFeedback(podcastContainer,error.message)
     }
 }
 
 
 
-export const getMyFollowingPodcastsByCategoryName = async(category) => {
+export const getMyFollowingPodcastsByCategoryName = async(podcastContainer,category) => {
     try {
         const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/following/me?category=${category}`, {
             method: 'GET',
@@ -43,43 +60,22 @@ export const getMyFollowingPodcastsByCategoryName = async(category) => {
         
         if(res.status !== 'fail'){
             const {data} = res;
-            data.length > 0 ? data.map(d => displayPodcasts(d)) : podcastFeedback(0 ,'There is no podcasts for this category yet')
+            data.length > 0 ? data.map(d => displayPodcasts(d)) : podcastFeedback(podcastContainer ,'There is no podcasts for this category yet',0)
         }
         else{
-            podcastFeedback(res.message);
+            podcastFeedback(podcastContainer,res.message);
         }
     } catch(error) {
         // alert(error.message)
-        podcastFeedback(error.message)
+        podcastFeedback(podcastContainer,error.message)
     }
 }
 
-export const getAllPodcasts = async() => {
-    try {
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts`, {
-            method: 'GET',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        const res = await response.json();
-        
-        if(res.status !== 'fail'){
-            const {data} = res;
-            data.map(d => displayPodcasts(d))
-        }
-        else{
-            podcastFeedback(res.message);
-        }
-    } catch(error) {
-        // alert(error.message)
-        podcastFeedback(error.message)
-    }
-}
+
 
 
 //search for podcast
-export const searchForPodcast = async(value) => {
+export const searchForPodcast = async(podcastContainer,value) => {
     try {
         const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/search?s==${value}`, {
             method: 'GET',
@@ -91,14 +87,14 @@ export const searchForPodcast = async(value) => {
         
         if(res.status !== 'fail'){
             const {data} = res;
-            data.length > 0 ? data.map(d => displayPodcasts(d)) : podcastFeedback(0 ,`No podcasts with ${value} name`)
+            data.length > 0 ? data.map(d => displayPodcasts(d)) : podcastFeedback(podcastContainer ,`No podcasts with ${value} name`,0)
         }
         else{
-            podcastFeedback(res.message);
+            podcastFeedback(podcastContainer,res.message);
         }
     } catch(error) {
         // alert(error.message)
-        podcastFeedback(error.message)
+        podcastFeedback(podcastContainer,error.message)
     }
 }
 
