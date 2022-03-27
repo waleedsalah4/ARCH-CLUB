@@ -1,9 +1,8 @@
-import {displayPodcasts} from '../podcast/podcasts.js';
+import {displayPodcasts, insertLoadMoreBtn, insertLoadMoreBtnForCategories} from '../podcast/podcasts.js';
 import { loadSpinner,clearLoader } from '../loader.js';
 import { podcastFeedback } from '../podcast/feedBack.js';
 
-// export let requesting = true;
-// export let podPage = 1;
+
 
 const token = JSON.parse(localStorage.getItem('user-token'))
 
@@ -12,7 +11,7 @@ const token = JSON.parse(localStorage.getItem('user-token'))
 export const getAllMyFollowingPodcasts = async(podcastContainer ,page) => {
     try {
         loadSpinner(podcastContainer)
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/following/me?limit=3&page=${page}`, {
+        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/following/me?limit=4&page=${page}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -26,11 +25,9 @@ export const getAllMyFollowingPodcasts = async(podcastContainer ,page) => {
             
             if(data.length > 0 ){
                 data.map(d => displayPodcasts(d))
-                
+                insertLoadMoreBtn()
             }else {
-                // requesting = false;
-                // podPage=1;
-                podcastFeedback(podcastContainer,'your followings have no podcasts yet',0)
+                podcastFeedback(podcastContainer,'your followings have no more podcasts yet',0)
             }
             
             
@@ -40,7 +37,6 @@ export const getAllMyFollowingPodcasts = async(podcastContainer ,page) => {
             podcastFeedback(podcastContainer,res.message);
         }
     } catch(error) {
-        // alert(error.message)
         clearLoader()
         podcastFeedback(podcastContainer,error.message)
     }
@@ -48,9 +44,9 @@ export const getAllMyFollowingPodcasts = async(podcastContainer ,page) => {
 
 
 
-export const getMyFollowingPodcastsByCategoryName = async(podcastContainer,category) => {
+export const getMyFollowingPodcastsByCategoryName = async(podcastContainer,category,page) => {
     try {
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/following/me?category=${category}`, {
+        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/following/me?category=${category}&limit=4&page=${page}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -60,13 +56,17 @@ export const getMyFollowingPodcastsByCategoryName = async(podcastContainer,categ
         
         if(res.status !== 'fail'){
             const {data} = res;
-            data.length > 0 ? data.map(d => displayPodcasts(d)) : podcastFeedback(podcastContainer ,'There is no podcasts for this category yet',0)
+            if(data.length > 0){
+                data.map(d => displayPodcasts(d))
+                insertLoadMoreBtnForCategories(category)
+            }else {
+                podcastFeedback(podcastContainer ,'There is no more podcasts for this category yet',0)
+            }   
         }
         else{
             podcastFeedback(podcastContainer,res.message);
         }
     } catch(error) {
-        // alert(error.message)
         podcastFeedback(podcastContainer,error.message)
     }
 }
@@ -93,7 +93,6 @@ export const searchForPodcast = async(podcastContainer,value) => {
             podcastFeedback(podcastContainer,res.message);
         }
     } catch(error) {
-        // alert(error.message)
         podcastFeedback(podcastContainer,error.message)
     }
 }

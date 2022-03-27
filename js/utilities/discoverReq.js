@@ -1,12 +1,12 @@
-import { discoverPodcasts, discoverUsersDisplay, renderSearchUserResult } from "../discover/discover.js";
+import { discoverPodcasts, discoverUsersDisplay, renderSearchUserResult, insertLoadMoreusersBtn ,insertLoadMorePodsBtn} from "../discover/discover.js";
 import { podcastFeedback } from "../podcast/feedBack.js";
 import { loadSpinner,clearLoader } from '../loader.js';
 
 const token = JSON.parse(localStorage.getItem('user-token'))
 
-export const getAllPodcasts = async(podcastContainer) => {
+export const getAllPodcasts = async(podcastContainer,page) => {
     try {
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts`, {
+        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts?page=${page}&limit=4`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -18,14 +18,15 @@ export const getAllPodcasts = async(podcastContainer) => {
             const {data} = res;
             if(data.length > 0 ){
                 data.map(d => discoverPodcasts(d))
-                
-            }else {
+                insertLoadMorePodsBtn()
+            }
+            else {
                 console.log(res.message)
-                podcastFeedback(podcastContainer,0,'There is no podcasts to display')
+                podcastFeedback(podcastContainer,'There is no more podcasts to display')
             }
         }
         else{
-            console.log(res.message)
+            // console.log(res.message)
             podcastFeedback(podcastContainer,res.message);
         }
     } catch(error) {
@@ -35,10 +36,10 @@ export const getAllPodcasts = async(podcastContainer) => {
     }
 }
 
-export const discoverUsersReq = async(container) => {
+export const discoverUsersReq = async(container, page) => {
     try {
         loadSpinner(container)
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/discover`, {
+        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/discover?page=${page}&limit=10`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -51,10 +52,10 @@ export const discoverUsersReq = async(container) => {
             clearLoader()
             if(data.length > 0 ){
                 data.map(d => discoverUsersDisplay(d))
-                
+                insertLoadMoreusersBtn()
             }else {
                 
-                podcastFeedback(container,0,'There is no podcasts to display')
+                podcastFeedback(container,'There is more users to display')
             }
         }
         else{

@@ -3,13 +3,23 @@ import { followUser, unFollowUser} from "../utilities/Follow.js";
 
 const discoverUsersBtn = document.querySelector('#discover-users-btn')
 const discoverPodsBtn = document.querySelector('#discover-pods-btn')
+const podcastContentHolder = document.querySelector('.podcast-content-holder')
 const podcastsContainer = document.querySelector('.podcasts-container')
 const usersContainer = document.querySelector('.main-users-content')
+
+const userListHolder = document.querySelector('.scroll') 
 const usersList = document.querySelector('.users-list')
 const searchProdcasterInput = document.querySelector('#search-prodcaster')
 const searchProdcasterIcon = document.querySelector('#search-prodcaster-icon')
 const searchUsersResultsList = document.querySelector('.search-users-result')
 const tempText = document.querySelector('.temp-text')
+
+//for pagination
+let loadmoreUsers ;
+let usersPage = 1;
+
+let podcastPage = 1;
+let loadMorePodcasts;
 
 let playerContentHolder = document.querySelector('.player-content')
 let podPlayerContainer;
@@ -24,7 +34,7 @@ discoverUsersBtn.addEventListener('click', ()=> {
         discoverPodsBtn.classList.remove('active')
         if(usersContainer.classList.contains('hidden')){
             usersContainer.classList.remove('hidden')
-            podcastsContainer.classList.add('hidden')
+            podcastContentHolder.classList.add('hidden')
         }
     }
 })
@@ -34,9 +44,9 @@ discoverPodsBtn.addEventListener('click', ()=> {
     if(!discoverPodsBtn.classList.contains('active')){
         discoverPodsBtn.classList.add('active')
         discoverUsersBtn.classList.remove('active')
-        if(podcastsContainer.classList.contains('hidden')){
+        if(podcastContentHolder.classList.contains('hidden')){
             usersContainer.classList.add('hidden')
-            podcastsContainer.classList.remove('hidden')
+            podcastContentHolder.classList.remove('hidden')
         }
     }
 })
@@ -179,10 +189,54 @@ export const discoverUsersDisplay = (user) => {
     })
 }
 
+export const insertLoadMoreusersBtn = () => {
+    const markup =`
+        <div class="load-more-users">
+            <button class="load-more-users-btn">Load More</button>
+        </div>
+    `
+    userListHolder.insertAdjacentHTML('beforeend', markup)
+
+    loadmoreUsers = document.querySelector('.load-more-users')
+    loadmoreUsers.addEventListener('click', () => {
+        usersPage++
+        discoverUsersReq(usersList, usersPage)
+        clearLoadMore(loadmoreUsers)
+
+    })
+}
+
+
+export const insertLoadMorePodsBtn = () => {
+    const markup =`
+        <div class="load-more-pods">
+            <button class="load-more-pods-btn">Load More</button>
+        </div>
+    `
+    podcastContentHolder.insertAdjacentHTML('beforeend', markup)
+
+    loadMorePodcasts = document.querySelector('.load-more-pods')
+    loadMorePodcasts.addEventListener('click', () => {
+        podcastPage++
+        getAllPodcasts(podcastContentHolder, podcastPage)
+        clearLoadMore(loadMorePodcasts)
+
+    })
+}
+
+
+const clearLoadMore  = (element) => {
+    if(element) {
+        element.parentElement.removeChild(element)
+    }
+    //categorieLoadMore = null 
+     element = null;
+}
+
 //---------------------------------------------------------------------------
 // search users
 
 window.addEventListener('load', () =>{
-    discoverUsersReq(usersList)
-    getAllPodcasts(podcastsContainer)
+    discoverUsersReq(usersList, usersPage)
+    getAllPodcasts(podcastContentHolder, podcastPage)
 });

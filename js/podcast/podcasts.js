@@ -3,12 +3,17 @@ import {getCategories}from '../utilities/getCategory.js';
 import { getAllMyFollowingPodcasts, getMyFollowingPodcastsByCategoryName } from '../utilities/requests.js';
 // import {podcastFeedback} from '../podcast/feedBack.js';
 // import {requesting, podPage} from '../utilities/requests.js';
-let podPage = 1
+let podPage = 1;
+let categoryItemsPage = 1
 
 let playerContentHolder = document.querySelector('.player-content')
 let podPlayerContainer;
+let loadmore;
+let categorieLoadMore;
 
-
+//conatiner that hold categores and podcasts
+//get to add load more btn at the end of it
+const mainContentcontainer = document.querySelector('#main-content-container')
 const podcastContainer = document.querySelector('.podcasts-veiw-container')
 
 
@@ -55,9 +60,27 @@ const createCategory = async() => {
             podcastContainer.innerHTML = '';
             loadSpinner(podcastContainer);
             if(categoreisItems[i].textContent === 'All'){
+                clearLoadMore(loadmore)
+                //clearLoadMore(categorieLoadMore)
+                if(categorieLoadMore){
+                    categorieLoadMore.parentElement.removeChild(categorieLoadMore)
+                    categorieLoadMore = null
+                }
+                podPage = 1
                 getAllMyFollowingPodcasts(podcastContainer,podPage)
+
             } else {
-                getMyFollowingPodcastsByCategoryName(podcastContainer,categoreisItems[i].textContent);
+                clearLoadMore(loadmore)
+                if(categorieLoadMore){
+                    categorieLoadMore.parentElement.removeChild(categorieLoadMore)
+                    categorieLoadMore = null
+                }
+                categoryItemsPage = 1
+                console.log(categoreisItems[i].textContent, categoryItemsPage)
+                getMyFollowingPodcastsByCategoryName(podcastContainer,categoreisItems[i].textContent,categoryItemsPage);
+                // insertLoadMoreBtnForCategories(categoreisItems[i].textContent)
+               
+                
             }
             clearLoader()
             // console.log(categoreisItems[i].textContent)
@@ -133,55 +156,52 @@ export const displayPodcasts = (podcast) => {
     })
 }
 
-
-
-
-// if(playPodcastBtn) playPodcastBtn.addEventListener('click', () => {
-//     insertPodPlayerElement(podcast.audio.url)
-// })
-
-/*
-export const podcastFeedback = (count, message) => {
-    let markup;
-    if(count === 0){
-        markup =  `
-        <div class="feed-back fail">
-            <div>
-                <p class="feed-back-text">
-                ${message ? message : 'something went wrong'} 
-                </p>
-                <a href="../discover/discover.html">Start discover</a>
-            </div>
-            <div class="clear-feed-back">
-                <i class='fa-solid fa-x'></i>
-            </div>
+export const insertLoadMoreBtn = () => {
+    const markup =`
+        <div class="load-more">
+            <button class="load-more-btn">Load More</button>
         </div>
-        `
-    } else {
-        markup =  `
-        <div class="feed-back fail">
-            <p class="feed-back-text">
-               ${message ? message : 'something went wrong'} 
-            </p>
-            <div class="clear-feed-back">
-                <i class='fa-solid fa-x'></i>
-            </div>
-        </div>
-        `
-    }
-    podcastContainer.insertAdjacentHTML('beforeend', markup)
-    podcastfeedBackDiv =  document.querySelector('.feed-back')
+    `
+    mainContentcontainer.insertAdjacentHTML('beforeend', markup)
 
-    document.querySelector('.clear-feed-back').addEventListener('click', ()=>{
-       clearFeedBack(podcastfeedBackDiv)
+    loadmore = document.querySelector('.load-more')
+    loadmore.addEventListener('click', () => {
+        podPage++
+        getAllMyFollowingPodcasts(podcastContainer, podPage)
+        clearLoadMore(loadmore)
+
     })
 }
 
-const clearFeedBack  = (element) => {
-    if(element) element.parentElement.removeChild(element)
-    podcastfeedBackDiv = null
+export const insertLoadMoreBtnForCategories = (value) => {
+    console.log(value)
+    const markup =`
+        <div class="load-more-category">
+            <button class="load-more-btn">Load More</button>
+        </div>
+    `
+    mainContentcontainer.insertAdjacentHTML('beforeend', markup)
+
+    categorieLoadMore = document.querySelector('.load-more-category')
+    categorieLoadMore.addEventListener('click', () => {
+        categorieLoadMore.parentElement.removeChild(categorieLoadMore)
+        categorieLoadMore = null
+        categoryItemsPage++
+        console.log(categoryItemsPage)
+        getMyFollowingPodcastsByCategoryName(podcastContainer,value, categoryItemsPage)
+        
+    })
 }
-*/
+
+
+const clearLoadMore  = (element) => {
+    if(element) {
+        element.parentElement.removeChild(element)
+    }
+    //categorieLoadMore = null 
+    loadmore = null;
+}
+
 const insertPodPlayerElement = (podsrc) => {
     
     const markup = `
@@ -203,6 +223,7 @@ const insertPodPlayerElement = (podsrc) => {
 }
 
 window.addEventListener('load', () =>{
+    //mainContentcontainer => for feedback
     getAllMyFollowingPodcasts(podcastContainer, podPage)
  });
 

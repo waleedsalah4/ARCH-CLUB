@@ -6,7 +6,7 @@ const elementString = {
     const loader = `
         <div class="${elementString.loader}"></div>
         `;
-    parentElement.insertAdjacentHTML('afterbegin', loader);
+    parentElement.insertAdjacentHTML('beforeend', loader);
   }
   
   export const clearLoader = () => {

@@ -46,10 +46,12 @@ html{
     color: white;
 }
 
-.podcasts-container{
-    margin-left: 10em;
+.podcast-content-holder{
     margin-bottom: 10rem;
+    margin-left: 10em;
 }
+
+
 
 .container {
     display: flex;
@@ -290,4 +292,19 @@ hr{
 }
 .feed-back .clear-feed-back{
     cursor: pointer;
+}
+
+.load-more-users,
+.load-more-pods {
+    text-align: center;
+}
+
+.load-more-users-btn,
+.load-more-pods-btn{
+    background: #6a4cff;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 7px;
 }
