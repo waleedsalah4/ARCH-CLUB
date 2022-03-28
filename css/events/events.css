@@ -1,0 +1,126 @@
+.events-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px 1px;
+    margin-bottom: 6rem;
+}
+.events-container .event-component{
+    width: 600px;
+    /* max-width: 600px;
+    min-width: 350px; */
+    padding: 1rem;
+    box-shadow: 0px 0px 2px #6a4cff;
+    border-radius: 6px;
+}
+@media(max-width:700px){
+    .events-container .event-component{
+        width: 300px;
+    }
+}
+
+.event-component .user-data {
+    display: flex;
+    gap: 10px 20px;
+}
+
+.user-data .user-photo {
+    width: 4rem;
+    height: 4rem;
+}
+
+.user-photo img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.event-component .event-description {
+    padding: 0.7rem;
+}
+
+/* modal*/
+.modal-container {
+    background-color: rgba(0,0,0, 0.6);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3000;
+}
+
+.modal-container.show-modal {
+    display: block;
+}
+
+.event-modal {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0, 0.3);
+    position: absolute;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    width: 450px;
+    animation: modalopen var(--modal-duration);
+}
+
+.modal-header {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #050406;
+}
+
+.modal-content {
+    padding: 20px;
+}
+
+.modal-form div {
+    margin: 15px 0;
+}
+
+.modal-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.modal-form .form-input {
+    padding: 8px;
+    width: 100%;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    background: #6a4cff;
+    color: white;
+    font-size: 18px;
+}
+.close-btn {
+    background: transparent;
+    font-size: 25px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+}
+
+@keyframes modalopen {
+    form {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

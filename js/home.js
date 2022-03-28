@@ -2,8 +2,8 @@ import { loadSpinner, clearLoader } from './loader.js';
 import { getCategories } from './utilities/getCategory.js';
 
 
-const sidebar = document.querySelector('.nav')
-const toggle = document.querySelector("#toggle");
+// const sidebar = document.querySelector('.nav')
+// const toggle = document.querySelector("#toggle");
 const categoryContainer = document.querySelector('.category')
 
 let categoreisButtons = [];
@@ -12,10 +12,19 @@ let categoreisButtons = [];
 //const modeText = document.querySelector(".mode-text");
 
 
+
 //load category
+
+const addAllCatgorydiv = () => {
+    const markup = `
+    <div class="categorie-component active">All</div>
+    `
+    categoryContainer.insertAdjacentHTML('beforeend', markup)
+}
+
 const categoryItems = (catItem) => {
     const markup = `
-        <button class="category-btn">${catItem.name}</button>
+        <div class="categorie-component">${catItem.name}</div>
     `;
     categoryContainer.insertAdjacentHTML('beforeend', markup)
 }
@@ -26,10 +35,10 @@ const createCategory = async() => {
     const cat = await getCategories();
     
     clearLoader();
-
+    addAllCatgorydiv();
     cat.map(c=> categoryItems(c))
 
-    categoreisButtons= Array.from(document.querySelectorAll('.category-btn'))
+    categoreisButtons= Array.from(document.querySelectorAll('.categorie-component'))
     // console.log(categoreisButtons)
 
 // button actions
@@ -62,9 +71,9 @@ function removeAllCtegorActive() {
 
 
 //events
-toggle.addEventListener("click" , () =>{
-    sidebar.classList.toggle("close");
-})
+// toggle.addEventListener("click" , () =>{
+//     sidebar.classList.toggle("close");
+// })
 
 
 // searchBtn.addEventListener("click" , () =>{

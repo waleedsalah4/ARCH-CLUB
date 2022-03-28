@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="../../assets/chatroom-icon.png">
+
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
+
+    <link href="../../css/profile/all.min.css" rel="stylesheet">
+    <link href="../../css/profile/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../css/sidebar/sidebar.css">
+    <link rel="stylesheet" href="../../css/cssUtilities/header.css">
+    <link rel="stylesheet" href="../../css/events/events.css">
+
+    <title>ARCH CLUB | Events</title>
+</head>
+<body>
+    <div class="sideBar ">
+        <div class="top">
+            <div class="logo">Logo</div>
+            <div class="bar-icon-container"> 
+                <i class="fa-solid fa-bars bar-icon   appear"></i> 
+            </div>
+            <!--<i class="fa-solid fa-bars-staggered bar-icon open"></i>--> 
+        </div>
+
+        <ul class="nav" >
+            <li class="navbar-item bar-item active highlight">
+                <a href="../home/index.html">
+                    <i class="fa-solid fa-house bar-icons"></i>
+                    <h3>Home</h3>
+                </a>
+            </li>
+
+            <li class="navbar-item bar-item">
+                <a href="../discover/discover.html">
+                    <i class="fa-solid fa-circle-chevron-down bar-icons "></i>
+                    <h3>Discover</h3>
+                </a>
+            </li>
+
+            <li class="navbar-item bar-item">
+                <a href="../podcasts/podcasts.html">
+                    <i class="fa-solid fa-video bar-icons "></i>
+                    <h3>My Podcasts</h3>
+                </a>
+               <!--  <i class="fa-solid fa-circle-plus  "></i>-->
+            </li>
+
+            <li class="navbar-item bar-item">
+                <a href="./event.html">
+                    <i class="fa-solid fa-calendar bar-icons"></i>
+                    <h3>Events</h3>
+                </a>
+            </li>
+
+            <li class="navbar-item bar-item">
+                <a href="../profile/index.html">
+                    <i class="fa-solid fa-user bar-icons "></i>
+                    <h3>Profile</h3>
+                </a>
+            </li>
+
+            <li class="navbar-item bar-item">
+                <i class="fa-solid fa-arrow-right-from-bracket bar-icons "></i>
+                <h3>LogOut</h3>
+            </li>
+        </ul>
+    </div>
+     <!-- end the side bar-->
+
+     <div class="header-container d-flex justify-content-between" id="header">
+        <div class="logo edit-logo">Logo</div>
+
+        <div class="left-header-part">
+            <div class="create-btn" id="create-event">Create Event</div>
+            <div>
+                <a href="../profile/index.html" id="user-avatar">
+                    <!-- <img  src="../../assets/user2.png" alt="user profile picture" class="circle-profile-img"> -->
+                </a>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="events-container">
+        <div class="event-component">
+            <div class="user-data">
+                <div class="user-photo">
+                    <img src="../../assets/user1.png" alt="user-photo">
+                </div>
+                <div>
+                    <h4>waleed salah</h4>
+                    <p>March 24 at 7:35 PM</p>
+                </div>
+            </div>
+            <div class="event-description">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla rem, veniam obcaecati sint.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam voluptatem necessitatibus
+            </div>
+        </div>
+        <div class="event-component">
+            <div class="user-data">
+                <div class="user-photo">
+                    <img src="../../assets/user1.png" alt="user-photo">
+                </div>
+                <div>
+                    <h4>waleed salah</h4>
+                    <p>March 24 at 7:35 PM</p>
+                </div>
+            </div>
+            <div class="event-description">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla rem, veniam obcaecati sint.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam voluptatem necessitatibus
+            </div>
+        </div>
+        <div class="event-component">
+            <div class="user-data">
+                <div class="user-photo">
+                    <img src="../../assets/user1.png" alt="user-photo">
+                </div>
+                <div>
+                    <h4>waleed salah</h4>
+                    <p>March 24 at 7:35 PM</p>
+                </div>
+            </div>
+            <div class="event-description">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla rem, veniam obcaecati sint.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam voluptatem necessitatibus
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-container" id="modal">
+        <div class="event-modal">
+           <button class="close-btn" id="close-modal">
+                <i class="fa-solid fa-x"></i>
+            </button>
+            <div class="modal-header">
+                <h3>Create Event</h3>
+            </div>
+            <div class="modal-content">
+                <form class="modal-form">
+                      <div>
+                          <input type="text" id="name" placeholder="Enter title" class="form-input">
+                      </div>
+                      <div>
+                          <input type="date" id="date" class="form-input">
+                      </div>
+                      <div> 
+                          <input type="time" id="time"  class="form-input">
+                      </div>
+                      <div>
+                        <textarea name="description" class="form-input" id="textarea">Enter description here...</textarea>
+                      </div>>
+                      <input type="submit" value="Create" class="submit-btn">
+                  </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/profile/all.min.js"></script>
+    <script src="../../js/profile/bootstrap.bundle.min.js"></script>
+    <script src="../../js/profile/side-bar.js"></script>
+    <script type="module" src="../../js/events/events.js"></script>
+</body>
+</html>

@@ -1,3 +1,6 @@
+#header{
+    margin-bottom: 2rem;
+}
 .logo{
     color: var(--primary-color);
     font-weight: bold;
@@ -10,12 +13,12 @@
 }
 
 .header-container img{
-    width: 7em;
-    height: 7em;
+    width: 6em;
+    height: 6em;
     padding: .7em;
     border: 4px dashed var(--primary-color);
-    margin-right: 4em; 
-    margin-top: 2em;
+    margin-right: 2em; 
+    margin-top: 1em;
 }
 
 
@@ -31,4 +34,17 @@
 
 .circle-profile-img:hover{
     opacity: .9;
+}
+
+.left-header-part {
+    display: flex;
+    align-items: center;
+    gap: 10px 40px;
+}
+
+.left-header-part .create-btn {
+    padding: 0.7rem;
+    background: #6a4cff;
+    border-radius: 2px;
+    cursor: pointer;
 }
