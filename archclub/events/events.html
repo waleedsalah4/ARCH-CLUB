@@ -14,6 +14,7 @@
 
     <link rel="stylesheet" href="../../css/sidebar/sidebar.css">
     <link rel="stylesheet" href="../../css/cssUtilities/header.css">
+    <link rel="stylesheet" href="../../css/cssUtilities/spinner.css">
     <link rel="stylesheet" href="../../css/events/events.css">
 
     <title>ARCH CLUB | Events</title>
@@ -88,19 +89,25 @@
     </div>
 
     <div class="events-container">
-        <div class="event-component">
+        <!-- <div class="event-component">
             <div class="user-data">
                 <div class="user-photo">
                     <img src="../../assets/user1.png" alt="user-photo">
                 </div>
                 <div>
                     <h4>waleed salah</h4>
-                    <p>March 24 at 7:35 PM</p>
+                    <p>Wed Mar 30 2022 at 7:35 PM</p>
                 </div>
+            </div>
+            <div>
+                <h5>title</h5>
             </div>
             <div class="event-description">
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla rem, veniam obcaecati sint.
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam voluptatem necessitatibus
+            </div>
+            <div class="event-coming-date">
+                <h6>comming at:</h6>
+                <p>Fri Jan 01 2021 14:00:00 GMT+0200 (Eastern European Standard Time)</p>
             </div>
         </div>
         <div class="event-component">
@@ -132,7 +139,8 @@
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla rem, veniam obcaecati sint.
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam voluptatem necessitatibus
             </div>
-        </div>
+        </div> -->
+
     </div>
 
     <div class="modal-container" id="modal">
@@ -144,18 +152,18 @@
                 <h3>Create Event</h3>
             </div>
             <div class="modal-content">
-                <form class="modal-form">
+                <form class="modal-form" id="event-create-form">
                       <div>
-                          <input type="text" id="name" placeholder="Enter title" class="form-input">
+                          <input type="text" id="event-name" placeholder="Enter title" class="form-input">
                       </div>
                       <div>
-                          <input type="date" id="date" class="form-input">
+                          <input type="date" id="event-date" class="form-input">
                       </div>
                       <div> 
-                          <input type="time" id="time"  class="form-input">
+                          <input type="time" id="event-time"  class="form-input">
                       </div>
                       <div>
-                        <textarea name="description" class="form-input" id="textarea">Enter description here...</textarea>
+                        <textarea name="description" class="form-input" id="event-textarea" placeholder="Enter description here..."></textarea>
                       </div>>
                       <input type="submit" value="Create" class="submit-btn">
                   </form>

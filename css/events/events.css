@@ -35,9 +35,11 @@
     border-radius: 50%;
 }
 
-.event-component .event-description {
+.event-component .event-description,
+.event-component .event-coming-date {
     padding: 0.7rem;
 }
+
 
 /* modal*/
 .modal-container {
