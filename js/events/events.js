@@ -1,10 +1,11 @@
-import { getAllMyFollowingEvents } from "../utilities/eventReq.js";
+import { getAllMyFollowingEvents,createEventReq } from "../utilities/eventReq.js";
 
 const user_avatar = JSON.parse(localStorage.getItem('user-data'));
 const userImg = document.querySelector('#user-avatar')
 
 const eventContainer = document.querySelector('.events-container')
-let page = 1
+let eventPage = 1
+let loadmore;
 
 //create event varialbes
 const createEventForm = document.querySelector('#event-create-form');
@@ -12,6 +13,11 @@ const eventName = document.querySelector('#event-name');
 const eventTime = document.querySelector('#event-time');
 const eventDate = document.querySelector('#event-date');
 const eventTextarea = document.querySelector('#event-textarea');
+const submitBtn = document.querySelector('.submit-btn')
+
+//event modal to insert feedback inside it
+const eventModal = document.querySelector('#event-modal')
+let successfulReq;
 
 //for showing and hiding modal
 const closeModal = document.querySelector('#close-modal');
@@ -60,6 +66,30 @@ export const eventView = (evt) => {
     eventContainer.insertAdjacentHTML('afterbegin', markup)
 }
 
+export const insertLoadMoreEventsBtn = () => {
+    const markup =`
+        <div class="load-more">
+            <button class="load-more-btn">Load More</button>
+        </div>
+    `
+    eventContainer.insertAdjacentHTML('beforeend', markup)
+
+    loadmore = document.querySelector('.load-more')
+    loadmore.addEventListener('click', () => {
+        eventPage++
+        getAllMyFollowingEvents(eventContainer, eventPage)
+        clearLoadMore(loadmore)
+    })
+}
+
+const clearLoadMore  = (element) => {
+    if(element) {
+        element.parentElement.removeChild(element)
+    }
+    //categorieLoadMore = null 
+    loadmore = null;
+}
+
 
 const getDate = (date) => {
     dateObj = new Date(date);
@@ -80,17 +110,46 @@ function formatAMPM(date) {
     return strTime;
 }
 
+
+const todayDate = () => {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1; //January is 0!
+    let yyyy = today.getFullYear();
+
+    if (dd < 10) { dd = '0' + dd; }
+    if (mm < 10) { mm = '0' + mm;} 
+        
+    let date = yyyy + '-' + mm + '-' + dd;
+    return date
+}
+
+const dateAfterTwoWeeks = () => {
+    let twoWeeks = 1000 * 60 * 60 * 24 * 13;
+    let twoWeeksTime = new Date(new Date().getTime() + twoWeeks);
+    let d = twoWeeksTime.getDate();
+    let m = twoWeeksTime.getMonth() + 1;
+    let y = twoWeeksTime.getFullYear();
+    if (d < 10) { d = '0' + d; }
+    if (m < 10) { m = '0' + m;}
+    let formattedDate = y + '-' + m + '-' + d ;
+
+   return formattedDate
+}
+
 //-------------------------------------------------
 //start create event
 createEventForm.addEventListener('submit', (e)=> {
     e.preventDefault();
-    const eventData = {
+
+    const eventDataObj = {
         name: eventName.value,
         description: eventTextarea.value,
-        date: `${eventDate.value}, ${eventTime.value}`
+        date: new Date(`${eventDate.value}, ${eventTime.value}`).toLocaleString()
     }
-    if(eventData.name && eventData.description && eventDate.value && eventTime.value){
-        console.log(eventData)
+    if(eventDataObj.name && eventDataObj.description && eventDate.value && eventTime.value){
+        // console.log(eventDataObj)
+        createEventReq(eventDataObj, submitBtn)
     }else{
         alert('All fields are requird')
     }
@@ -98,10 +157,43 @@ createEventForm.addEventListener('submit', (e)=> {
 
 
 
+//excute when request is success
+export const clearModalAndForm = () => {
+    createEventForm.reset()
+    modal.classList.remove('show-modal')
+}
 
+//insert success feedback when create req is success
+export const successFeedBack = () => {
+    const markup = `
+    <div class="feed-back success">
+        <p class="feed-back-text">
+        Event has been created successfuly, go to your profile to see it
+        </p>
+        <div class="clear-feed-back">
+            <i class='fa-solid fa-x'></i>
+        </div>
+    </div>
+    `
+    eventContainer.insertAdjacentHTML('afterbegin', markup)
+    successfulReq = document.querySelector('.feed-back')
+
+    document.querySelector('.clear-feed-back').addEventListener('click', ()=>{
+        clearSuccessFeedBack(successfulReq)
+    })
+}
+ 
+const clearSuccessFeedBack  = (element) => {
+    if(element) element.parentElement.removeChild(element)
+    successfulReq = null
+}
 
 //show modal
 creatEventBtn.addEventListener('click', ()=> {
+    let minAtrr = todayDate()
+    let maxAtrr = dateAfterTwoWeeks();
+    eventDate.setAttribute('min', minAtrr)
+    eventDate.setAttribute('max', maxAtrr)
     modal.classList.add('show-modal')
 })
 
@@ -119,7 +211,7 @@ window.addEventListener('click', e => {
 
 window.addEventListener('load', () =>{
     insertUserImg()
-    getAllMyFollowingEvents(eventContainer, page)
+    getAllMyFollowingEvents(eventContainer, eventPage)
 });
 
 

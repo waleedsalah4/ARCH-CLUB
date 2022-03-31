@@ -126,3 +126,52 @@
         opacity: 1;
     }
 }
+
+
+/*feed back*/
+
+.feed-back {
+    width: 400px;
+    max-height: 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2px 4px;
+    padding: 10px;
+}
+.feed-back a {
+    text-decoration: none;
+    color: #0c0b0e;
+    background: white;
+    padding: 5px;
+    width: fit-content;
+    display: block;
+    border-radius: 6px;
+}
+.feed-back.success{
+    background: #6a4cff;
+}
+
+.feed-back.fail{
+    background:#ac071f;
+}
+
+.feed-back-text {
+    display: inline-block;
+}
+.feed-back .clear-feed-back{
+    cursor: pointer;
+}
+/* load more */
+.load-more {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.load-more-btn {
+    background: #6A4CFF;
+    border: none;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 3px;
+}
