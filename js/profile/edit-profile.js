@@ -1,7 +1,7 @@
-
 import { popupMessage } from "../utilities/helpers.js";
 import { deleteMe,updatePassword ,updateMe, getMe} from "../utilities/profileReq.js";
-
+import { sideBarView } from "../sideBar/sideBarView.js";
+import { homeSideBarHref, profileSideBarHref } from "../sideBar/sideBarHref.js";
 
 
 
@@ -24,7 +24,7 @@ const userPhoto = document.querySelector('.user-photo');
 
 
 
-
+const editProfileSideBar = document.querySelector('#edit-profile-sidbar')
 
 /////////////////////////// render user data ////////////////////
 
@@ -46,7 +46,10 @@ export const init = async function(){
 }
 
 
-window.addEventListener('load',init);
+window.addEventListener('load', () => {
+    sideBarView(homeSideBarHref, editProfileSideBar)
+    init()
+});
 
 //data validation
 

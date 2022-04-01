@@ -1,5 +1,9 @@
 import { getAllPodcasts, discoverUsersReq, searchForUsers } from "../utilities/discoverReq.js";
 import { followUser, unFollowUser} from "../utilities/Follow.js";
+import { sideBarView } from "../sideBar/sideBarView.js";
+import { discoverSideBarHref } from "../sideBar/sideBarHref.js";
+
+const discoverSideBar = document.querySelector('#discover-sideBar')
 
 const discoverUsersBtn = document.querySelector('#discover-users-btn')
 const discoverPodsBtn = document.querySelector('#discover-pods-btn')
@@ -237,6 +241,7 @@ const clearLoadMore  = (element) => {
 // search users
 
 window.addEventListener('load', () =>{
+    sideBarView(discoverSideBarHref, discoverSideBar)
     discoverUsersReq(usersList, usersPage)
     getAllPodcasts(podcastContentHolder, podcastPage)
 });

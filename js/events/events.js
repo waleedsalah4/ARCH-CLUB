@@ -1,4 +1,8 @@
 import { getAllMyFollowingEvents,createEventReq } from "../utilities/eventReq.js";
+import { sideBarView } from "../sideBar/sideBarView.js";
+import { eventsSideBarHref } from "../sideBar/sideBarHref.js";
+
+const eventSidBar = document.querySelector('#events-sidebar')
 
 const user_avatar = JSON.parse(localStorage.getItem('user-data'));
 const userImg = document.querySelector('#user-avatar')
@@ -210,6 +214,7 @@ window.addEventListener('click', e => {
 
 
 window.addEventListener('load', () =>{
+    sideBarView(eventsSideBarHref, eventSidBar)
     insertUserImg()
     getAllMyFollowingEvents(eventContainer, eventPage)
 });

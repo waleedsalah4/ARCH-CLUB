@@ -1,7 +1,9 @@
 import { loadSpinner, clearLoader } from './loader.js';
+import { homeSideBarHref } from './sideBar/sideBarHref.js';
+import { sideBarView } from './sideBar/sideBarView.js';
 import { getCategories } from './utilities/getCategory.js';
 
-
+const homeSideBar = document.querySelector('#home-sideBar')
 // const sidebar = document.querySelector('.nav')
 // const toggle = document.querySelector("#toggle");
 const categoryContainer = document.querySelector('.category')
@@ -69,6 +71,10 @@ function removeAllCtegorActive() {
 }
 
 
+
+window.addEventListener('load', ()=> {
+    sideBarView(homeSideBarHref,homeSideBar)
+})
 
 //events
 // toggle.addEventListener("click" , () =>{

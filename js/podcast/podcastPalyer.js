@@ -1,7 +1,16 @@
+import { sideBarView } from "../sideBar/sideBarView.js";
+import { playPodcastsSideBarHref } from "../sideBar/sideBarHref.js";
 const token = JSON.parse(localStorage.getItem('user-token'))
 // const tempId = '62320d4813eb0800162867f7'
 const podcastId = window.location.hash.replace('#', '');
 
+//add side bar
+const playPodcastsSidebar = document.querySelector('#play-podcasts-sidebar')
+window.addEventListener('load', () =>{
+    sideBarView(playPodcastsSideBarHref, playPodcastsSidebar)
+ });
+
+//----
 const podcastContainer = document.querySelector('.podcast-container')
 
 //variable gonna assigned after elements inserted to the dom

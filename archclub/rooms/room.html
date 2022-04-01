@@ -6,101 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="../../assets/chatroom-icon.png">
     
+    <link href="../../css/profile/all.min.css" rel="stylesheet">
+    <link href="../../css/profile/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../css/sidebar/sidebar.css">
     <link rel="stylesheet" href="../../css/home.css">
     <link rel="stylesheet" href="../../css/room.css">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <title>ARCH CLUB | ROOM</title>
 </head>
 <body>
-    <nav class="nav sidebar close">
-        <header>
-            <div class="image-text">
-                <span class="image">
-                    <img src="../../assets/logo.png" alt="logo">
-                </span>
 
-                <div class="text logo-text">
-                    <span class="name">ARCH CLUB</span>
-                </div>
-            </div>
-
-            <i class='bx bx-chevron-right toggle' id="toggle"></i>
-        </header>
-
-        <div class="menu-bar">
-            <div class="menu">
-
-                <!-- <li class="search-box">
-                    <i class='bx bx-search icon'></i>
-                    <input type="text" placeholder="Search...">
-                </li> -->
-
-                <ul class="menu-links">
-                    <li class="nav-link active">
-                        <a href="#">
-                            <i class='bx bx-home-alt icon'></i>
-                            <span class="text nav-text">Home</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-search-alt icon'></i>
-                            <span class="text nav-text">Discover</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bxs-user-voice icon'></i>
-                            <span class="text nav-text">My podcasts</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-broadcast icon'></i>
-                            <span class="text nav-text">Podcasts</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bxs-user icon'></i>
-                            <span class="text nav-text">Profile</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="bottom-content">
-                <li class="">
-                    <a href="#">
-                        <i class='bx bx-log-out icon' ></i>
-                        <span class="text nav-text">Logout</span>
-                    </a>
-                </li>
-
-                <!-- <li class="mode">
-                    <div class="sun-moon">
-                        <i class='bx bx-moon icon moon'></i>
-                        <i class='bx bx-sun icon sun'></i>
-                    </div>
-                    <span class="mode-text text">Dark mode</span>
-
-                    <div class="toggle-switch">
-                        <span class="switch"></span>
-                    </div>
-                </li> -->
-                
-            </div>
-        </div>
-
-    </nav>
+    <div class="sideBar" id="room-sidebar">
+        
+    </div>
     <section class="home">
-        <div class="logo">
+        <!-- <div class="logo">
             logo
-        </div>
+        </div> -->
         <div class="room-container">
             <div class="in-room">
                 <div class="speak-listen">
@@ -292,6 +215,9 @@
         </div>
     </section>
 
+
+    <script src="../../js/profile/all.min.js"></script>
+    <script src="../../js/profile/bootstrap.bundle.min.js"></script>
     <script type="module" src="../../js/rooms/room.js"></script>
 
 </body>

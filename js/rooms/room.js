@@ -1,6 +1,8 @@
-
-const sidebar = document.querySelector('.nav')
-const toggle = document.querySelector("#toggle");
+import { sideBarView } from '../sideBar/sideBarView.js';
+import { roomSideBarHref } from '../sideBar/sideBarHref.js';
+// const sidebar = document.querySelector('.nav')
+// const toggle = document.querySelector("#toggle");
+const roomSideBar = document.querySelector('#room-sidebar')
 
 /*room details */
 const speakerListener = document.querySelector('.speak-listen');
@@ -282,9 +284,9 @@ getCurrentSpeakers()
 displayControls(fakeUserObject.userRole)
 
 //events
-toggle.addEventListener("click" , () =>{
-    sidebar.classList.toggle("close");
-})
+// toggle.addEventListener("click" , () =>{
+//     sidebar.classList.toggle("close");
+// })
 
 
 //room events
@@ -300,4 +302,8 @@ audincesBtn.addEventListener('click', ()=> {
 
 controlBtn.addEventListener('click', ()=>{
     displayControls(fakeUserObject.userRole)
+})
+
+window.addEventListener('load', () => {
+    sideBarView(roomSideBarHref,roomSideBar)
 })

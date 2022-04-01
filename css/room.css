@@ -16,11 +16,26 @@ html {
 }
 
 :root{
+    /* ===== Colors ===== */
     --body-color: #0C0B0E;
     --sidebar-color: #232229;
+    --primary-color: #999191;
     --primary-color-light: #FFFFFF;
     --secondary-color: #6A4CFF;
-    --tran: all 0.3s ease;
+    --toggle-color: #DDD;
+    --active-color: #FFACA9;
+
+    /* ====== Transition ====== */
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.3s ease;
+    --tran-05: all 0.3s ease;
+}
+
+
+body{
+    min-height: 100vh;
+    background-color: var(--body-color);
+    transition: var(--tran-05);
 }
 
 .home .logo{

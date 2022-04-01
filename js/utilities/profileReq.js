@@ -79,11 +79,20 @@ export const createPodcast = async function(podcastData,podName,podCategory){
     
 
     const res = await response.json();
+    if(res.status != 'fail'){
+        popupMessage('Your Podcast Has Been Loaded Successfully!');
+    }
+    else{
+        popupMessage(`${res.message}`);
+    }
+    
     console.log(res);
 
 }
-    catch(err){
-        console.log(err);
+    catch(error){
+        
+        
+        console.log(error);
     }
 
 
@@ -115,8 +124,9 @@ export const uploadPodcast = async function(file,podName,podCategory){
         await createPodcast(res,podName,podCategory)
     }
 
-    catch(err){
-        console.log(err);
+    catch(error){
+        popupMessage(`${error.message}`);
+        console.log(error);
     }
 }
 
@@ -270,5 +280,35 @@ export const uploadPhoto = async function(photo){
 
     catch(err){
         console.log(err);
+    }
+}
+
+export const deletePodcast = async function(id){
+    try{
+
+        const response = await fetch(`${url}/api/v1/podcasts/${id}`,{
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+    });
+
+        const res = await response.json();
+        console.log(res);
+        if(res.status !== 'success') {
+            popupMessage(res.message);
+            console.log(res.message)
+            
+        }
+
+        else{
+            popupMessage(`the podcast has been deleted successfully!`);
+        }
+    
+
+    }
+
+    catch(error){
+        console.log(error);
     }
 }

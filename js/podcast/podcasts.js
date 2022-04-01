@@ -3,6 +3,11 @@ import {getCategories}from '../utilities/getCategory.js';
 import { getAllMyFollowingPodcasts, getMyFollowingPodcastsByCategoryName } from '../utilities/requests.js';
 // import {podcastFeedback} from '../podcast/feedBack.js';
 // import {requesting, podPage} from '../utilities/requests.js';
+import { podcastsSideBarHref } from '../sideBar/sideBarHref.js';
+import { sideBarView } from '../sideBar/sideBarView.js';
+const podcastsSideBar = document.querySelector('#podcasts-sidebar')
+
+
 let podPage = 1;
 let categoryItemsPage = 1
 
@@ -223,6 +228,7 @@ const insertPodPlayerElement = (podsrc) => {
 }
 
 window.addEventListener('load', () =>{
+    sideBarView(podcastsSideBarHref, podcastsSideBar)
     //mainContentcontainer => for feedback
     getAllMyFollowingPodcasts(podcastContainer, podPage)
  });
