@@ -1,7 +1,7 @@
 
-import { getMe, url  ,uploadPodcast,fetchFollowing , fetchFollowers} from '../utilities/profileReq.js';
-
-
+import { getMe, url  ,uploadPodcast,fetchFollowing , fetchFollowers, deletePodcast} from '../utilities/profileReq.js';
+import { loadSpinner, clearLoader} from '../loader.js';
+import { popupMessage } from '../utilities/helpers.js';
 //elements
 const bar = document.querySelector('.sideBar');
 const barIcons = document.querySelectorAll('.bar-icons');
@@ -200,7 +200,8 @@ const renderMainInfo = function(data){
     //                     Add podcast
     //                 </button>
     //                 `;
-
+    profileVeiw.innerHTML = '';
+    clearLoader();
     profileVeiw.insertAdjacentHTML("beforeend",markup);
     document.querySelector('.follow-following').addEventListener('click',followBTn);
     document.querySelector('.main-info').addEventListener('click',hideDisplaySideInfo);
@@ -214,7 +215,8 @@ const renderMainInfo = function(data){
 
 //////////////////////////////////////////////////////////// uploading podcast ///////////////////////////////////////////////
 
-const podcastInfosForm = function(file){
+
+const podcastInfosForm = async function(file){
     const podName = document.getElementById('podcast-name').value;
     const podCategory = document.getElementById('podcast-category').value;
     if(podName == '') {
@@ -223,7 +225,14 @@ const podcastInfosForm = function(file){
     }
     else{
         console.log(podName,podCategory);
-        uploadPodcast(file,podName,podCategory);
+        podcastPopup.classList.add('hidden');
+        addPodcast.textContent = 'Loadding podcast...';
+        await uploadPodcast(file,podName,podCategory);
+        addPodcast.innerHTML = `<i class="fa-solid fa-circle-plus fs-3 me-4"></i>
+        Add podcast`;
+        file.value = null;
+        init();
+        
     }
     
     
@@ -273,11 +282,11 @@ const podcastMarkup = function(podcastData){
     const duration = getDuration(podcastData.audio.duration);
     console.log(duration);
     return `
-    <div class="podcast-component">
+    <div class="podcast-component" data-id=${podcastData._id} data-name=${podcastData.name}>
                             <div class="pic">
                                 <img src=${podcastData.createdBy.photo} alt="user podcast">
                             </div>
-                            <div class="description p-2">
+                            <div class="description p-2"> 
                                 <div class="podcast-name text-light fw-bold  fs-5">${podcastData.name}</div>
                                 <p class="p-1 ">By <span class="fw-bold">${podcastData.createdBy.name}</span></p>
                                 <hr>
@@ -304,7 +313,9 @@ const podcastMarkup = function(podcastData){
                                 </div>
                             </div>  
                             <!--if current-->
-                            <i class="fa-solid fa-trash-can delete-icon text-light fs-2 p-2 me-3"></i>
+                            <div class="delete-pod" >
+                                <i class="fa-solid fa-trash-can delete-icon text-light fs-2 p-2 me-3"></i>
+                            </div>
 
                         </div>
 
@@ -334,19 +345,19 @@ const fetchPodcasts =  async function(){
 }
 
 const renderPodcasts = async function(){
-
+    podcastContainerProfile.innerHTML = '';
+    loadSpinner(podcastContainerProfile);
     const markup = `
      <p class="emptyMessage">
         its empty here..
      </p>
     `;
-
+    
     //1)fetch data
     await fetchPodcasts();
-
     //2)render podcasts
     const podcastData = await JSON.parse(localStorage.getItem('myPodcasts'));
-
+    clearLoader();
     //podcastData
     podcastData.length !=0?
     podcastData.forEach(pod=>{
@@ -439,19 +450,56 @@ const renderFollowers = async function(){
 }
 
 
+/////////////////////////////////////////////////////// delete podcast /////////////////////
+
+//get podcast Id
+
+const getPodcastId = function(){
+    document.querySelectorAll('.delete-pod').forEach(delPod=>{
+        delPod.addEventListener('click',function(e){
+            const pod = e.target.closest(".podcast-component");
+            console.log(pod.dataset.id);
+            deletePodcastPopup(pod);
+         }); 
+        
+    });
+}
+
+const deletePodcastPopup =  function(podcast){
+
+    document.querySelector('.delete-podcast-popup-overlay').classList.remove('hidden');
+    document.querySelector('.del-pod-name').textContent = `${podcast.dataset.name}`
+
+    document.getElementById('cancel-deleation').addEventListener('click',()=>document.querySelector('.delete-podcast-popup-overlay')
+            .classList.add('hidden'));
+
+    document.getElementById('confirm-deleation').addEventListener('click', async function(){
+        deletePodcast(podcast.dataset.id);
+        document.querySelector('.delete-podcast-popup-overlay').classList.add('hidden');
+        await getMe();
+        renderPodcasts();
+
+    });
+    
+
+}
 
 
 //////////////////////////////////////////////////////////// get user's data onload ///////////////////////////////////////////////
 
-
-
-window.addEventListener('load',async function(){
+const init = async function(){
+   loadSpinner(profileVeiw);
    await getMe();
+  // clearLoader();
    await renderPodcasts();
+   getPodcastId();
    await renderFollowing();
    await renderFollowers();
+   loadSpinner(profileVeiw);
    getMainInfo();
-});
+}
+
+window.addEventListener('load',init);
 
 
 

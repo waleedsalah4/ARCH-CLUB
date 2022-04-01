@@ -238,7 +238,7 @@ body{
 .searce-pods-container ul{
     list-style: none;
     width: 30rem;
-}
+} 
 
 .follow-btn{
     color: white;
@@ -345,9 +345,86 @@ body{
 }
 
 
+
+
+
+#cancel-deleation:hover,
+#confirm-deleation:hover{
+    opacity: .5;
+}
 /*end of current user*/
 
+.btnHolder{
+    display: flex;
+    justify-content: space-around;
+}
+
+.delBtn{
+    width: 10em;
+}
+
+#cancel-deleation{
+    background-color: #a0a7b4;
+}
 /**************************************************** responsive ******************************************/
+
+
+@media(max-width:1100px){
+
+    .profile{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+}
+
+/******************  portrait tablets ************************/
+
+
+@media(max-width:900px){
+
+    /* .profile{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    } */
+
+    .profile-veiw{
+        width: 29em;
+        margin: 10rem 0rem 0rem;
+        padding: 2rem!important;
+    }
+
+
+    .container{
+        margin-left: 8rem;
+        width: 420px;
+    }
+
+    .profile-veiw img {
+        width: 45%;
+        height: 44%;
+        top: -27%;
+        left: 25%;
+        padding: 11px;
+    }
+
+    .profile-veiw .info div {
+        padding: 1rem;
+    }
+
+    .follow-following{ 
+        margin-top: 2rem;
+        width: 90%;
+    }    
+
+    .current-camera-icon{
+        left: 5em;
+        font-size: 3rem;
+    }
+}
+
 
 
 
@@ -356,11 +433,11 @@ body{
 
 @media(max-width:600px){
 
-    .profile{
+    /* .profile{
         flex-direction: column;
         align-items: center;
         justify-content: center;
-    }
+    } */
 
     
     .profile-veiw{
@@ -418,6 +495,10 @@ body{
 
     .podcast-component-heading::after {
         width: 222px;
+    }
+
+    .current-camera-icon{
+        left: 4.5em;
     }
     
 }
@@ -477,6 +558,10 @@ body{
 
     }
 
+    .current-camera-icon{
+        left: 2.5em;
+    }
+
     
     
     
@@ -484,61 +569,3 @@ body{
 
 
 
-/******************  portrait tablets ************************/
-
-/*
-@media(max-width:900px){
-    .container{
-        margin-left: 8rem;
-        width: 450px;
-    }
-    .profile {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .profile-veiw{
-        width: 31em;
-        margin: 10rem 0rem 4rem;
-        padding: 2rem!important;
-    }
-    .profile-veiw img {
-        width: 45%;
-        height: 44%;
-        top: -27%;
-        left: 25%;
-        padding: 11px;
-    }
-    .profile-veiw h2{
-        margin-top: 4rem!important;
-    }
-    .profile-veiw .info div {
-        padding: 1rem;
-    }
-    .follow-following{ 
-        margin-top: 2rem;
-        width: 90%;
-    }
-    .side-content .podcast-component {
-        width: 350px;
-        height: auto;
-        flex-direction: column;
-        text-align: center;
-    }
-    .container .side-content::before {
-        display: none;
-    }
-    
-    .description hr {
-        width: 17rem;
-    }
-    .description .inner-infos{
-        margin-left: 2rem;
-        width: 271px;
-    }
-    
-    
-}
-*/
