@@ -1,6 +1,8 @@
 const email = document.querySelector('#email')
 const password = document.querySelector('#password')
 const submitBtn = document.querySelector('.submit-btn')
+const mainContainer = document.querySelector('.main-container')
+let feedBackDiv;
 
 const chechIfUserIsSign = () => {
     const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
@@ -13,6 +15,29 @@ const chechIfUserIsSign = () => {
 
 chechIfUserIsSign()
 
+const signInFeedback = (message) => {
+    let markup = `
+        <div class="feed-back fail">
+            <p class="feed-back-text">
+               ${message ? message : 'password did not match'} 
+            </p>
+            <i class='bx bx-x clear-feed-back'></i>
+        </div>
+    `
+    mainContainer.insertAdjacentHTML('afterbegin', markup)
+    feedBackDiv =  document.querySelector('.feed-back')
+    
+    document.querySelector('.clear-feed-back').addEventListener('click', ()=>{
+       clearFeedBack(feedBackDiv)
+    })
+  }
+  
+  const clearFeedBack  = (element) => {
+    if(element) element.parentElement.removeChild(element)
+    feedBackDiv = null
+  }
+
+
 function getValues () {
     const data = {
         email: email.value,
@@ -20,7 +45,7 @@ function getValues () {
     }
 
     if(!data.email || data.password.length < 6){
-        alert('invalid data')
+        signInFeedback('invalid data')
     } else {
         fetchData(data)
     }
@@ -31,6 +56,7 @@ function getValues () {
 
  const fetchData = async(data) =>  {
     try{
+        submitBtn.textContent = 'logging...'
         const response = await fetch("https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/login", {
             method: 'POST',
             headers: {
@@ -41,7 +67,8 @@ function getValues () {
         const res = await response.json();
     
         if(res.status !== 'fail'){
-            console.log(res);
+            // console.log(res);
+            submitBtn.textContent = 'Login'
             const {data: {user}} = res;
             const {token} = res;
     
@@ -52,10 +79,12 @@ function getValues () {
             window.location = '../home/index.html'
         }
         else{
-            alert(`${res.message}`);
+            submitBtn.textContent = 'Login'
+            signInFeedback(res.message)
         }
     } catch(error){
-        alert(`${error.message}`);
+        submitBtn.textContent = 'Login'
+        signInFeedback(res.message)
     }
   
   }
@@ -65,5 +94,8 @@ function getValues () {
 
   submitBtn.addEventListener('click' ,(e) => {
     e.preventDefault()
+    if(feedBackDiv){
+        clearFeedBack(feedBackDiv)
+      }
     getValues();
 })

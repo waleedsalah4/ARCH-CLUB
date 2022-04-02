@@ -85,7 +85,7 @@ const url = 'https://audiocomms-podcast-platform.herokuapp.com';
     });
     
     const res = await response.json();
-    console.log(res);
+    // console.log(res);
     if(res.status !== 'fail'){
         // console.log(res);
         signupBtn.textContent = 'Sign Up';

@@ -63,6 +63,17 @@
             </div>
         </div>
     </main>
-    
+
+    <script>
+        const chechIfUserIsSign = () => {
+            const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+            if(isLoggedIn === true) {
+                window.location = './archclub/home/index.html';
+            } else{
+                return
+            }
+        }
+        chechIfUserIsSign()
+    </script>
 </body>
 </html>

@@ -156,7 +156,7 @@ export const displayPodcasts = (podcast) => {
         if(podPlayerContainer){
             podPlayerContainer.parentElement.removeChild(podPlayerContainer)
         }
-        insertPodPlayerElement(podcast.audio.url)
+        insertPodPlayerElement(podcast.audio.url, podcast.name)
         // console.log(e.target, playPodcastBtn)
     })
 }
@@ -207,11 +207,14 @@ const clearLoadMore  = (element) => {
     loadmore = null;
 }
 
-const insertPodPlayerElement = (podsrc) => {
+const insertPodPlayerElement = (podsrc, name) => {
     
     const markup = `
         <div class="pod-palyer-container">
                 <div class="pod-player">
+                    <h6 class="pod-name">
+                        ${name}
+                    </h6>
                     <audio src="${podsrc}" autoplay controls></audio>
                 </div>
                 <div id="remove-player-container">

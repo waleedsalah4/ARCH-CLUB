@@ -28,6 +28,11 @@ const file = document.getElementById('podcast-file');
 //side bar element
 const profileSideBar = document.querySelector('#profile-sidebar');
 
+//for podcasts player
+let playerContentHolder = document.querySelector('.profile-player-content')
+let podPlayerContainer;
+let playPodcastBtn;
+
 
 
 //2)active link (podcast , followers , following) and show its content
@@ -283,17 +288,24 @@ const getDuration = function(duration){
     return `${h}h ${m}m`;
 }
 
+
 const podcastMarkup = function(podcastData){
     const duration = getDuration(podcastData.audio.duration);
-    console.log(duration);
+    // console.log(duration);
     return `
     <div class="podcast-component" data-id=${podcastData._id} data-name=${podcastData.name}>
-                            <div class="pic">
-                                <img src=${podcastData.createdBy.photo} alt="user podcast">
+                            <div class="pic" title="open podcats in podcasts player">
+                                <a href="../podcasts/play-podcasts.html#${podcastData._id}" target="_blank">
+                                 <img src=${podcastData.createdBy.photo} alt="user podcast">
+                                </a>
                             </div>
                             <div class="description p-2"> 
                                 <div class="podcast-name text-light fw-bold  fs-5">${podcastData.name}</div>
                                 <p class="p-1 ">By <span class="fw-bold">${podcastData.createdBy.name}</span></p>
+                                <div class="likes">
+                                    <p>${podcastData.likes}</p>
+                                    <i class="fa-solid fa-heart fa-2x"></i>
+                                </div>
                                 <hr>
                                 <div class="inner-infos">
 
@@ -310,7 +322,7 @@ const podcastMarkup = function(podcastData){
                                             <img src="../../assets/clock.svg" alt="">
                                             <p class="duration">${duration}</p>
                                         </div>
-                                        <button class="play-podcast-btn">
+                                        <button class="play-podcast-btn" id="play-podcast-btn-${podcastData._id}">
                                             <img src="../../assets/circle-play-solid.svg" alt="" >
                                             Play</button>
                                     </div> 
@@ -325,6 +337,7 @@ const podcastMarkup = function(podcastData){
                         </div>
 
     `;
+
 }
 
 
@@ -367,12 +380,44 @@ const renderPodcasts = async function(){
     podcastData.length !=0?
     podcastData.forEach(pod=>{
         podcastContainerProfile.insertAdjacentHTML('beforeend', podcastMarkup(pod));
+        
+        //podcasts player
+        playPodcastBtn = document.querySelector(`#play-podcast-btn-${pod._id}`)
+        playPodcastBtn.addEventListener('click', () => {
+            if(podPlayerContainer){
+                podPlayerContainer.parentElement.removeChild(podPlayerContainer)
+            }
+            insertPodPlayerElement(pod.audio.url, pod.name)
+            // console.log(e.target, playPodcastBtn)
+        })
     }):
     podcastContainerProfile.insertAdjacentHTML('beforeend', markup);
     
 }
 
-
+//podcast player markup
+const insertPodPlayerElement = (podsrc, name) => {
+    
+    const markup = `
+        <div class="pod-palyer-container">
+                <div class="pod-player">
+                    <h6 class="pod-name">
+                        ${name}
+                    </h6>
+                    <audio src="${podsrc}" autoplay controls></audio>
+                </div>
+                <div id="remove-player-container">
+                    <i class="fa-solid fa-x"></i>
+                </div>
+        </div>
+    `;
+    playerContentHolder.insertAdjacentHTML('beforeend', markup)
+    podPlayerContainer = document.querySelector('.pod-palyer-container')
+    document.querySelector('#remove-player-container').addEventListener('click', ()=> {
+        podPlayerContainer.parentElement.removeChild(podPlayerContainer)
+        podPlayerContainer = null
+    })
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
