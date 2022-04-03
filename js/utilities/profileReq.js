@@ -1,4 +1,6 @@
 import {popupMessage,logout} from './helpers.js';
+import { podcastFeedback } from '../podcast/feedBack.js';
+import {eventpreView,displayPost} from '../profile/controller.js';
 export const url = 'https://audiocomms-podcast-platform.herokuapp.com';
 
 /** profile */
@@ -334,4 +336,68 @@ export const getOtherUser = async function(id){
         console.log(error);
     }
 
+}
+
+
+export const getMyEvents = async function(parent){
+
+    try{
+
+        const response = await fetch(`${url}/api/v1/events/me`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+    });
+
+        const res = await response.json();
+        console.log(res);
+
+        if(res.status !== 'fail'){
+            const {data} = res;
+           
+            if(data.length > 0 ){
+                data.map(d => eventpreView(d))
+                
+            }else {
+                podcastFeedback(parent,'there is no events')
+            }
+        }
+        else{
+           
+            podcastFeedback(parent,res.message);
+        }
+        
+    }
+
+    catch(error){
+        console.log(error);
+    }
+
+
+
+}
+
+export const getEventById = async function(id){
+    try{
+
+        const response = await fetch(`${url}/api/v1/events/${id}`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+    });
+
+    const res = await response.json();
+    console.log(res);
+    if(res.status !== 'fail'){
+        const {data} = res;
+        displayPost(data);
+        
+    }     
+}
+
+    catch(error){
+        console.log(error);
+    }
 }

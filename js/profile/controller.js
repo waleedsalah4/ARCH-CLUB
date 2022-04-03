@@ -1,7 +1,7 @@
 
-import { getMe, url  ,uploadPodcast,fetchFollowing , fetchFollowers, deletePodcast,getOtherUser} from '../utilities/profileReq.js';
+import { getMe, url  ,uploadPodcast,fetchFollowing , fetchFollowers, deletePodcast,getOtherUser,getMyEvents,getEventById} from '../utilities/profileReq.js';
 import { loadSpinner, clearLoader} from '../loader.js';
-import { popupMessage } from '../utilities/helpers.js';
+import { popupMessage ,getDate} from '../utilities/helpers.js';
 
 import { sideBarView } from '../sideBar/sideBarView.js';
 import { profileSideBarHref } from '../sideBar/sideBarHref.js';
@@ -40,7 +40,11 @@ let playPodcastBtn;
 const hideDisplaySideInfo =  function(e){
     
     if(e.target.matches('span') ){
-        
+        //remove events display
+        if(!document.querySelector('.event-content').classList.contains('hidden')){
+            document.querySelector('.event-content').classList.add('hidden');
+        }
+
         //1) mark target as active
         document.querySelectorAll('.info span').forEach(el=> el.classList.remove('active'));
         e.target.classList.add('active');
@@ -79,8 +83,17 @@ const hideDisplaySideInfo =  function(e){
                 podcastComponentHeading.textContent = `${JSON.parse(localStorage.getItem('user-data')).name}'s Following`;
                 document.querySelector(`.${hideDisplaySide[2]}`).classList.remove('hidden');
             }
+            
 
     }
+}
+
+//if events
+const displayEvents = function(){
+    document.querySelectorAll('.info span').forEach(el=> el.classList.remove('active'));
+    hideDisplaySide.forEach((el)=> {if(!document.querySelector(`.${el}`).classList.contains('hidden')) document.querySelector(`.${el}`).classList.add('hidden') });
+    document.querySelector('.event-content').classList.remove('hidden');
+
 }
 
 
@@ -146,7 +159,7 @@ barLinks.forEach(link=>{
 //functionality
 
 
-const followBTn = function(){
+/* const followBTn = function(){
     
 
     if(btnFollowProfile.classList.contains('btn-follow-profile')){ 
@@ -174,7 +187,7 @@ const followBTn = function(){
 
 
 
-}
+} */
 
 ///////////////////////////////////////////////////// rendering profile main infos ///////////////////
 
@@ -190,9 +203,10 @@ const renderMainInfo = function(data){
                    <a href="changePhoto.html">
                         <i class="fa-solid fa-camera current-camera-icon"></i> 
                    </a>
+                   <button class="follow-following btn-follow-profile user-Events">My Events</button>
                    
                    <div class="inside  text-center"> 
-                        <h2 class="user-name mt-4 p-5 pb-1 fw-bold">${data.name}</h2>
+                        <h2 class="user-name mt-1 p-2 pb-1 fw-bold">${data.name}</h2>
                         
                             <p class="user-bio pb-1">${data.bio} </p>
                             
@@ -217,7 +231,7 @@ const renderMainInfo = function(data){
     profileVeiw.innerHTML = '';
     //clearLoader();
     profileVeiw.insertAdjacentHTML("beforeend",markup);
-    document.querySelector('.follow-following').addEventListener('click',followBTn);
+    //document.querySelector('.follow-following').addEventListener('click',followBTn);
     document.querySelector('.main-info').addEventListener('click',hideDisplaySideInfo);
 }
 
@@ -270,19 +284,15 @@ const uploadPodcastContain = async function(){
 
 }
 
+const triggerUploadPodcast = function(){
+    document.getElementById('podcast-file').addEventListener('change',uploadPodcastContain);
+}
 
-document.getElementById('podcast-file').addEventListener('change',uploadPodcastContain);
+
 
 
 //////////////////////////////////////////// render podcasts //////////////////////////////////
-const messageEmptyMarkup = () =>{
-    const markup = `
-     <p class="emptyMessage">
-        its empty here..
-     </p>
-    `;
-    return markup;
-}
+
 
 const getDuration = function(duration){
     let h = duration>=3600? duration/60 :0;
@@ -369,6 +379,7 @@ const fetchPodcasts =  async function(){
 const renderPodcasts = async function(){
     podcastContainerProfile.innerHTML = '';
     loadSpinner(podcastContainerProfile);
+
     const markup = `
      <p class="emptyMessage">
         its empty here..
@@ -386,6 +397,7 @@ const renderPodcasts = async function(){
     if(podcastData.length !=0)
         {podcastData.forEach(pod=>{
             clearLoader();
+            clearLoader();
             podcastContainerProfile.insertAdjacentHTML('beforeend', podcastMarkup(pod));
             
             //podcasts player
@@ -398,9 +410,11 @@ const renderPodcasts = async function(){
                 // console.log(e.target, playPodcastBtn)
             })
         })}
+
         else{ 
             clearLoader();
             podcastContainerProfile.insertAdjacentHTML('beforeend', markup);
+            clearLoader();
         }
     
 }
@@ -432,8 +446,80 @@ const insertPodPlayerElement = (podsrc, name) => {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////// rendering Events ////////////////////////
+
+export const displayPost = function(event){
+    const postMarkup = `
+    <div class="popup-box">
+            <img src=${event.createdBy.photo} alt="user photo">
+            <p class="fw-bold ms-3">Happining on <br> <span class="post-date">${getDate(event.date)}</span></p>
+            <div class="post-main-content text-center">
+                <h1 class="post-userName">${event.createdBy.name}</h1>
+                <p class="post-name">${event.name}</p>
+                <div class="post-description-container">
+                    <p class="post-description-data text-start">${event.description}</p>
+                </div>
+            </div>   
+    </div>
+    
+    `;
+
+    const postParent = document.querySelector('.event-post-popup-overlay');
+    postParent.innerHTML = '';
+    postParent.classList.remove('hidden');
+    postParent.insertAdjacentHTML('beforeend',postMarkup);
+    document.querySelector('.event-post-popup-overlay').addEventListener('click',function(e){
+        if(e.target.classList.contains('event-post-popup-overlay')){
+            document.querySelector('.event-post-popup-overlay').classList.add('hidden');
+        }
+    });
+
+}
+
+export const eventpreView = function(event){
+    clearLoader();
+    const eventPrevMarkup = `
+    <div class="event-component" data-podid= ${event._id}>
+        <img src=${event.createdBy.photo} alt="">
+        <h4 class="text-center m-3">${event.createdBy.name}</h4>
+        <p >Topic : <span>${event.name}</span> </p>
+        <p>Date: <span>${getDate(event.date)}</span></p>
+        <div class="text-center">
+            <p class="displayPost">See Post</p>
+        </div>
+    </div>
+`;
+
+    document.querySelector('.event').insertAdjacentHTML('beforeend',eventPrevMarkup);
+
+    document.querySelectorAll('.displayPost').forEach(post=> {
+        post.addEventListener('click',function(e){
+            getEventById(e.target.closest('.event-component').dataset.podid);
+        });
+    })
+
+}
+
+const renderEventsMain = function(){
+    document.querySelector('.user-Events').addEventListener('click',function(){
+        document.querySelector('.event').innerHTML='';
+        loadSpinner(document.querySelector('.event'));
+        displayEvents();
+        getMyEvents();
+    });
+    
+}
+
+
+
 
 //////////////////////////////////////////// render following //////////////////////////////////
+
+const markup = `
+     <p class="emptyMessage">
+        its empty here..
+     </p>
+    `;
 
 const followingMarkup = function(f){
     return `
@@ -456,7 +542,7 @@ const followingMarkup = function(f){
 const renderFollowing = async function(){
     //1)fetch data
     await fetchFollowing();
-
+    followingContainer.innerHTML = '';
     //2)render podcasts
     const followingData = await JSON.parse(localStorage.getItem('my-following'));
 
@@ -465,7 +551,7 @@ const renderFollowing = async function(){
     followingData.forEach(f=>{
         followingContainer.insertAdjacentHTML('beforeend', followingMarkup(f.following));
     }) :
-    followingContainer.insertAdjacentHTML('beforeend', messageEmptyMarkup);
+    followingContainer.insertAdjacentHTML('beforeend', markup);
     
 }
 
@@ -496,7 +582,7 @@ const followersMarkup = function(f){
 const renderFollowers = async function(){
     //1)fetch data
     await fetchFollowers();
-
+    followersContainer.innerHTML = '';
     //2)render podcasts
     const followersgData = await JSON.parse(localStorage.getItem('my-followers'));
 
@@ -505,7 +591,7 @@ const renderFollowers = async function(){
     followersgData.forEach(f=>{
         followersContainer.insertAdjacentHTML('beforeend', followersMarkup(f.follower));
     }):
-    followersContainer.insertAdjacentHTML('beforeend', messageEmptyMarkup);
+    followersContainer.insertAdjacentHTML('beforeend', markup);
     
 }
 
@@ -557,6 +643,8 @@ const init = async function(){
    await renderFollowers();
    loadSpinner(profileVeiw);
    getMainInfo();
+   renderEventsMain();
+   triggerUploadPodcast();
 }
 
 window.addEventListener('load', () => {

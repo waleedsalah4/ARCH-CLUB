@@ -209,16 +209,17 @@ openChngBioBtn.addEventListener('click',function(){
 
 const changeBio = async function(){
     const bioVal = document.getElementById('bio').value;
-    console.log(bioVal.replace(/\s+/g,'').length);
-    if(bioVal.replace(/\s+/g,'').length > 150 ){
+    //console.log(bioVal.replace(/\s+/g,'').length);
+    console.log(bioVal.trim().length);
+    if(bioVal.length > 150 ){
         popupMessage(`Bio Can't Be More Than 150 Characters!`)
     }
 
     else{ 
-    console.log(bioVal.replace(/\s+/g,'').length);
+    //console.log(bioVal.replace(/\s+/g,'').length);
     const bioData = {
-        "bio": bioVal
-    }
+        "bio": bioVal.trim()
+        }
 
     document.getElementById('bio').value = '';
     await updateMe(bioData);
