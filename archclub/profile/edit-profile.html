@@ -35,6 +35,14 @@
      <!-- end the side bar-->
 
 
+     <div class="popup-overlay popup-overlay-bio text-light text-center hidden">
+        <div class="popup-box">
+            <label for="bio">Write Something!</label> <br>
+            <textarea name="bio" style="height: 5em;"  id="bio" col="4" row="50" ></textarea> 
+            <!-- <input type="text" style="height: 4em; overflow-x: scroll;" name="bio" id="bio" placeholder = 'bio'> <br> -->
+            <input type="submit"  class="btn-following-profile mt-2" value="Change Bio" id="change-bio">
+        </div>
+    </div>
 
         
         <div class="container">
@@ -81,6 +89,7 @@
 
                 <div class="edit-buttons ">
                     <button class="btn-follow-profile change-pass">Change Password</button>
+                    <button class="btn-follow-profile edit-bio">Edit Bio</button>
                     <button class="btn-follow-profile delete-acc" id="delete-acc">Delete Account</button>
                     <button class="btn-follow-profile back-btn hidden">Back</button>
 

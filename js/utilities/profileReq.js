@@ -312,3 +312,26 @@ export const deletePodcast = async function(id){
         console.log(error);
     }
 }
+
+
+export const getOtherUser = async function(id){
+
+    try{
+
+        const response = await fetch(`${url}/api/v1/users/${id}`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+    });
+
+        const res = await response.json();
+        console.log(res);
+        
+    }
+
+    catch(error){
+        console.log(error);
+    }
+
+}

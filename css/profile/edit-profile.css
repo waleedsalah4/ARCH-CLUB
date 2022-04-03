@@ -35,6 +35,7 @@
     height: 2.5em;
     font-size: 25px;
     font-weight: 500;
+    margin-top: 1.5em;
 }
 
 .left-infos .circle-profile-img{
@@ -60,7 +61,8 @@
 }
 
 .right-form input[type="text"],
-.right-form input[type="password"]
+.right-form input[type="password"],
+textarea
 {
     background-color: #282730;
     width: 20em;

@@ -21,6 +21,9 @@ const confirmPassword = document.querySelector('#confirmPassword');
 const url = 'https://audiocomms-podcast-platform.herokuapp.com';
 const userName = document.querySelector('.user-name');
 const userPhoto = document.querySelector('.user-photo');
+const openChngBioBtn = document.querySelector('.edit-bio');
+const popupOverlayBio = document.querySelector('.popup-overlay-bio');
+
 
 
 
@@ -192,3 +195,40 @@ const updatePassBody = function(){
 }
 
 changePassFormBtn.addEventListener('click',updatePassBody);
+
+
+///////////////////////////////////////////////////// change bio ///////////////////////////////////////
+openChngBioBtn.addEventListener('click',function(){
+    popupOverlayBio.classList.remove('hidden');
+    popupOverlayBio.addEventListener('click',function(e) {
+        if(e.target.classList.contains('popup-overlay'))
+            popupOverlayBio.classList.add('hidden');
+    });
+    document.getElementById('bio').placeholder = JSON.parse(localStorage.getItem('user-data')).bio;
+});
+
+const changeBio = async function(){
+    const bioVal = document.getElementById('bio').value;
+    console.log(bioVal.replace(/\s+/g,'').length);
+    if(bioVal.replace(/\s+/g,'').length > 150 ){
+        popupMessage(`Bio Can't Be More Than 150 Characters!`)
+    }
+
+    else{ 
+    console.log(bioVal.replace(/\s+/g,'').length);
+    const bioData = {
+        "bio": bioVal
+    }
+
+    document.getElementById('bio').value = '';
+    await updateMe(bioData);
+}
+
+}
+
+
+document.getElementById('change-bio').addEventListener('click',function(){
+    popupOverlayBio.classList.add('hidden');
+    changeBio();
+    
+});

@@ -63,7 +63,7 @@ body{
 .profile-veiw .info{
     display: flex;
     justify-content: space-around;
-    
+    margin-top: 2em;
 
 }
 
@@ -79,6 +79,10 @@ body{
     cursor: pointer;
     text-decoration: underline;
 }
+
+/* .inside button{
+    margin-top: 32px;
+} */
 
 .btn-follow-profile{
     color: white;
@@ -344,6 +348,15 @@ body{
 .podcast-component .delete-icon:hover{
     opacity: .5;
 }
+
+
+
+.user-bio{
+    font-weight: 500;
+    color: #838588;;
+    
+}
+
 
 
 

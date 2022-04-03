@@ -1,5 +1,5 @@
 
-import { getMe, url  ,uploadPodcast,fetchFollowing , fetchFollowers, deletePodcast} from '../utilities/profileReq.js';
+import { getMe, url  ,uploadPodcast,fetchFollowing , fetchFollowers, deletePodcast,getOtherUser} from '../utilities/profileReq.js';
 import { loadSpinner, clearLoader} from '../loader.js';
 import { popupMessage } from '../utilities/helpers.js';
 
@@ -192,7 +192,11 @@ const renderMainInfo = function(data){
                    </a>
                    
                    <div class="inside  text-center"> 
-                        <h2 class="user-name mt-4 p-5 pb-4 fw-bold">${data.name}</h2>
+                        <h2 class="user-name mt-4 p-5 pb-1 fw-bold">${data.name}</h2>
+                        
+                            <p class="user-bio pb-1">${data.bio} </p>
+                            
+                        
                         <div class="info  main-info fs-4">
                             <div class="podcasts"> ${localStorage.getItem('numberOfMyPodcasts')? localStorage.getItem('numberOfMyPodcasts') : 0} <br> <span class="active podcasts">Podcasts</span></div>
                             <div class="followers"> ${data.followers} <br> <span class="followers">Followers</span></div>
@@ -211,7 +215,7 @@ const renderMainInfo = function(data){
     //                 </button>
     //                 `;
     profileVeiw.innerHTML = '';
-    clearLoader();
+    //clearLoader();
     profileVeiw.insertAdjacentHTML("beforeend",markup);
     document.querySelector('.follow-following').addEventListener('click',followBTn);
     document.querySelector('.main-info').addEventListener('click',hideDisplaySideInfo);
@@ -373,25 +377,31 @@ const renderPodcasts = async function(){
     
     //1)fetch data
     await fetchPodcasts();
+    
     //2)render podcasts
     const podcastData = await JSON.parse(localStorage.getItem('myPodcasts'));
-    clearLoader();
+    
     //podcastData
-    podcastData.length !=0?
-    podcastData.forEach(pod=>{
-        podcastContainerProfile.insertAdjacentHTML('beforeend', podcastMarkup(pod));
-        
-        //podcasts player
-        playPodcastBtn = document.querySelector(`#play-podcast-btn-${pod._id}`)
-        playPodcastBtn.addEventListener('click', () => {
-            if(podPlayerContainer){
-                podPlayerContainer.parentElement.removeChild(podPlayerContainer)
-            }
-            insertPodPlayerElement(pod.audio.url, pod.name)
-            // console.log(e.target, playPodcastBtn)
-        })
-    }):
-    podcastContainerProfile.insertAdjacentHTML('beforeend', markup);
+    
+    if(podcastData.length !=0)
+        {podcastData.forEach(pod=>{
+            clearLoader();
+            podcastContainerProfile.insertAdjacentHTML('beforeend', podcastMarkup(pod));
+            
+            //podcasts player
+            playPodcastBtn = document.querySelector(`#play-podcast-btn-${pod._id}`)
+            playPodcastBtn.addEventListener('click', () => {
+                if(podPlayerContainer){
+                    podPlayerContainer.parentElement.removeChild(podPlayerContainer)
+                }
+                insertPodPlayerElement(pod.audio.url, pod.name)
+                // console.log(e.target, playPodcastBtn)
+            })
+        })}
+        else{ 
+            clearLoader();
+            podcastContainerProfile.insertAdjacentHTML('beforeend', markup);
+        }
     
 }
 
