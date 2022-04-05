@@ -41,6 +41,11 @@
     color: #838588;
     font-size: 1rem;
 }
+.description a {
+    text-decoration: none;
+    color: #838588;
+    font-size: 1rem;
+}
 
 .description hr{
    height: 2px;

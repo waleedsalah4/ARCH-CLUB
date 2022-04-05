@@ -116,7 +116,9 @@ export const displayPodcasts = (podcast) => {
         </div>
         <div class="description p-2">
             <div class="podcast-name text-light fw-bold  fs-5">${podcast.name}</div>
-            <p class="p-1 " title="go to ${podcast.createdBy.name} page">By <span class="fw-bold">${podcast.createdBy.name}</span></p>
+            <p class="p-1 " title="go to ${podcast.createdBy.name} page">
+                By <a href="../profile/index.html?id=${podcast.createdBy._id}" class="fw-bold">${podcast.createdBy.name}</a>
+            </p>
             <div class="likes">
                 <p>${podcast.likes}</p>
                 <i class="fa-solid fa-heart fa-2x"></i>

@@ -1,7 +1,7 @@
 import { popupMessage } from "../utilities/helpers.js";
-import { deleteMe,updatePassword ,updateMe, getMe} from "../utilities/profileReq.js";
+import { deleteMe,updatePassword ,updateMe, getMe} from "../utilities/profileEditReq.js";
 import { sideBarView } from "../sideBar/sideBarView.js";
-import { homeSideBarHref, profileSideBarHref } from "../sideBar/sideBarHref.js";
+import { profileSideBarHref } from "../sideBar/sideBarHref.js";
 
 
 
@@ -50,7 +50,7 @@ export const init = async function(){
 
 
 window.addEventListener('load', () => {
-    sideBarView(homeSideBarHref, editProfileSideBar)
+    sideBarView(profileSideBarHref, editProfileSideBar)
     init()
 });
 
@@ -223,7 +223,7 @@ openChngBioBtn.addEventListener('click',function(){
 const changeBio = async function(){
     const bioVal = document.getElementById('bio').value;
     //console.log(bioVal.replace(/\s+/g,'').length);
-    console.log(bioVal.trim().length);
+    // console.log(bioVal.trim().length);
     if(bioVal.length > 150 ){
         popupMessage(`Bio Can't Be More Than 150 Characters!`)
     }

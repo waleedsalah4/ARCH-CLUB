@@ -16,21 +16,21 @@ export const sideBarView = (hrefObject, container) => {
 
     <ul class="nav" >
         <li class="navbar-item bar-item active highlight">
-            <a href="${hrefObject.home}">
+            <a href="${hrefObject.home}" class="sidebar-links">
                 <i class="fa-solid fa-house bar-icons"></i>
                 <h3>Home</h3>
             </a>
         </li>
 
         <li class="navbar-item bar-item">
-            <a href="${hrefObject.discover}">
+            <a href="${hrefObject.discover}" class="sidebar-links">
                 <i class="fa-solid fa-circle-chevron-down bar-icons "></i>
                 <h3>Discover</h3>
             </a>
         </li>
 
         <li class="navbar-item bar-item">
-            <a href="${hrefObject.podcasts}">
+            <a href="${hrefObject.podcasts}" class="sidebar-links">
                 <i class="fa-solid fa-video bar-icons "></i>
                 <h3>My Podcasts</h3>
             </a>
@@ -38,22 +38,24 @@ export const sideBarView = (hrefObject, container) => {
         </li>
 
         <li class="navbar-item bar-item">
-            <a href="${hrefObject.events}">
+            <a href="${hrefObject.events}" class="sidebar-links">
                 <i class="fa-solid fa-calendar bar-icons"></i>
                 <h3>Events</h3>
             </a>
         </li>
 
         <li class="navbar-item bar-item">
-            <a href="${hrefObject.profile}">
+            <a href="${hrefObject.profile}" class="sidebar-links">
                 <i class="fa-solid fa-user bar-icons "></i>
                 <h3>Profile</h3>
             </a>
         </li>
 
         <li class="navbar-item bar-item" id="logout-btn">
-            <i class="fa-solid fa-arrow-right-from-bracket bar-icons "></i>
-            <h3>LogOut</h3>
+            <div class="sidebar-links logout-div">
+                <i class="fa-solid fa-arrow-right-from-bracket bar-icons "></i>
+                <h3>LogOut</h3>
+            </div>
         </li>
     </ul>
     

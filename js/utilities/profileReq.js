@@ -174,7 +174,7 @@ export const fetchFollowers = async function(){
     }
 }
 
-
+/*
 export const deleteMe = async function(){
 
     try{
@@ -194,8 +194,8 @@ export const deleteMe = async function(){
         console.log(err);
     }
 }
-
-
+*/
+/*
 export const updatePassword = async function(updatePassBody){
     try{
         const response = await fetch(`${url}/api/v1/users/updateMyPassword`,{
@@ -265,7 +265,7 @@ export const updateMe = async function(changeData){
         console.log(err.message);
     }
 }
-
+*/
 export const uploadPhoto = async function(photo){
     try{
 

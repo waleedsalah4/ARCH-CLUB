@@ -574,7 +574,7 @@ const markup = `
     `;
 
 const followingMarkup = function(f){
-    console.log(f.isFollowed);
+    // console.log(f.isFollowed);
     return `
         <li class="d-flex justify-content-between">
                                 <div class="d-flex"> 
@@ -705,11 +705,16 @@ const init = async function(){
    triggerUploadPodcast();
 }
 
+
+
+
 window.addEventListener('load', () => {
+    // console.log(profileSideBar)
     sideBarView(profileSideBarHref, profileSideBar);
     if(window.location.href.match('id') ){
-        const userId = window.location.href.slice(53);
-        console.log(userId);
+        const userId = window.location.href.split('=')[1]
+        // const userId = window.location.href.slice(53);
+        // console.log(userId);
         getUser(userId);
         getUserPodcasts(userId);
         getUserFollowers(userId);

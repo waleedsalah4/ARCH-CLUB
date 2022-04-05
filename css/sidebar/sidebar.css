@@ -104,6 +104,17 @@ body{
 .sideBar ul .navbar-item a {
     text-decoration: none;
     color: var(--text-secondary-color);
+
+}
+.sideBar ul .navbar-item .sidebar-links {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+.sideBar ul .navbar-item .sidebar-links.logout-div{
+    width: 100%;
 }
 
 .sideBar .navbar-item.active{
@@ -121,9 +132,11 @@ body{
 .sideBar .bar-icons{
     color: var(--main-icon-color);
     font-size: 1.375rem;
-    margin-left: 5px;
-    position:absolute;
-    right:35px;
+
+    margin-right: 1.1rem;
+    /* margin-left: 5px; */
+    /* position:absolute;
+    right:35px; */
 
 }
 
