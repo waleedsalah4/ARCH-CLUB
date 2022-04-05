@@ -710,15 +710,25 @@ const init = async function(){
 
 window.addEventListener('load', () => {
     // console.log(profileSideBar)
+
+    //solved by omar 😂
+    const queryArr = window.location.search.slice(1).split('&')
+    const queryParams = {}
+    queryArr.forEach(elem => {
+      let [key, value] = elem.split('=')
+      queryParams[key] = value
+    })
+
     sideBarView(profileSideBarHref, profileSideBar);
-    if(window.location.href.match('id') ){
-        const userId = window.location.href.split('=')[1]
+    
+    if(queryParams.id){
+        // const userId = window.location.href.split('=')[1]
         // const userId = window.location.href.slice(53);
         // console.log(userId);
-        getUser(userId);
-        getUserPodcasts(userId);
-        getUserFollowers(userId);
-        getUserFollowing(userId);
+        getUser(queryParams.id);
+        getUserPodcasts(queryParams.id);
+        getUserFollowers(queryParams.id);
+        getUserFollowing(queryParams.id);
     }
     else{ 
         init();
