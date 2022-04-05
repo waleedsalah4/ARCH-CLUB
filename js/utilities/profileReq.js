@@ -1,5 +1,5 @@
 import {popupMessage,logout} from './helpers.js';
-import { podcastFeedback } from '../podcast/feedBack.js';
+import {eventView} from './../events/eventCard.js'
 import {eventpreView,displayPost,renderMainInfo,renderPodcasts,renderFollowing,renderFollowers,sideOtherUser} from '../profile/controller.js';
 export const url = 'https://audiocomms-podcast-platform.herokuapp.com';
 
@@ -357,15 +357,9 @@ export const getMyEvents = async function(parent){
             const {data} = res;
            
             if(data.length > 0 ){
-                data.map(d => eventpreView(d))
+                data.map(d => eventView(d,parent))
                 
-            }else {
-                podcastFeedback(parent,'there is no events')
             }
-        }
-        else{
-           
-            podcastFeedback(parent,res.message);
         }
         
     }

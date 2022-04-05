@@ -85,9 +85,9 @@ body{
     text-decoration: underline;
 }
 
-/* .inside button{
-    margin-top: 32px;
-} */
+ .inside {
+    margin-top: 3.5em;
+} 
 
 .btn-follow-profile{
     color: white;
@@ -95,7 +95,7 @@ body{
     font-weight: bold;
     margin-top: 60px;
     outline: none;
-    width: 450px;
+    width: 250px;
     height: 55px;
     background: #6A4CFF;
     border-radius: 11px;
@@ -388,12 +388,13 @@ body{
 
 .user-Events{
     width: 8em;
-    margin-top: 0;
+    margin-top: 60px;
+    width: 250px;
 }
 
 /***** events *******/
 
-.event-component{
+/* .event-component{
     border: 1px solid #343436;
     box-sizing: border-box;
     border-radius: 16px;
@@ -424,7 +425,7 @@ body{
     color: var(--primary-color);
     text-decoration: underline;
     cursor: pointer;
-}
+} */
 
 
 

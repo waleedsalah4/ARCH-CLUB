@@ -226,7 +226,7 @@ export const renderMainInfo = function(data,otherUser=false){
                   <i class="fa-solid fa-camera current-camera-icon"></i> 
                     </a>`: ``}
                    
-                   <button class="follow-following btn-follow-profile user-Events ${otherUser!=false? `invisible`:``}" > My Events</button>
+                   
                    
                    <div class="inside  text-center"> 
                         <h2 class="user-name mt-1 p-2 pb-1 fw-bold">${data.name}</h2>
@@ -241,9 +241,11 @@ export const renderMainInfo = function(data,otherUser=false){
                             <div class="followers"> ${data.followers} <br> <span class="followers">Followers</span></div>
                             <div class="following"> ${data.following}<br> <span class="following">Following</span></div>
                         </div>
+                        <div class='d-flex' style="justify-content:space-evenly" >
+                        <button class="follow-following btn-follow-profile user-Events ${otherUser!=false? `invisible`:``}" > My Events</button>
                         ${otherUser===true? `<button class="follow-following ${data.isFollowed? 'btn-following-profile' : 'btn-follow-profile'}"> ${data.isFollowed?'Following' : 'Follow' }</button>` :
                          '<a href="edit-profile.html"> <button class="follow-following btn-follow-profile">Edit Profile</button></a>'}
-                        
+                        </div>
                     </div>
                   `;
     
@@ -557,7 +559,7 @@ const renderEventsMain = function(){
         document.querySelector('.event').innerHTML='';
         loadSpinner(document.querySelector('.event'));
         displayEvents();
-        getMyEvents();
+        getMyEvents(document.querySelector('.event'));
     });
     
 }
