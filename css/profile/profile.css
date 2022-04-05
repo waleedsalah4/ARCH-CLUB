@@ -392,6 +392,15 @@ body{
     width: 250px;
 }
 
+.event-content {
+    margin-left: 2rem;
+}
+.profile-events-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px 10px;
+}
+
 /***** events *******/
 
 /* .event-component{

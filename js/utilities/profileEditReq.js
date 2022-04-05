@@ -110,3 +110,23 @@ export const getMe = async function(){
         console.log(err);
     }
 }
+
+export const uploadPhoto = async function(photo){
+    try{
+
+        const response = await fetch(`${url}/api/v1/users/updateMyPhoto`,{
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+            body: photo
+    });
+
+        const res = await response.json();
+    }
+
+    catch(err){
+        console.log(err);
+    }
+}
+

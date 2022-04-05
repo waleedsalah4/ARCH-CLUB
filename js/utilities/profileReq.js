@@ -1,5 +1,5 @@
 import {popupMessage,logout} from './helpers.js';
-import {eventView} from './../events/eventCard.js'
+import {eventView, deletElmenetFromUi} from './../events/eventCard.js'
 import {eventpreView,displayPost,renderMainInfo,renderPodcasts,renderFollowing,renderFollowers,sideOtherUser} from '../profile/controller.js';
 export const url = 'https://audiocomms-podcast-platform.herokuapp.com';
 
@@ -266,24 +266,7 @@ export const updateMe = async function(changeData){
     }
 }
 */
-export const uploadPhoto = async function(photo){
-    try{
 
-        const response = await fetch(`${url}/api/v1/users/updateMe`,{
-            method: 'PATCH',
-            headers: {
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-            },
-            body: photo
-    });
-
-        const res = await response.json();
-    }
-
-    catch(err){
-        console.log(err);
-    }
-}
 
 export const deletePodcast = async function(id){
     try{
@@ -390,6 +373,38 @@ export const getEventById = async function(id){
         
     }     
 }
+
+    catch(error){
+        console.log(error);
+    }
+}
+
+
+export const deleteEventById = async function(id){
+    try{
+
+        const response = await fetch(`${url}/api/v1/events/${id}`,{
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+    });
+
+        const res = await response.json();
+        // console.log(res);
+        if(res.status !== 'success') {
+            popupMessage(res.message);
+            console.log(res.message)
+            
+        }
+
+        else{
+            // console.log('deleted successfully')
+            deletElmenetFromUi(id)
+            popupMessage(`the event has been deleted successfully!`);
+        }
+
+    }
 
     catch(error){
         console.log(error);

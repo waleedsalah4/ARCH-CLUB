@@ -560,6 +560,7 @@ const renderEventsMain = function(){
         loadSpinner(document.querySelector('.event'));
         displayEvents();
         getMyEvents(document.querySelector('.event'));
+        clearLoader()
     });
     
 }

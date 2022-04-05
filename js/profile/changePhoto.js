@@ -1,4 +1,4 @@
-import { uploadPhoto ,getMe} from "../utilities/profileReq.js";
+import { uploadPhoto ,getMe} from "../utilities/profileEditReq.js";
 
 const changePhoto = document.querySelector('.change');
 const file = document.getElementById('photo-file');
