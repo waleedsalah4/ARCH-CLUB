@@ -123,6 +123,9 @@ export const uploadPhoto = async function(photo){
     });
 
         const res = await response.json();
+        if(res.status != 'fail'){
+            popupMessage(`changed successfully!`);
+        }
     }
 
     catch(err){
