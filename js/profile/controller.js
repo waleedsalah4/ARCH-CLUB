@@ -1,5 +1,6 @@
 
-import { getMe, url  ,uploadPodcast,fetchFollowing , fetchFollowers, deletePodcast,getOtherUser,getMyEvents,getEventById} from '../utilities/profileReq.js';
+import { getMe, url  ,uploadPodcast,fetchFollowing , fetchFollowers, getUserFollowing,getUserFollowers,
+        deletePodcast,getOtherUser,getMyEvents,getEventById,getUser,getUserPodcasts} from '../utilities/profileReq.js';
 import { loadSpinner, clearLoader} from '../loader.js';
 import { popupMessage ,getDate} from '../utilities/helpers.js';
 
@@ -37,7 +38,7 @@ let playPodcastBtn;
 
 //2)active link (podcast , followers , following) and show its content
 
-const hideDisplaySideInfo =  function(e){
+const hideDisplaySideInfo =  function(e,userName=''){
     
     if(e.target.matches('span') ){
         //remove events display
@@ -60,11 +61,13 @@ const hideDisplaySideInfo =  function(e){
                 //change heading
 
                 podcastComponentHeading.innerHTML = `
-                ${JSON.parse(localStorage.getItem('user-data')).name}'s Podcasts
+                ${userName===''? 
+                `${JSON.parse(localStorage.getItem('user-data')).name}'s Podcasts <br>
                 <button class="add-podcast-btn">
                         <i class="fa-solid fa-circle-plus fs-3 me-4"></i>
                         Add podcast
-                    </button>
+                    </button>`:
+                `${userName}'s  Podcasts`}
                     `;
 
                 document.querySelector(`.${hideDisplaySide[0]}`).classList.remove('hidden');
@@ -73,14 +76,14 @@ const hideDisplaySideInfo =  function(e){
             //2) if followers
             if(e.target.classList.contains('followers')) {
                 //change heading
-                podcastComponentHeading.textContent = `${JSON.parse(localStorage.getItem('user-data')).name}'s Followers`;
+                podcastComponentHeading.textContent = `${userName===''? `${JSON.parse(localStorage.getItem('user-data')).name}`: ` ${userName}` }'s Followers`;
                 document.querySelector(`.${hideDisplaySide[1]}`).classList.remove('hidden');
             }
 
             //3)if following
             if(e.target.classList.contains('following')) {
                 //change heading
-                podcastComponentHeading.textContent = `${JSON.parse(localStorage.getItem('user-data')).name}'s Following`;
+                podcastComponentHeading.textContent = `${userName===''? `${JSON.parse(localStorage.getItem('user-data')).name}`: ` ${userName}` }'s Following`;
                 document.querySelector(`.${hideDisplaySide[2]}`).classList.remove('hidden');
             }
             
@@ -197,13 +200,33 @@ const getMainInfo = function(){
     
 }
 
-const renderMainInfo = function(data){
+export const sideOtherUser = function(name){
+    podcastComponentHeading.innerHTML = `${name}'s  Podcasts`;
+}
+
+const sideContentStatic = function(name=JSON.parse(localStorage.getItem('user-data')).name){
+    const markup = `
+        ${name}'s Podcasts <br>
+        <button class="add-podcast-btn" onclick="document.getElementById('podcast-file').click()">
+            <i class="fa-solid fa-circle-plus fs-3 me-4"></i>
+            Add podcast
+        </button>
+    `;
+    document.querySelector('.podcast-component-heading').innerHTML = '';
+    document.querySelector('.podcast-component-heading').insertAdjacentHTML('beforeend',markup);
+}
+
+
+export const renderMainInfo = function(data,otherUser=false){
+    
+
     const markup = `
     <img  src=${data.photo} alt="user profile picture" class="circle-profile-img">
-                   <a href="changePhoto.html">
-                        <i class="fa-solid fa-camera current-camera-icon"></i> 
-                   </a>
-                   <button class="follow-following btn-follow-profile user-Events">My Events</button>
+                  ${otherUser === false? `<a href="changePhoto.html">
+                  <i class="fa-solid fa-camera current-camera-icon"></i> 
+                    </a>`: ``}
+                   
+                   <button class="follow-following btn-follow-profile user-Events ${otherUser!=false? `invisible`:``}" > My Events</button>
                    
                    <div class="inside  text-center"> 
                         <h2 class="user-name mt-1 p-2 pb-1 fw-bold">${data.name}</h2>
@@ -212,12 +235,15 @@ const renderMainInfo = function(data){
                             
                         
                         <div class="info  main-info fs-4">
-                            <div class="podcasts"> ${localStorage.getItem('numberOfMyPodcasts')? localStorage.getItem('numberOfMyPodcasts') : 0} <br> <span class="active podcasts">Podcasts</span></div>
+                            <div class="podcasts"> 
+                            ${localStorage.getItem('numberOfMyPodcasts')? localStorage.getItem('numberOfMyPodcasts') : 0}<br> <span class="active podcasts">Podcasts</span>
+                            </div>
                             <div class="followers"> ${data.followers} <br> <span class="followers">Followers</span></div>
                             <div class="following"> ${data.following}<br> <span class="following">Following</span></div>
                         </div>
+                        ${otherUser===true? `<button class="follow-following ${data.isFollowed? 'btn-following-profile' : 'btn-follow-profile'}"> ${data.isFollowed?'Following' : 'Follow' }</button>` :
+                         '<a href="edit-profile.html"> <button class="follow-following btn-follow-profile">Edit Profile</button></a>'}
                         
-                        <a href="edit-profile.html"> <button class="follow-following btn-follow-profile">Edit Profile</button></a>
                     </div>
                   `;
     
@@ -232,7 +258,19 @@ const renderMainInfo = function(data){
     //clearLoader();
     profileVeiw.insertAdjacentHTML("beforeend",markup);
     //document.querySelector('.follow-following').addEventListener('click',followBTn);
-    document.querySelector('.main-info').addEventListener('click',hideDisplaySideInfo);
+    document.querySelector('.main-info').addEventListener('click',function(e){
+        if(otherUser!= false){
+            //const userId = window.location.href.slice(53);
+            
+            hideDisplaySideInfo(e,data.name);
+        }
+        else{
+            
+            hideDisplaySideInfo(e);
+        }
+        
+    }
+        );
 }
 
 
@@ -303,9 +341,10 @@ const getDuration = function(duration){
 }
 
 
-const podcastMarkup = function(podcastData){
+const podcastMarkup = function(podcastData,otherUser){
     const duration = getDuration(podcastData.audio.duration);
     // console.log(duration);
+
     return `
     <div class="podcast-component" data-id=${podcastData._id} data-name=${podcastData.name}>
                             <div class="pic" title="open podcats in podcasts player">
@@ -344,9 +383,10 @@ const podcastMarkup = function(podcastData){
                                 </div>
                             </div>  
                             <!--if current-->
-                            <div class="delete-pod" >
-                                <i class="fa-solid fa-trash-can delete-icon text-light fs-2 p-2 me-3"></i>
-                            </div>
+                            ${otherUser === false? `<div class="delete-pod" >
+                            <i class="fa-solid fa-trash-can delete-icon text-light fs-2 p-2 me-3"></i>
+                            </div>`: ``}
+                            
 
                         </div>
 
@@ -376,7 +416,16 @@ const fetchPodcasts =  async function(){
     }
 }
 
-const renderPodcasts = async function(){
+export const renderPodcasts = async function(podcastData ,otherUser = false,numOfPods){
+
+    if(otherUser){
+        document.querySelector('.podcasts').innerHTML = '';
+        document.querySelector('.podcasts').innerHTML =`
+            ${numOfPods}<br> <span class="active podcasts">Podcasts</span>
+        ` ;
+    }
+    
+
     podcastContainerProfile.innerHTML = '';
     loadSpinner(podcastContainerProfile);
 
@@ -386,11 +435,14 @@ const renderPodcasts = async function(){
      </p>
     `;
     
-    //1)fetch data
+    if(otherUser=== false){
+        //1)fetch data
     await fetchPodcasts();
     
     //2)render podcasts
-    const podcastData = await JSON.parse(localStorage.getItem('myPodcasts'));
+     podcastData = await JSON.parse(localStorage.getItem('myPodcasts'));
+    }
+    
     
     //podcastData
     
@@ -398,7 +450,7 @@ const renderPodcasts = async function(){
         {podcastData.forEach(pod=>{
             clearLoader();
             clearLoader();
-            podcastContainerProfile.insertAdjacentHTML('beforeend', podcastMarkup(pod));
+            podcastContainerProfile.insertAdjacentHTML('beforeend', podcastMarkup(pod,otherUser));
             
             //podcasts player
             playPodcastBtn = document.querySelector(`#play-podcast-btn-${pod._id}`)
@@ -522,15 +574,14 @@ const markup = `
     `;
 
 const followingMarkup = function(f){
+    console.log(f.isFollowed);
     return `
         <li class="d-flex justify-content-between">
                                 <div class="d-flex"> 
                                     <img src=${f.photo} alt="">
-                                    <p >${f.name} <br> <span>${f.followers ? f.followers : 0} ${f.followers==1? 'Follower': 'Followers'}</span> </p>
+                                    <p > <a class="userLink" href="./index.html?id=${f._id}"> ${f.name}<a/> <br> <span>${f.followers ? f.followers : 0} ${f.followers==1? 'Follower': 'Followers'}</span> </p>
                                 </div>
-                                <div> 
-                                    <button class="cBtn following-btn">Following</button>
-                                </div>
+                                 
                             </li>
 
     `;
@@ -539,13 +590,18 @@ const followingMarkup = function(f){
 
 
 
-const renderFollowing = async function(){
-    //1)fetch data
-    await fetchFollowing();
+export const renderFollowing = async function(followingData,otherUser = false){
+    
     followingContainer.innerHTML = '';
+    if(otherUser === false){
+        //1)fetch data
+    await fetchFollowing();
+    
     //2)render podcasts
-    const followingData = await JSON.parse(localStorage.getItem('my-following'));
+     followingData = await JSON.parse(localStorage.getItem('my-following'));
 
+    }
+    
     //followingData
     followingData.length !=0? 
     followingData.forEach(f=>{
@@ -567,11 +623,9 @@ const followersMarkup = function(f){
     <li class="d-flex justify-content-between">
                                 <div class="d-flex"> 
                                     <img src=${f.photo} alt="">
-                                    <p >${f.name} <br> <span>${f.following?f.followers : 0} ${f.following==1? 'Follower': 'Followers'}</span> </p>
+                                    <p ><a class="userLink" href="./index.html?id=${f._id}"> ${f.name}<a/> <br> <span>${f.following?f.followers : 0} ${f.following==1? 'Follower': 'Followers'}</span> </p>
                                 </div>
-                                <div> 
-                                    <button class="cBtn following-btn">Following</button>
-                                </div>
+                                
                             </li>
 
     `;
@@ -579,13 +633,17 @@ const followersMarkup = function(f){
 
 
 
-const renderFollowers = async function(){
-    //1)fetch data
-    await fetchFollowers();
+export const renderFollowers = async function(followersgData,otherUser = false){
     followersContainer.innerHTML = '';
+    if(otherUser === false){
+        //1)fetch data
+    await fetchFollowers();
+    
     //2)render podcasts
-    const followersgData = await JSON.parse(localStorage.getItem('my-followers'));
+     followersgData = await JSON.parse(localStorage.getItem('my-followers'));
 
+    }
+    
     //followersgData
     followersgData.length !=0? 
     followersgData.forEach(f=>{
@@ -634,9 +692,9 @@ const deletePodcastPopup =  function(podcast){
 //////////////////////////////////////////////////////////// get user's data onload ///////////////////////////////////////////////
 
 const init = async function(){
+    sideContentStatic();
    loadSpinner(profileVeiw);
    await getMe();
-  // clearLoader();
    await renderPodcasts();
    getPodcastId();
    await renderFollowing();
@@ -648,8 +706,19 @@ const init = async function(){
 }
 
 window.addEventListener('load', () => {
-    sideBarView(profileSideBarHref, profileSideBar)
-    init()
+    sideBarView(profileSideBarHref, profileSideBar);
+    if(window.location.href.match('id') ){
+        const userId = window.location.href.slice(53);
+        console.log(userId);
+        getUser(userId);
+        getUserPodcasts(userId);
+        getUserFollowers(userId);
+        getUserFollowing(userId);
+    }
+    else{ 
+        init();
+    }
+
 });
 
 

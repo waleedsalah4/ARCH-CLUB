@@ -1,6 +1,6 @@
 import {popupMessage,logout} from './helpers.js';
 import { podcastFeedback } from '../podcast/feedBack.js';
-import {eventpreView,displayPost} from '../profile/controller.js';
+import {eventpreView,displayPost,renderMainInfo,renderPodcasts,renderFollowing,renderFollowers,sideOtherUser} from '../profile/controller.js';
 export const url = 'https://audiocomms-podcast-platform.herokuapp.com';
 
 /** profile */
@@ -401,3 +401,119 @@ export const getEventById = async function(id){
         console.log(error);
     }
 }
+
+export const getUser = async function(id){
+
+    try{
+
+        const response = await fetch(`${url}/api/v1/users/${id}`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+    });
+
+    const res = await response.json();
+    console.log(res);
+    if(res.status !== 'fail'){
+        const {data} = res;
+        sideOtherUser(data.name);
+        renderMainInfo(data,true);
+        
+    }     
+}
+
+    catch(error){
+        console.log(error);
+    }
+    
+}
+
+
+export const getUserPodcasts = async function(id){
+
+    try{
+
+        const response = await fetch(`${url}/api/v1/podcasts?createdBy=${id}`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+    });
+
+    const res = await response.json();
+    console.log(res);
+    if(res.status !== 'fail'){
+        const {data} = res;
+        
+        renderPodcasts(data,true,res.results);
+        
+        
+        
+    }     
+}
+
+    catch(error){
+        console.log(error);
+    }
+    
+}
+
+export const getUserFollowers = async function(id){
+
+    try{
+
+        const response = await fetch(`${url}/api/v1/users/${id}/followers`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+    });
+
+    const res = await response.json();
+    console.log(res);
+    if(res.status !== 'fail'){
+        const {data} = res;
+        if(data.results !=0){
+            renderFollowers(data,true);
+        }
+        
+        
+    }     
+}
+
+    catch(error){
+        console.log(error);
+    }
+    
+}
+
+export const getUserFollowing = async function(id){
+
+    try{
+
+        const response = await fetch(`${url}/api/v1/users/${id}/following`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+    });
+
+    const res = await response.json();
+    console.log(res);
+    if(res.status !== 'fail'){
+        const {data} = res;
+        if(data.results !=0){
+            renderFollowing(data,true);
+        }
+        
+        
+    }     
+}
+
+    catch(error){
+        console.log(error);
+    }
+    
+}
+

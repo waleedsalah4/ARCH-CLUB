@@ -430,6 +430,16 @@ body{
 
 /**** end of events**/
 
+.userLink {
+    text-decoration: none;
+    color: white;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+
 
 /**************************************************** responsive ******************************************/
 
