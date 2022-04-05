@@ -175,10 +175,23 @@ submitEditBtn.addEventListener('click', async function(e){
 
 
 deleteAcc.addEventListener('click',()=>{
+    document.querySelector('.popup-overlay-deleteAcc').classList.remove('hidden');
+    document.querySelector('.popup-overlay-deleteAcc').addEventListener('click',function(e){
+        if(e.target.classList.contains('popup-overlay-deleteAcc')){
+            document.querySelector('.popup-overlay-deleteAcc').classList.add('hidden');
+        }
+    });
 
-    deleteMe();
-    localStorage.clear();
-    window.location = '../../index.html';
+    document.getElementById('cancel-delete-acc').addEventListener('click',function(){
+        document.querySelector('.popup-overlay-deleteAcc').classList.add('hidden');
+    });
+
+    document.getElementById('confirm-delete-acc').addEventListener('click',function(){
+        deleteMe();
+        localStorage.clear();
+        window.location = '../../index.html';
+    });
+    
 });
 
 ////////////////////////////////////////////////////////// update my password ////////////////////////////////

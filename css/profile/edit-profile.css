@@ -91,6 +91,15 @@ a{
     height:100%;
 }
 
+.btn-container-acc{
+    justify-content: space-evenly;
+}
+
+.btn-container-acc input{
+    width: 10em;
+   
+}
+
 
 /************************************ responsive ***************************************/
 
