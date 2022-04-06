@@ -725,13 +725,17 @@ window.addEventListener('load', () => {
     sideBarView(profileSideBarHref, profileSideBar);
     
     if(queryParams.id){
-        // const userId = window.location.href.split('=')[1]
-        // const userId = window.location.href.slice(53);
-        // console.log(userId);
-        getUser(queryParams.id);
-        getUserPodcasts(queryParams.id);
-        getUserFollowers(queryParams.id);
-        getUserFollowing(queryParams.id);
+        if(queryParams.id === JSON.parse(localStorage.getItem('user-data'))._id ){
+            window.location.href = './index.html';
+            init();
+        }
+        else{
+            getUser(queryParams.id);
+            getUserPodcasts(queryParams.id);
+            getUserFollowers(queryParams.id);
+            getUserFollowing(queryParams.id);
+        }
+        
     }
     else{ 
         init();
