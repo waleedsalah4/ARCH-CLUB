@@ -98,7 +98,8 @@ label {
 
 .popup-overlay,
 .delete-podcast-popup-overlay,
-.event-post-popup-overlay{
+.event-post-popup-overlay,
+.delete-event-popup-overlay{
     position: fixed;
     background-color: rgb(0, 0, 0,.9);
     top: 0;

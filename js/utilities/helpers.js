@@ -46,3 +46,9 @@ export const getDate = (date) => {
     // time: formatAMPM(dateObj)
     return `${dateObj.toDateString()} at ${formatAMPM(dateObj)}`
 }
+
+export const popupCancel = function(MainClass,e){
+    if(e.target.classList.contains(`${MainClass}`)){
+        document.querySelector(`.${MainClass}`).classList.add('hidden');
+    }
+}

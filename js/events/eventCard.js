@@ -1,4 +1,4 @@
-import { getDate } from "../utilities/helpers.js";
+import { getDate ,popupCancel} from "../utilities/helpers.js";
 import { deleteEventById } from "../utilities/profileReq.js";
 
 export const eventView = (evt,eventContainer) => {
@@ -32,10 +32,21 @@ export const eventView = (evt,eventContainer) => {
         </div>
     </div>
     `
-    eventContainer.insertAdjacentHTML('afterbegin', markup)
+    eventContainer.insertAdjacentHTML('afterbegin', markup);
 
     document.querySelector('#delete-event').addEventListener('click', ()=> {
-        deleteEventById(evt._id)
+        document.querySelector('.delete-event-popup-overlay').classList.remove('hidden');
+        document.querySelector('#cancel-event-deleation').addEventListener('click',()=>document.querySelector('.delete-event-popup-overlay')
+        .classList.add('hidden'));
+
+        document.querySelector('.delete-event-popup-overlay').addEventListener('click',function(e){
+            popupCancel('delete-event-popup-overlay',e);
+        });
+
+        document.querySelector('#confirm-event-deleation').addEventListener('click',function(){
+            document.querySelector('.delete-event-popup-overlay').classList.add('hidden');
+            deleteEventById(evt._id);
+        })
     })
 }
 
@@ -43,3 +54,4 @@ export const eventView = (evt,eventContainer) => {
     let element = document.querySelector(`#event-component-${id}`)
     element.parentElement.removeChild(element)
 }
+

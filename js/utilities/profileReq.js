@@ -343,6 +343,11 @@ export const getMyEvents = async function(parent){
                 data.map(d => eventView(d,parent))
                 
             }
+            else{
+                parent.insertAdjacentHTML('beforeend',`<p class="emptyMessage">
+                its empty here..
+             </p>`);
+            }
         }
         
     }
