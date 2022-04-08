@@ -10,9 +10,7 @@
     <link href="../../css/profile/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="../../css/sidebar/sidebar.css">
-    <link rel="stylesheet" href="../../css/home.css">
-    <link rel="stylesheet" href="../../css/room.css">
-    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../../css/rooms/room.css">
     <title>ARCH CLUB | ROOM</title>
 </head>
 <body>
@@ -20,10 +18,132 @@
     <div class="sideBar" id="room-sidebar">
         
     </div>
-    <section class="home">
-        <!-- <div class="logo">
-            logo
-        </div> -->
+    <div id="page">
+        <div class="house">
+          <div class="screen">
+            <main class="rooms-users">
+              <div>
+                <span class="title bold">🟢Room tille</span>
+              </div>
+    
+              <div class="room-speakers">
+                
+                <!-- <div class="user">
+                  <div class="avatar">
+                    <img src="https://picsum.photos/seed/picsum/200/300" alt="Avatar">
+                  </div>
+                  <span class="mic">
+                    <img src="./assets/images/microphone.svg" alt="">
+                  </span>
+                  <div class="user-name">
+                    <img src="./assets/images/star.svg" alt="">
+                    <div>
+                      Andrelino
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="user">
+                  <div class="avatar">
+                    <img src="https://picsum.photos/seed/picsum/200/300" alt="Avatar">
+                  </div>
+                  
+                  <span class="mic">
+                    <img src="./assets/images/microphone.svg" alt="">
+                  </span>
+                  <div class="user-name speaker">
+                    <div>
+                      Andrelino
+                    </div>
+                    <div class="user-role">speaker</div>
+                  </div>
+                </div>
+    
+                <div class="user">
+                  <div class="avatar">
+                    <img src="https://picsum.photos/seed/picsum/200/300" alt="Avatar">
+                  </div>
+                  
+                  <span class="mic"><img src="./assets/images/microphone.svg" alt=""></span>
+                  <div class="user-name speaker">
+                    <div>
+                      Andrelino
+                    </div>
+                    <div class="user-role">speaker</div>
+                  </div>
+                </div>  -->
+    
+              </div>
+              <!-- end speakers -->
+              <hr>
+    
+              <div class="room-listeners">
+    
+                <!-- <div class="user">
+                  <div class="avatar">
+                    <img src="https://picsum.photos/seed/picsum/200/300" alt="Avatar">
+                  </div>
+                  
+                  <span class="mic"><img src="./assets/images/microphone.svg" alt=""></span>
+                  <div class="user-name listener">
+                    <div>
+                      Andrelino
+                    </div>
+                    <div class="user-role">listener</div>
+                  </div>
+                </div> -->
+    
+              </div>
+    
+            </main>
+    
+            <footer class="footer-control">
+              <!-- <div class="bt-options">
+                <button class="all-center">
+                  <span>✌️</span>
+                  <span class="text">Leave quietly</span>
+                </button>
+                <div>
+                  <div class="mic all-center hand-over"><img src="./assets/images/microphone.svg" alt=""></div>
+                  <div class="hand all-center hand-over"><img src="./assets/images/hand.svg" alt=""></div>
+                </div>
+              </div> -->
+            </footer>
+            
+          </div>
+        </div>
+    </div>
+    
+
+    <script src="../../js/profile/all.min.js"></script>
+    <script src="../../js/profile/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../../js/rooms/room.js"></script>
+
+</body>
+</html>
+
+<!-- 
+controls
+    <div class="all-displayRoom">
+                    <div>
+                        <button class="control-btn">Leave Room</button>
+                    </div>
+                    <div>
+                        <button class="control-btn">Ask To Talk</button>
+                    </div>
+                    <div>
+                        <button class="control-btn mic"> 
+                            <span class="control-mic">
+                                <i class='bx bx-microphone-off'></i>
+                            </span>
+                            Mic on
+                        </button>
+                    </div>
+                </div>
+ -->
+
+ <!-- <section class="home">
+     
         <div class="room-container">
             <div class="in-room">
                 <div class="speak-listen">
@@ -38,7 +158,7 @@
                 </div>
                 
                 <div class="current-talkers">
-                    <!-- <div class="talkers-card"> 
+                     <div class="talkers-card"> 
                         <div class="user-img">
                             <img src="./user.jpg" alt="user">
                             <i class='bx bxs-star host' style='color:#c5be2a'></i>
@@ -95,7 +215,7 @@
                         <div>
                             <span>|'|'|'|' |'|'|'|' |'|'|'|'</span>
                         </div>
-                    </div>-->
+                    </div>
                 </div>
                 
             </div>
@@ -111,7 +231,7 @@
 
                     </div>
                     <div class="display-users" id="design-scrollbar">
-                        <!-- <div class="users-list">
+                         <div class="users-list">
                             <div class="user-img">
                                 <img src="./user.jpg" alt="user-img">
                             </div>
@@ -206,39 +326,11 @@
                             <div>
                                 <button class="control-btn">Make Audience</button>
                             </div>
-                        </div> -->
+                        </div> 
                         
                     </div>
                     
                 </div>
             </div>
         </div>
-    </section>
-
-
-    <script src="../../js/profile/all.min.js"></script>
-    <script src="../../js/profile/bootstrap.bundle.min.js"></script>
-    <script type="module" src="../../js/rooms/room.js"></script>
-
-</body>
-</html>
-
-<!-- 
-controls
-    <div class="all-displayRoom">
-                    <div>
-                        <button class="control-btn">Leave Room</button>
-                    </div>
-                    <div>
-                        <button class="control-btn">Ask To Talk</button>
-                    </div>
-                    <div>
-                        <button class="control-btn mic"> 
-                            <span class="control-mic">
-                                <i class='bx bx-microphone-off'></i>
-                            </span>
-                            Mic on
-                        </button>
-                    </div>
-                </div>
- -->
+    </section>-->

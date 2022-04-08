@@ -1,10 +1,154 @@
 import { sideBarView } from '../sideBar/sideBarView.js';
 import { roomSideBarHref } from '../sideBar/sideBarHref.js';
-// const sidebar = document.querySelector('.nav')
-// const toggle = document.querySelector("#toggle");
+
 const roomSideBar = document.querySelector('#room-sidebar')
 
-/*room details */
+const roomSpeaker = document.querySelector('.room-speakers')
+const roomListeners = document.querySelector('.room-listeners')
+const footer = document.querySelector('.footer-control')
+const fakeUserObject = {
+    speakers: 12,
+    listeners: 5,
+    userRole: 'listener', // host | speaker
+    admin: 
+    {
+        _id: '623256',
+        name: 'alex',
+        followers: '121.13',
+        role: 'host'
+    }
+    ,
+    speakerUsers: [
+       
+        {
+            _id: '681256',
+            name: 'lee',
+            followers: '391.13',
+            role: 'speaker'
+        },
+        {
+            _id: '6281256',
+            name: 'max',
+            followers: '191.13',
+            role: 'speaker'
+        },
+    ],
+    listenerUsers: [
+        {
+            _id: '626256',
+            name: 'pop',
+            followers: '124.13',
+            role: 'listner'
+        },
+        {
+            _id: '621356',
+            name: 'mo',
+            followers: '591.13',
+            role: 'listner'
+        },
+        {
+            _id: '681256',
+            name: 'lee',
+            followers: '391.13',
+            role: 'listner'
+        },
+        {
+            _id: '6281256',
+            name: 'moo',
+            followers: '191.13',
+            role: 'listner'
+        },
+    ]
+
+}
+
+const renderSpeakers = (speaker, admin) => {
+    const markup = `
+    <div class="user">
+        <div class="avatar">
+            <img src="https://picsum.photos/seed/picsum/200/300" alt="Avatar">
+        </div>
+        <span class="mic">
+            <img src="../../assets/room/microphone-on.svg" alt="">
+        </span>
+        <div class="user-name ${ admin ? '' : 'speaker'}">
+            ${admin ? `<img src="../../assets/room/star.svg" alt="">` : ''}
+            <div>
+                ${speaker.name}
+            </div>
+            ${admin ? '' : `<div class="user-role">speaker</div>`}
+        </div>
+    </div>
+    `
+    roomSpeaker.insertAdjacentHTML('beforeend', markup)
+}
+
+
+const renderlisteners = (listener) => {
+    const markup = `
+    <div class="user">
+        <div class="avatar">
+            <img src="https://picsum.photos/seed/picsum/200/300" alt="Avatar">
+        </div>
+        <span class="mic">
+            <img src="../../assets/room/microphone.svg" alt="">
+        </span>
+        <div class="user-name listener">
+            <div>
+                ${listener.name}
+            </div>
+            <div class="user-role">listener</div>
+        </div>
+    </div>
+    `
+    roomListeners.insertAdjacentHTML('beforeend', markup)
+}
+
+
+
+
+const renderFooter = (role) => {
+    const markup = `
+    <div class="bt-options">
+        <button class="all-center">
+            <span>✌️</span>
+            ${role === "host" ? `<span class="text host-text">End Room</span> `: `<span class="text">Leave quietly</span>`}
+        </button>
+        <div>
+            <div class="plus all-center hand-over" id="handle-mute">
+                <img src="../../assets/room/microphone.svg" alt="">
+            </div>
+        ${role === "listener" ? `<div class="hand all-center hand-over">
+            <img src="../../assets/room//hand.svg" alt="">
+        </div>` : ''}
+        </div>
+    </div>
+    `
+    footer.insertAdjacentHTML('beforeend', markup)
+}
+
+
+
+const renderRoom = (fakeUserObject) => {
+    renderSpeakers(fakeUserObject.admin, true) //render admin
+    fakeUserObject.speakerUsers.map(user=> renderSpeakers(user, false)) //render users
+    fakeUserObject.listenerUsers.map(user=> renderlisteners(user))
+    renderFooter(fakeUserObject.userRole)
+}
+
+renderRoom(fakeUserObject)
+
+
+window.addEventListener('load', () => {
+    sideBarView(roomSideBarHref,roomSideBar)
+})
+
+/*
+// const sidebar = document.querySelector('.nav')
+// const toggle = document.querySelector("#toggle");
+
+
+/*room details 
 const speakerListener = document.querySelector('.speak-listen');
 const currentSpeakersInRoom = document.querySelector('.current-talkers')
 const talkersCount = document.querySelector('.talkers-count')
@@ -304,6 +448,5 @@ controlBtn.addEventListener('click', ()=>{
     displayControls(fakeUserObject.userRole)
 })
 
-window.addEventListener('load', () => {
-    sideBarView(roomSideBarHref,roomSideBar)
-})
+
+*/
