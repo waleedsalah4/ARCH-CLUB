@@ -554,14 +554,17 @@ export const eventpreView = function(event){
 
 }
 
-const renderEventsMain = function(){
-    document.querySelector('.user-Events').addEventListener('click',function(){
-        document.querySelector('.event').innerHTML='';
+export const eventMainFunction = function(){
+
+    document.querySelector('.event').innerHTML='';
         loadSpinner(document.querySelector('.event'));
         displayEvents();
         getMyEvents(document.querySelector('.event'));
-        clearLoader()
-    });
+        clearLoader();
+}
+
+const renderEventsMain = function(){
+    document.querySelector('.user-Events').addEventListener('click',eventMainFunction);
     
 }
 

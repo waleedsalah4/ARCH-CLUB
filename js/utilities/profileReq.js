@@ -1,6 +1,7 @@
 import {popupMessage,logout} from './helpers.js';
 import {eventView, deletElmenetFromUi} from './../events/eventCard.js'
-import {eventpreView,displayPost,renderMainInfo,renderPodcasts,renderFollowing,renderFollowers,sideOtherUser} from '../profile/controller.js';
+import {eventpreView,displayPost,renderMainInfo,renderPodcasts,renderFollowing,renderFollowers,sideOtherUser
+        ,eventMainFunction} from '../profile/controller.js';
 export const url = 'https://audiocomms-podcast-platform.herokuapp.com';
 
 /** profile */
@@ -529,5 +530,42 @@ export const getUserFollowing = async function(id){
         console.log(error);
     }
     
+}
+
+export const updateEvent = async function(id,changeData){
+
+    try{
+        
+        const response = await fetch(`${url}/api/v1/events/${id}`,{
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(changeData)
+    });
+
+        const res = await response.json();
+        //console.log(res);
+         const user = res.user;
+         
+
+        if(res.status !== 'success') {
+            popupMessage(res.message);
+            console.log(res.message)
+            
+        }
+        else{
+            
+            popupMessage(`Changed successfully!`);
+            eventMainFunction();
+
+        }
+    }
+
+    catch(err){
+        console.log(err.message);
+    }
+
 }
 

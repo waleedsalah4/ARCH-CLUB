@@ -1,5 +1,5 @@
-import { getDate ,popupCancel} from "../utilities/helpers.js";
-import { deleteEventById } from "../utilities/profileReq.js";
+import { getDate ,popupCancel, popupMessage} from "../utilities/helpers.js";
+import { deleteEventById ,updateEvent } from "../utilities/profileReq.js";
 
 export const eventView = (evt,eventContainer) => {
     const markup = `
@@ -15,7 +15,7 @@ export const eventView = (evt,eventContainer) => {
                 </div>
             </div>
             <div class="event-actions">
-                <div>
+                <div id="update-event">
                     <i class="fa-solid fa-pen-to-square event-icon"></i>
                 </div>
                 <div id="delete-event">
@@ -33,7 +33,16 @@ export const eventView = (evt,eventContainer) => {
     </div>
     `
     eventContainer.insertAdjacentHTML('afterbegin', markup);
+    
+   
+    //update event 
+    const updateIcone = document.querySelector('#update-event');
+    updateIcone.addEventListener('click',function(){
+        updateEventHandling(evt);
+    });
 
+
+    //delete Event
     document.querySelector('#delete-event').addEventListener('click', ()=> {
         document.querySelector('.delete-event-popup-overlay').classList.remove('hidden');
         document.querySelector('#cancel-event-deleation').addEventListener('click',()=>document.querySelector('.delete-event-popup-overlay')
@@ -47,7 +56,8 @@ export const eventView = (evt,eventContainer) => {
             document.querySelector('.delete-event-popup-overlay').classList.add('hidden');
             deleteEventById(evt._id);
         })
-    })
+    });
+
 }
 
  export const deletElmenetFromUi = (id) => {
@@ -55,3 +65,37 @@ export const eventView = (evt,eventContainer) => {
     element.parentElement.removeChild(element)
 }
 
+
+//display and hide of the form
+const updateEventHandling = function(event){
+    console.log(event);
+    document.querySelector('.update-event-popup-overlay').classList.remove('hidden');
+
+    document.querySelector('.update-event-popup-overlay').addEventListener('click',function(e){
+        popupCancel('update-event-popup-overlay',e) });
+    
+    document.querySelector('.submit-btn').addEventListener('click',function(e){
+        e.preventDefault();
+        const evntName = document.querySelector('#update-event-name');
+        const evntDate = document.querySelector('#update-event-date');
+        const evntDescription = document.querySelector('#update-event-textarea');
+        const evntTime = document.querySelector('#update-event-time');
+        if( !(evntDate.value || evntDescription.value || evntName.value || evntTime.value) ){
+            popupMessage(`You Must Edit at Least one filed!`);
+        }
+
+        else{
+            const data = {
+                "name": evntName.value!=''? evntName.value: event.value,
+                "description": evntDescription.value!=''? evntDescription.value : event.description,
+                "date": evntDate.value!=''? ` ${evntDate.value} ${evntTime.value!=''? `, ${evntTime.value}` : ''}`: 
+                        evntTime.value!=''? `${(new Date(event.date)).getMonth()+1}/${(new Date(event.date)).getDate()}/${(new Date(event.date)).getFullYear()} ,${evntTime.value} ` : event.date
+                }
+            console.log(data);
+            document.querySelector('.update-event-popup-overlay').classList.add('hidden');
+            updateEvent(event._id,data);
+            }
+
+            
+        });
+}
