@@ -10,6 +10,7 @@
     <link href="../../css/profile/bootstrap.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="../../css/sidebar/sidebar.css">
+    <link rel="stylesheet" href="../../css/rooms/createRoom.css">
     <link rel="stylesheet" href="../../css/rooms/room.css">
     <title>ARCH CLUB | ROOM</title>
 </head>
@@ -17,6 +18,41 @@
 
     <div class="sideBar" id="room-sidebar">
         
+    </div>
+    <div class="create-room-container">
+        <div class="create-room">
+            <div class="header">
+                <h2>SetUp your Room!</h2>
+            </div>
+            <div class="room-name">
+                <input type="text" placeholder="room Name">
+            </div>
+            <div class="category-select">
+                <div>
+                    <label for="categories">Category</label>
+                </div>
+                <div>
+                    <select id="categories">
+                        <!-- <option value="ai">ai</option>
+                        <option value="programming">programming</option>
+                        <option value="education">education</option> -->
+                    </select>
+                </div>
+            </div>
+            <div class="room-type">
+
+                <div>
+                    <h4 class="type-header">Private</h4>
+                    <h6 class="type-text">only people have the link will join</h6>
+                </div>
+                    <div class="toggle-switch">
+                        <span class="switch"></span> 
+                    </div>
+            </div>
+            <div class="create-btn">
+                <button>Create</button>
+            </div>
+        </div>
     </div>
     <div id="page">
         <div class="house">
@@ -113,10 +149,10 @@
           </div>
         </div>
     </div>
-    
 
     <script src="../../js/profile/all.min.js"></script>
     <script src="../../js/profile/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../../js/rooms/createRoom.js"></script>
     <script type="module" src="../../js/rooms/room.js"></script>
 
 </body>

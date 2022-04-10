@@ -1,5 +1,5 @@
-import { getCategories } from '../utilities/requests.js';
-
+import { getCategories } from '../utilities/getCategory.js';
+const createRoomContainer = document.querySelector('.create-room-container')
 const setRoomType = document.querySelector('.toggle-switch');
 const typeHeader = document.querySelector('.type-header')
 const typeText = document.querySelector('.type-text')
@@ -44,7 +44,15 @@ createbtn.addEventListener('click' ,()=>{
         let rmVal = getRoomName.value;
         let catVal = getCategoryValue.value
         console.log(rmVal, catVal, roomType)
-        const url = '../../archclub/rooms/room.html';
-        window.location = `${url}`
+
+        //do request
+        //when request is success
+        createRoomContainer.classList.add('show-modal')
+        //start load your room
+        
     }
 })
+
+// if remote user comes to join a room
+// check if url has a id or an name for room - if(id)
+//then model must be hiden and the room for user
