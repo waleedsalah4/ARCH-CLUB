@@ -1,7 +1,11 @@
 import {popupMessage,logout} from './helpers.js';
 import {eventView, deletElmenetFromUi} from './../events/eventCard.js'
-import {eventpreView,displayPost,renderMainInfo,renderPodcasts,renderFollowing,renderFollowers,sideOtherUser
+import {displayPost,renderMainInfo,sideOtherUser
         ,eventMainFunction} from '../profile/controller.js';
+import { loadSpinner, clearLoader} from '../loader.js';
+import PodcastClass from '../profile/PodcastClass.js';
+import Follow from '../profile/Follow.js';
+
 export const url = 'https://audiocomms-podcast-platform.herokuapp.com';
 
 /** profile */
@@ -136,7 +140,7 @@ export const uploadPodcast = async function(file,podName,podCategory){
 
 
 export const fetchFollowing = async function(){
-    
+    loadSpinner(document.getElementById('following-container'));
     try{
         const response = await fetch(`${url}/api/v1/users/me/following`,{
             method: 'GET',
@@ -146,8 +150,9 @@ export const fetchFollowing = async function(){
     });
 
     const res = await response.json();
-    localStorage.setItem('my-following',JSON.stringify(res.data));
-    localStorage.setItem('number-of-my-following',JSON.stringify(res.results))
+    Follow.renderFollowing(res.data);
+    /* localStorage.setItem('my-following',JSON.stringify(res.data));
+    localStorage.setItem('number-of-my-following',JSON.stringify(res.results)) */
     //console.log(res);
 
 }
@@ -157,7 +162,7 @@ export const fetchFollowing = async function(){
 }
 
 export const fetchFollowers = async function(){
-    
+    loadSpinner(document.getElementById('followers-container'));
     try{
         const response = await fetch(`${url}/api/v1/users/me/followers`,{
             method: 'GET',
@@ -167,106 +172,15 @@ export const fetchFollowers = async function(){
     });
 
     const res = await response.json();
-    localStorage.setItem('my-followers',JSON.stringify(res.data));
-    localStorage.setItem('number-of-my-followers',JSON.stringify(res.results))
+    Follow.renderFollowers(res.data);
+    /* localStorage.setItem('my-followers',JSON.stringify(res.data));
+    localStorage.setItem('number-of-my-followers',JSON.stringify(res.results)) */
 }
     catch(err){
         console.log(err);
     }
 }
 
-/*
-export const deleteMe = async function(){
-
-    try{
-        const response = await fetch(`${url}/api/v1/users/deleteMe`,{
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-            }
-    }
-    );
-
-    const res = await response.json();
-    localStorage.setItem('my-followers',JSON.stringify(res.data));
-    localStorage.setItem('number-of-my-followers',JSON.stringify(res.results))
-}
-    catch(err){
-        console.log(err);
-    }
-}
-*/
-/*
-export const updatePassword = async function(updatePassBody){
-    try{
-        const response = await fetch(`${url}/api/v1/users/updateMyPassword`,{
-            method: 'PATCH',
-            headers: {
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-                'Content-type': 'application/json; charset=UTF-8'
-            },
-            body: JSON.stringify(updatePassBody)
-    }
-    );
-    
-    const res = await response.json();
-    if(res.status != 'fail') {
-        localStorage.setItem('user-data', JSON.stringify(res.data.user));
-        localStorage.setItem('user-token', JSON.stringify(res.token));
-        popupMessage(`Your Password has been changed successfully!, please login again`);
-        setTimeout(logout,5000);
-        
-    }
-    else{
-        if(res.message === 'User recently changed the password! Please log in again.'){
-            popupMessage(`U just changed Your Password, please login again.`)
-            setTimeout(logout,5000);
-        }
-        popupMessage(res.message);
-    }
-    
-    
-}
-
-    catch(err){
-        console.log(err.message);  
-    }
-}
-
-
-export const updateMe = async function(changeData){
-    try{
-        console.log(changeData)
-        const response = await fetch(`${url}/api/v1/users/updateMe`,{
-            method: 'PATCH',
-            headers: {
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(changeData)
-    });
-
-        const res = await response.json();
-        //console.log(res);
-         const user = res.user;
-         
-
-        if(res.status !== 'success') {
-            popupMessage(res.message);
-            console.log(res.message)
-            
-        }
-        else{
-            localStorage.setItem('user-data', JSON.stringify(user));
-            popupMessage(`Changed successfully!`);
-        }
-    }
-
-    catch(err){
-        console.log(err.message);
-    }
-}
-*/
 
 
 export const deletePodcast = async function(id){
@@ -444,6 +358,27 @@ export const getUser = async function(id){
     
 }
 
+export const fetchPodcasts =  async function(){ 
+    
+    try{
+        const response = await fetch(`${url}/api/v1/podcasts/me`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            }
+    });
+
+    const res = await response.json();
+    PodcastClass.renderPodcast(res.data,false,res.results);
+    /* localStorage.setItem('myPodcasts',JSON.stringify(res.data));
+    localStorage.setItem('numberOfMyPodcasts',JSON.stringify(res.results)); */
+    
+
+}
+    catch(err){
+        console.log(err);
+    }
+}
 
 export const getUserPodcasts = async function(id){
 
@@ -461,8 +396,8 @@ export const getUserPodcasts = async function(id){
     if(res.status !== 'fail'){
         const {data} = res;
         
-        renderPodcasts(data,true,res.results);
-        
+        //renderPodcasts(data,true,res.results);
+        PodcastClass.renderPodcast(data,true,res.results);
         
         
     }     
@@ -475,7 +410,7 @@ export const getUserPodcasts = async function(id){
 }
 
 export const getUserFollowers = async function(id){
-
+    loadSpinner(document.getElementById('followers-container'));
     try{
 
         const response = await fetch(`${url}/api/v1/users/${id}/followers`,{
@@ -504,7 +439,7 @@ export const getUserFollowers = async function(id){
 }
 
 export const getUserFollowing = async function(id){
-
+    loadSpinner(document.getElementById('following-container'));
     try{
 
         const response = await fetch(`${url}/api/v1/users/${id}/following`,{
