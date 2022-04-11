@@ -1,5 +1,6 @@
 :root{
     --primary-color: #6A4CFF;
+    --sidebar-primary-color: #6A4CFF;
     --main-dark-color: #0C0B0E;
     --main-gray-color: #232229;
     --main-icon-color: #FFACA9;
@@ -42,14 +43,14 @@ body{
     left:0;
 }
 
- .logo{
-    color: var(--primary-color);
+.sidebar-logo{
+    color: var(--sidebar-primary-color);
     font-weight: bold;
     font-size: 2.25rem;
     line-height: 43px;
 }
 
-.sideBar .logo::after{
+.sideBar .sidebar-logo::after{
     content: '';
     width: 1px;
     height: 53px;
@@ -88,6 +89,9 @@ body{
     height: 65px;
     width: 290px; /*19%*/
     display: flex;
+    flex-direction: row-reverse;
+    color: #FFFFFF;
+    text-decoration: none;
     margin-bottom: 30px;
     padding: 18px;
     cursor: pointer;
@@ -106,14 +110,14 @@ body{
     color: var(--text-secondary-color);
 
 }
-.sideBar ul .navbar-item .sidebar-links {
+.sideBar ul .navbar-item.sidebar-links {
     width: 100%;
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
 }
 
-.sideBar ul .navbar-item .sidebar-links.logout-div{
+.sideBar ul .navbar-item.sidebar-links.logout-div{
     width: 100%;
 }
 
@@ -140,6 +144,11 @@ body{
 
 }
 
-
+.logout-div{
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
 
 /*end side bar */

@@ -19,12 +19,7 @@ body{
     color: var(--primary-color-light);
     font-family: 'Rubik', Arial, Helvetica, sans-serif;
 }
-.container {
-    /* position: relative; */
-    width: 100%;
-}
-
-.container .create-room {
+.create-room {
     margin: 50px auto;
     width: 600px;
     height: 600px;
@@ -40,7 +35,7 @@ body{
 }
 @media  (max-width: 600px) {
     /* For mobile phones: */
-    .container .create-room {
+    .create-room {
       width: 400px;
       height: 400px;
       gap: 30px 5px;

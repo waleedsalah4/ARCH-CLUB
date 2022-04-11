@@ -4,6 +4,7 @@
     --main-gray-color: #232229;
     --main-icon-color: #FFACA9;
     --hover-bg-color: #1B1923; 
+    --white-color: #FFFFFF;
     --main-background:linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), conic-gradient(from 142.8deg at 37.82% 47.52%, #3D2E87 0deg, rgba(48, 41, 80, 0) 346.88deg, #3D2E87 360deg);
     --root-font-size: 100%;
 }
@@ -205,7 +206,9 @@ hr{
 .search li{
     list-style: none;
 }
-
+.search h2 {
+    color: var(--white-color);
+}
 .search-box {
     background-color: #25242D;
     width: 24em;
@@ -259,6 +262,7 @@ hr{
 
 .temp-text {
     text-align: center;
+    color: var(--white-color);
     margin-top: 6rem;
     font-size: 22px;
 }
@@ -292,6 +296,7 @@ hr{
 }
 .feed-back .clear-feed-back{
     cursor: pointer;
+    color: var(--white-color);
 }
 
 .load-more-users,

@@ -8,55 +8,55 @@ let toggleIcon;
 export const sideBarView = (hrefObject, container) => {
     const markup = `
     <div class="top">
-        <div class="logo">Logo</div>
+        <div class="sidebar-logo">Logo</div>
         <div class="bar-icon-container"> 
             <i class="fa-solid fa-bars bar-icon   appear"></i> 
         </div>
     </div>
 
     <ul class="nav" >
-        <li class="navbar-item bar-item active highlight">
-            <a href="${hrefObject.home}" class="sidebar-links">
+        
+            <a href="${hrefObject.home}" class="navbar-item bar-item sidebar-links">
                 <i class="fa-solid fa-house bar-icons"></i>
                 <h3>Home</h3>
             </a>
-        </li>
+        
 
-        <li class="navbar-item bar-item">
-            <a href="${hrefObject.discover}" class="sidebar-links">
+        
+            <a href="${hrefObject.discover}" class="navbar-item bar-item sidebar-links">
                 <i class="fa-solid fa-circle-chevron-down bar-icons "></i>
                 <h3>Discover</h3>
             </a>
-        </li>
+       
 
-        <li class="navbar-item bar-item">
-            <a href="${hrefObject.podcasts}" class="sidebar-links">
+        
+            <a href="${hrefObject.podcasts}" class="navbar-item bar-item sidebar-links">
                 <i class="fa-solid fa-video bar-icons "></i>
                 <h3>My Podcasts</h3>
             </a>
         <!--  <i class="fa-solid fa-circle-plus  "></i>-->
-        </li>
+       
 
-        <li class="navbar-item bar-item">
-            <a href="${hrefObject.events}" class="sidebar-links">
+        
+            <a href="${hrefObject.events}" class="navbar-item bar-item sidebar-links">
                 <i class="fa-solid fa-calendar bar-icons"></i>
                 <h3>Events</h3>
             </a>
-        </li>
+       
 
-        <li class="navbar-item bar-item">
-            <a href="${hrefObject.profile}" class="sidebar-links">
+        
+            <a href="${hrefObject.profile}" class="navbar-item bar-item sidebar-links">
                 <i class="fa-solid fa-user bar-icons "></i>
                 <h3>Profile</h3>
             </a>
-        </li>
+       
 
-        <li class="navbar-item bar-item" id="logout-btn">
+        <div class="navbar-item bar-item" id="logout-btn">
             <div class="sidebar-links logout-div">
                 <i class="fa-solid fa-arrow-right-from-bracket bar-icons "></i>
                 <h3>LogOut</h3>
             </div>
-        </li>
+        </div>
     </ul>
     
     `
@@ -102,6 +102,7 @@ export const sideBarView = (hrefObject, container) => {
     });
 
     document.querySelector('#logout-btn').addEventListener('click', ()=> {
+        localStorage.clear();
         window.location = `${hrefObject.logout}`;
     })
 }
