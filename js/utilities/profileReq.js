@@ -260,9 +260,12 @@ export const getMyEvents = async function(parent){
             }
             else{
                 parent.innerHTML = '';
-                parent.insertAdjacentHTML('beforeend',`<p class="emptyMessage">
-                its empty here..
-             </p>`);
+                parent.insertAdjacentHTML('beforeend',`
+                <div class="feed-back sucsses">
+                    <p class="feed-back-text">You have No Events</p>
+                    <i class='bx bx-x clear-feed-back'></i>
+                </div>
+                `);
             }
         }
         

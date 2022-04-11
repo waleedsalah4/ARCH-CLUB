@@ -10,9 +10,10 @@ class PodcastClass{
     podcastContainerProfile = document.getElementById('podcast-container1');
     //podcastContainerProfile = document.querySelector('.podcasts-content');
     emptyMessageMarkup = `
-        <p class="emptyMessage">
-        its empty here..
-        </p>
+    <div class="feed-back sucsses">
+        <p class="feed-back-text">You have Not uploaded any Podcasts</p>
+        <i class='bx bx-x clear-feed-back'></i>
+    </div>
     `;
 
     constructor(){

@@ -179,6 +179,37 @@ label {
 
 }
 
+.feed-back {
+    width: 400px;
+    display: flex;
+    justify-content: space-between;
+    gap: 2px 4px;
+    padding: 10px;
+}
+.feed-back.sucsses{
+    background: #6a4cff;
+}
+
+.feed-back.fail{
+    background:#ac071f;
+}
+
+.feed-back-text {
+    display: inline-block;
+}
+.feed-back i {
+    cursor: pointer;
+}
+.feed-back a {
+    font-size: 17px;
+    text-decoration: none;
+    color: var(--primary-color-light);
+    background: var(--sidebar-color);
+    padding: 6px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
 /***********************/
 
 .del-pod-name{

@@ -6,10 +6,12 @@ class Follow{
     followersContainer = document.querySelector('.followers-content');
 
     emptyMessageMarkup = `
-        <p class="emptyMessage">
-        its empty here..
-        </p>
+    <div class="feed-back sucsses">
+        <p class="feed-back-text">Its Empty Here.</p>
+        <i class='bx bx-x clear-feed-back'></i>
+    </div>
     `;
+    ;
 
     constructor(){
     }
