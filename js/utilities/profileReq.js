@@ -1,7 +1,6 @@
 import {popupMessage,logout} from './helpers.js';
 import {eventView, deletElmenetFromUi} from './../events/eventCard.js'
-import {displayPost,renderMainInfo,sideOtherUser
-        ,eventMainFunction} from '../profile/controller.js';
+import {renderMainInfo} from '../profile/controller.js';
 import { loadSpinner, clearLoader} from '../loader.js';
 import PodcastClass from '../profile/PodcastClass.js';
 import Follow from '../profile/Follow.js';
@@ -140,7 +139,7 @@ export const uploadPodcast = async function(file,podName,podCategory){
 
 
 export const fetchFollowing = async function(){
-    loadSpinner(document.getElementById('following-container'));
+    loadSpinner(document.querySelector('.following-content'));
     try{
         const response = await fetch(`${url}/api/v1/users/me/following`,{
             method: 'GET',
@@ -162,7 +161,7 @@ export const fetchFollowing = async function(){
 }
 
 export const fetchFollowers = async function(){
-    loadSpinner(document.getElementById('followers-container'));
+    loadSpinner(document.querySelector('.followers-content'));
     try{
         const response = await fetch(`${url}/api/v1/users/me/followers`,{
             method: 'GET',
@@ -238,7 +237,8 @@ export const getOtherUser = async function(id){
 
 
 export const getMyEvents = async function(parent){
-
+    loadSpinner(parent);
+    
     try{
 
         const response = await fetch(`${url}/api/v1/events/me`,{
@@ -253,12 +253,13 @@ export const getMyEvents = async function(parent){
 
         if(res.status !== 'fail'){
             const {data} = res;
-           
+            parent.innerHTML = '';
             if(data.length > 0 ){
-                data.map(d => eventView(d,parent))
+                data.map(d => eventView(d))
                 
             }
             else{
+                parent.innerHTML = '';
                 parent.insertAdjacentHTML('beforeend',`<p class="emptyMessage">
                 its empty here..
              </p>`);
@@ -275,7 +276,7 @@ export const getMyEvents = async function(parent){
 
 }
 
-export const getEventById = async function(id){
+/* export const getEventById = async function(id){
     try{
 
         const response = await fetch(`${url}/api/v1/events/${id}`,{
@@ -289,7 +290,7 @@ export const getEventById = async function(id){
     console.log(res);
     if(res.status !== 'fail'){
         const {data} = res;
-        displayPost(data);
+        //displayPost(data);
         
     }     
 }
@@ -298,7 +299,7 @@ export const getEventById = async function(id){
         console.log(error);
     }
 }
-
+ */
 
 export const deleteEventById = async function(id){
     try{
@@ -346,7 +347,6 @@ export const getUser = async function(id){
     console.log(res);
     if(res.status !== 'fail'){
         const {data} = res;
-        sideOtherUser(data.name);
         renderMainInfo(data,true);
         
     }     
@@ -369,11 +369,8 @@ export const fetchPodcasts =  async function(){
     });
 
     const res = await response.json();
+    document.querySelector('.podcasts .tab-number').textContent =  res.results;
     PodcastClass.renderPodcast(res.data,false,res.results);
-    /* localStorage.setItem('myPodcasts',JSON.stringify(res.data));
-    localStorage.setItem('numberOfMyPodcasts',JSON.stringify(res.results)); */
-    
-
 }
     catch(err){
         console.log(err);
@@ -397,6 +394,7 @@ export const getUserPodcasts = async function(id){
         const {data} = res;
         
         //renderPodcasts(data,true,res.results);
+        document.querySelector('.podcasts .tab-number').textContent =  res.results;
         PodcastClass.renderPodcast(data,true,res.results);
         
         
@@ -410,7 +408,7 @@ export const getUserPodcasts = async function(id){
 }
 
 export const getUserFollowers = async function(id){
-    loadSpinner(document.getElementById('followers-container'));
+    loadSpinner(document.querySelector('.followers-content'));
     try{
 
         const response = await fetch(`${url}/api/v1/users/${id}/followers`,{
@@ -425,7 +423,8 @@ export const getUserFollowers = async function(id){
     if(res.status !== 'fail'){
         const {data} = res;
         if(data.results !=0){
-            renderFollowers(data,true);
+            //renderFollowers(data,true);
+            Follow.renderFollowers(data);
         }
         
         
@@ -439,7 +438,7 @@ export const getUserFollowers = async function(id){
 }
 
 export const getUserFollowing = async function(id){
-    loadSpinner(document.getElementById('following-container'));
+    loadSpinner(document.querySelector('.following-content'));
     try{
 
         const response = await fetch(`${url}/api/v1/users/${id}/following`,{
@@ -454,7 +453,8 @@ export const getUserFollowing = async function(id){
     if(res.status !== 'fail'){
         const {data} = res;
         if(data.results !=0){
-            renderFollowing(data,true);
+            //renderFollowing(data,true);
+            Follow.renderFollowing(data);
         }
         
         
@@ -493,7 +493,7 @@ export const updateEvent = async function(id,changeData){
         else{
             
             popupMessage(`Changed successfully!`);
-            eventMainFunction();
+            getMyEvents(document.querySelector('.events-content'));
 
         }
     }

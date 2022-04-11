@@ -1,7 +1,9 @@
+import { clearLoader } from "../loader.js";
 import { getDate ,popupCancel, popupMessage} from "../utilities/helpers.js";
 import { deleteEventById ,updateEvent } from "../utilities/profileReq.js";
+const eventContainer = document.querySelector('.events-content');
 
-export const eventView = (evt,eventContainer) => {
+export const eventView = (evt) => {
     const markup = `
     <div class="event-component" id="event-component-${evt._id}">
         <div class="event-header">
@@ -31,13 +33,15 @@ export const eventView = (evt,eventContainer) => {
             <p>${getDate(evt.date)}</p>
         </div>
     </div>
-    `
-    eventContainer.insertAdjacentHTML('afterbegin', markup);
+    `;
+    clearLoader();
+    eventContainer.insertAdjacentHTML('beforeend', markup);
     
+    /** error at update and delete event **/
    
     //update event 
-    const updateIcone = document.querySelector('#update-event');
-    updateIcone.addEventListener('click',function(){
+    //const updateIcone = document.querySelector('#update-event');
+    document.querySelector('#update-event').addEventListener('click',function(){
         updateEventHandling(evt);
     });
 
@@ -99,3 +103,4 @@ const updateEventHandling = function(event){
             
         });
 }
+

@@ -119,229 +119,81 @@
         </div> -->
     </div>
 
+    
+
      <!------------------------------ start Content "other user profile"  ---------------->
     <div class="container">
         <div class="profile " > 
             <div class="main-content">
                <h2 class="logo">Logo</h2>
-               <div class="profile-veiw p-5">
-                   
-                  <!--  <img  src="../../assets/user.jpg" alt="user profile picture" class="circle-profile-img">
-                   <a href="changePhoto.html">
-                        <i class="fa-solid fa-camera current-camera-icon"></i> 
-                   </a>
-                   
-                   <div class="inside  text-center"> 
-                        <h2 class="user-name mt-4 p-5 pb-4 fw-bold">Will Smith</h2>
-                        <div class="info main-info fs-4">
-                            <div class="podcasts"> 3 <br> <span class="active podcasts">Podcasts</span></div>
-                            <div class="followers"> 222.3 <br> <span class="followers">Followers</span></div>
-                            <div class="following"> 50 <br> <span class="following">Following</span></div>
-                        </div>
+               <div   style="margin: 1em 4em;">
+                    <div class="profile-veiw p-5">
                         
-                        <a href="edit-profile.html"> <button class="follow-following btn-follow-profile">Edit Profile</button></a>
-                  </div> -->
-                  <!--<button class="follow-following btn-follow-profile">Follow</button>-- teeeeeeeeeeeest-->
+                        <!--  <img  src="../../assets/user.jpg" alt="user profile picture" class="circle-profile-img">
+                        <a href="changePhoto.html">
+                                <i class="fa-solid fa-camera current-camera-icon"></i> 
+                        </a>
+                        
+                        <div class="inside  text-center"> 
+                                <h2 class="user-name mt-4 p-5 pb-4 fw-bold">Will Smith</h2>
+                                <div class="info main-info fs-4">
+                                    <div class="podcasts"> 3 <br> <span class="active podcasts">Podcasts</span></div>
+                                    <div class="followers"> 222.3 <br> <span class="followers">Followers</span></div>
+                                    <div class="following"> 50 <br> <span class="following">Following</span></div>
+                                </div>
+                                
+                                <a href="edit-profile.html"> <button class="follow-following btn-follow-profile">Edit Profile</button></a>
+                        </div> -->
+                        <!--<button class="follow-following btn-follow-profile">Follow</button>-- teeeeeeeeeeeest-->
 
-               </div>
-            </div>
+                    </div>
+                    <!-- test-->
+                    <div class="inside  p-5"> 
 
-            <div class="side-content">
+                        <div class="tabs">
 
-                <!-- for podcasts---------------------------->
-                <div class="add-podcast-container">
-                    <input type="file" name="file" id="podcast-file" style="display: none; " >
-                    <h2 class="text-light  fw-bold fs-1  podcast-component-heading"> 
-                        <!-- <button class="add-podcast-btn" onclick="document.getElementById('podcast-file').click()">
-                            <i class="fa-solid fa-circle-plus fs-3 me-4"></i>
-                            Add podcast
-                        </button> -->
-                    </h2>
-                </div>
-                <!-- if current-->
-                
-                
-
-                <div class="podcast-content "> 
-                    <div class="scroll " id="podcast-container"> 
-
-                       <!--  <div class="podcast-component">
-                            <div class="pic">
-                                <img src="../../assets/user1.png" alt="user podcast">
+                            <div class="tab podcasts ms-5">
+                                <input type="radio" name="css-tabs" id="tab-1" checked class="tab-switch">
+                                <label for="tab-1" class="tab-label"><span class="tab-number"> </span>  <br> Podcasts </label>
+                                <div class="tab-content podcasts-content" id="podcast-container1"></div>
                             </div>
-                            <div class="description p-2">
-                                <div class="podcast-name text-light fw-bold  fs-5">Graduation Project</div>
-                                <p class="p-1 ">By <span class="fw-bold">Will Smith</span></p>
-                                <hr>
-                                <div class="inner-infos">
-                                    <div class="d-flex justify-content-between info"> 
-                                        <div class="d-flex">
-                                            <img src="../../assets/squareIcon.svg" alt="icon">
-                                            <p class="category">Education</p>
-                                        </div>
-                                        <img src="../../assets/cloud-download.svg" style ="cursor:pointer" alt="">
+
+                            <div class="tab followers">
+                                <input type="radio" name="css-tabs" id="tab-2" class="tab-switch">
+                                <label for="tab-2" class="tab-label"> <span class="tab-number "></span> <br> Followers</label>
+                                <div class="tab-content ">
+                                     <ul id="f" class="followers-content">
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="tab following">
+                                <input type="radio" name="css-tabs" id="tab-3" class="tab-switch">
+                                <label for="tab-3" class="tab-label"><span class="tab-number"> </span> <br> Following</label>
+                                <div class="tab-content ">
+                                    <ul id="f" class="following-content">
+
+                                    </ul>
+                                </div>
+                            </div>
+        
+                            <div class="tab events hidden">
+                                <input type="radio" name="css-tabs" id="tab-4" class="tab-switch">
+                                <label for="tab-4" class="tab-label user-Events " style="padding-top:2.2rem">My Events</label>
+                                <div class="tab-content ">
+                                    <div class="events-content">
+
                                     </div>
-                                    <div class="d-flex justify-content-between info"> 
-                                        <div class="d-flex">
-                                            <img src="../../assets/clock.svg" alt="">
-                                            <p class="duration">1h 34m</p>
-                                        </div>
-                                        <button class="play-podcast-btn">
-                                            <img src="../../assets/circle-play-solid.svg" alt="" >
-                                            Play</button>
-                                    </div> 
                                 </div>
-                            </div>  
-                            
-                            <i class="fa-solid fa-trash-can delete-icon text-light fs-2 p-2 me-3"></i>
-                        </div>
-                        
-                        
- -->
-                    </div>
-                </div>
-
-                <!------------------------------------------------------------------------->
-
-                <!-------------------------------------for events ---------------------------------------->
-                <div class="event-content hidden">
-                    <div class="scroll">
-                        <div class="me-5 event profile-events-container">
-
-<!-- 
-                            <div class="event-component">
-                                <img src="../../assets/profile-user-pic.jpg" alt="">
-                                <h4 class="text-center m-3">Will Smith</h4>
-                                <p >Topic : <span>be ready for ur next intro</span> </p>
-                                <p>Date: <span>1 Mar at 2:00AM</span></p>
-                                <div class="text-center">
-                                    <a href="#">See Post</a>
-                                </div>
-                                
                             </div>
-    
-    
-                            <div class="event-component">
-                                <img src="../../assets/profile-user-pic.jpg" alt="">
-                                <h4 class="text-center m-3">Will Smith</h4>
-                                <p >Topic : <span>be ready for ur next intro</span> </p>
-                                <p>Date: <span>1 Mar at 2:00AM</span></p>
-                                <div class="text-center">
-                                    <a href="#">See Post</a>
-                                </div>
-                                
-                            </div> -->
-
-                        </div>
                         
-
-
+                        </div>
                     </div>
+                        <!--test-->
                 </div>
-
-                <!------------------------------------- For Followers ------------------------------------>
-
-                <div class="followers-content follow-content hidden">
-                    <div class="scroll">
-                        <ul id="followers-container">
-
-                            <!-- <li class="d-flex justify-content-between">
-                                <div class="d-flex"> 
-                                    <img src="../../assets/user2.png" alt="">
-                                    <p >Tony Smart <br> <span>22 Followers</span> </p>
-                                </div>
-                                <div> 
-                                    <button class="cBtn follow-btn">Follow</button>
-                                </div>
-                            </li>
-                            <li class="d-flex justify-content-between">
-                                <div class="d-flex"> 
-                                    <img src="../../assets/user3.png" alt="">
-                                    <p >Tony Smart <br> <span>22 Followers</span> </p>
-                                </div>
-                                <div> 
-                                    <button class="cBtn follow-btn">Follow</button>
-                                </div>
-                            </li>
-                            <li class="d-flex justify-content-between">
-                                <div class="d-flex"> 
-                                    <img src="../../assets/user2.png" alt="">
-                                    <p >Tony Smart <br> <span>22 Followers</span> </p>
-                                </div>
-                                <div> 
-                                    <button class="cBtn follow-btn">Follow</button>
-                                </div>
-                            </li>
-                            <li class="d-flex justify-content-between">
-                                <div class="d-flex"> 
-                                    <img src="../../assets/user3.png" alt="">
-                                    <p >Tony Smart <br> <span>22 Followers</span> </p>
-                                </div>
-                                <div> 
-                                    <button class="cBtn follow-btn">Follow</button>
-                                </div>
-                            </li> -->
-
-                        </ul>
-                    </div>
-                </div>
-                <!------------------------------------- end of Followers ------------------------------------>
-
-                <!--------------------------------------for following ----------------------------------------->
-
-                <div class="following-content follow-content hidden">
-                    <div class="scroll">
-                        <ul id="following-container">
-
-                            <!-- <li class="d-flex justify-content-between">
-                                <div class="d-flex"> 
-                                    <img src="../../assets/user2.png" alt="">
-                                    <p >Tony Smart <br> <span>22 Followers</span> </p>
-                                </div>
-                                <div> 
-                                    <button class="cBtn follow-btn">Follow</button>
-                                </div>
-                            </li>
-                            <li class="d-flex justify-content-between">
-                                <div class="d-flex"> 
-                                    <img src="../../assets/user3.png" alt="">
-                                    <p >Tony Smart <br> <span>22 Followers</span> </p>
-                                </div>
-                                <div> 
-                                    <button class="cBtn follow-btn">Follow</button>
-                                </div>
-                            </li>
-                            <li class="d-flex justify-content-between">
-                                <div class="d-flex"> 
-                                    <img src="../../assets/user2.png" alt="">
-                                    <p >Tony Smart <br> <span>22 Followers</span> </p>
-                                </div>
-                                <div> 
-                                    <button class="cBtn follow-btn">Follow</button>
-                                </div>
-                            </li>
-                            <li class="d-flex justify-content-between">
-                                <div class="d-flex"> 
-                                    <img src="../../assets/user3.png" alt="">
-                                    <p >Tony Smart <br> <span>22 Followers</span> </p>
-                                </div>
-                                <div> 
-                                    <button class="cBtn follow-btn">Follow</button>
-                                </div>
-                            </li> -->
-
-                        </ul>
-                    </div>
-                </div>
-
-                <!--------------------------------------end of following -------------------------------------->
-
-
             </div>
         </div>
-    </div>
-     <!------------------------------ end Content "other user profile"  ---------------->
-
 
      <!--------------------------------------if the current user profile -------------------------------------->
      <div class="profile-player-content">
@@ -356,6 +208,7 @@
         </div> -->
 
     </div>
+</div>
 
     
     <script src="../../js/profile/all.min.js"></script>

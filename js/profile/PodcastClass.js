@@ -7,7 +7,8 @@ let playPodcastBtn;
 
 
 class PodcastClass{
-    podcastContainerProfile = document.getElementById('podcast-container');
+    podcastContainerProfile = document.getElementById('podcast-container1');
+    //podcastContainerProfile = document.querySelector('.podcasts-content');
     emptyMessageMarkup = `
         <p class="emptyMessage">
         its empty here..
@@ -15,29 +16,13 @@ class PodcastClass{
     `;
 
     constructor(){
-        loadSpinner(this.podcastContainerProfile);
+        //loadSpinner(this.podcastContainerProfile);
     }
 
     renderPodcast(podcastData ,otherUser = false,numOfPods){
-        if(otherUser){
-            document.querySelector('.podcasts').innerHTML = '';
-            document.querySelector('.podcasts').innerHTML =`
-                ${numOfPods}<br> <span class="active podcasts">Podcasts</span>
-            ` ;
-        }
-        
-    
+        console.log(this.podcastContainerProfile);
+       
         this.podcastContainerProfile.innerHTML = '';
-        //loadSpinner(this.podcastContainerProfile);
-        
-       /*  if(otherUser=== false){
-        //1)fetch data
-        await fetchPodcasts();
-        
-        //2)render podcasts
-         podcastData = await JSON.parse(localStorage.getItem('myPodcasts'));
-        } */
-        
         
         //podcastData
         
@@ -100,10 +85,13 @@ class PodcastClass{
                             </div>
                             <div class="description p-2"> 
                                 <div class="podcast-name text-light fw-bold  fs-5">${podcastData.name}</div>
-                                <p class="p-1 ">By <span class="fw-bold">${podcastData.createdBy.name}</span></p>
-                                <div class="likes">
+
+                                <div class="d-flex justify-content-between mt-3">
+                                    <p class="p-1 ">By <span class="fw-bold">${podcastData.createdBy.name}</span></p>
+                                    <div class="likes">
                                     <p>${podcastData.likes}</p>
                                     <i class="fa-solid fa-heart fa-2x"></i>
+                                    </div>
                                 </div>
                                 <hr>
                                 <div class="inner-infos">

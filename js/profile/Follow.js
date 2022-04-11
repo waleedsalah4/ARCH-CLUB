@@ -2,8 +2,8 @@ import { loadSpinner, clearLoader} from '../loader.js';
 
 
 class Follow{
-    followingContainer = document.getElementById('following-container');
-    followersContainer = document.getElementById('followers-container');
+    followingContainer = document.querySelector('.following-content');
+    followersContainer = document.querySelector('.followers-content');
 
     emptyMessageMarkup = `
         <p class="emptyMessage">
@@ -45,7 +45,7 @@ class Follow{
         <li class="d-flex justify-content-between">
                                 <div class="d-flex"> 
                                     <img src=${f.photo} alt="">
-                                    <p > <a class="userLink" href="./index.html?id=${f._id}"> ${f.name}<a/> <br> <span>${f.followers ? f.followers : 0} ${f.followers==1? 'Follower': 'Followers'}</span> </p>
+                                    <p> <a class="userLink" href="./index.html?id=${f._id}"> ${f.name}<a/> <br> <span>${f.followers ? f.followers : 0} ${f.followers==1? 'Follower': 'Followers'}</span> </p>
                                 </div>
                                  
                             </li>
