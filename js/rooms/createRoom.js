@@ -1,4 +1,5 @@
 import { getCategories } from '../utilities/getCategory.js';
+import { createRoom } from './room.js';
 const createRoomContainer = document.querySelector('.create-room-container')
 const setRoomType = document.querySelector('.toggle-switch');
 const typeHeader = document.querySelector('.type-header')
@@ -6,6 +7,7 @@ const typeText = document.querySelector('.type-text')
 const createbtn = document.querySelector('.create-btn');
 const getCategoryValue = document.querySelector('#categories')
 const getRoomName = document.querySelector('.room-name input')
+
 
 let roomType = 'private'
 
@@ -47,8 +49,14 @@ createbtn.addEventListener('click' ,()=>{
 
         //do request
         //when request is success
+     
         createRoomContainer.classList.add('show-modal')
         //start load your room
+        createRoom({
+            name: rmVal,
+            category: catVal,
+            status: roomType
+        });
         
     }
 })

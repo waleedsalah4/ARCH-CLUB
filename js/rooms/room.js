@@ -6,6 +6,42 @@ const roomSideBar = document.querySelector('#room-sidebar')
 const roomSpeaker = document.querySelector('.room-speakers')
 const roomListeners = document.querySelector('.room-listeners')
 const footer = document.querySelector('.footer-control')
+
+var token = JSON.parse(localStorage.getItem('user-token'));
+
+var socket = io('https://audiocomms-podcast-platform.herokuapp.com', {
+    auth: {
+        token,
+        }
+      });
+
+socket.on('errorMessage', (msg) => {
+        console.log(msg)
+});
+
+socket.on("connect", () => {
+        console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+ });
+
+
+socket.on('createRoomSuccess', (user,room,token) => {
+        
+    if(room){
+        console.log(user,room,token)
+        renderRoom(user,room,token);
+
+    }
+    else{
+        document.querySelector('.create-room-container').classList.remove('show-modal')  
+  }
+})
+
+export const createRoom = function(obj){
+    
+    socket.emit('createRoom', obj);
+   
+}
+
 const fakeUserObject = {
     speakers: 12,
     listeners: 5,
@@ -64,9 +100,9 @@ const fakeUserObject = {
 
 const renderSpeakers = (speaker, admin) => {
     const markup = `
-    <div class="user">
+    <div class="user" data-_id="${speaker._id}">
         <div class="avatar">
-            <img src="https://picsum.photos/seed/picsum/200/300" alt="Avatar">
+            <img src=${speaker.photo} alt="Avatar">
         </div>
         <span class="mic">
             <img src="../../assets/room/microphone-on.svg" alt="">
@@ -86,7 +122,7 @@ const renderSpeakers = (speaker, admin) => {
 
 const renderlisteners = (listener) => {
     const markup = `
-    <div class="user">
+    <div class="user"  data-_id="${listener._id}>
         <div class="avatar">
             <img src="https://picsum.photos/seed/picsum/200/300" alt="Avatar">
         </div>
@@ -129,14 +165,14 @@ const renderFooter = (role) => {
 
 
 
-const renderRoom = (fakeUserObject) => {
-    renderSpeakers(fakeUserObject.admin, true) //render admin
+const renderRoom = (user,room,token) => {
+    renderSpeakers(user, true) //render admin
     fakeUserObject.speakerUsers.map(user=> renderSpeakers(user, false)) //render users
     fakeUserObject.listenerUsers.map(user=> renderlisteners(user))
     renderFooter(fakeUserObject.userRole)
 }
 
-renderRoom(fakeUserObject)
+//renderRoom(fakeUserObject)
 
 
 window.addEventListener('load', () => {
