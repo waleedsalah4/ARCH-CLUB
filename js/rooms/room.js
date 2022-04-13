@@ -7,13 +7,22 @@ const roomSpeaker = document.querySelector('.room-speakers')
 const roomListeners = document.querySelector('.room-listeners')
 const footer = document.querySelector('.footer-control')
 
+
 var token = JSON.parse(localStorage.getItem('user-token'));
+
+let state = {
+    isAdmin: false,
+    isSpeaker:false,
+    isListener:false
+};
 
 var socket = io('https://audiocomms-podcast-platform.herokuapp.com', {
     auth: {
         token,
         }
       });
+
+window.socket = socket;
 
 socket.on('errorMessage', (msg) => {
         console.log(msg)
@@ -28,6 +37,7 @@ socket.on('createRoomSuccess', (user,room,token) => {
         
     if(room){
         console.log(user,room,token)
+        state.isAdmin = true;
         renderRoom(user,room,token);
 
     }
@@ -36,67 +46,34 @@ socket.on('createRoomSuccess', (user,room,token) => {
   }
 })
 
+socket.on('joinRoomSuccess', (user, room, token) => {
+    console.log('join room',user,room,token)
+    state.isListener = true;
+    renderRoom(room.admin, room, token)
+})
+
+socket.on('userJoined', (user) => {
+    console.log('userJoined', user)
+    renderlisteners(user);
+  })
+
+/*   socket.on('userLeft', (user) => {
+    console.log('user left', user)
+    removeUserFromRoom(user._id);
+  }) */
+
 export const createRoom = function(obj){
     
     socket.emit('createRoom', obj);
+
    
 }
 
-const fakeUserObject = {
-    speakers: 12,
-    listeners: 5,
-    userRole: 'listener', // host | speaker
-    admin: 
-    {
-        _id: '623256',
-        name: 'alex',
-        followers: '121.13',
-        role: 'host'
-    }
-    ,
-    speakerUsers: [
-       
-        {
-            _id: '681256',
-            name: 'lee',
-            followers: '391.13',
-            role: 'speaker'
-        },
-        {
-            _id: '6281256',
-            name: 'max',
-            followers: '191.13',
-            role: 'speaker'
-        },
-    ],
-    listenerUsers: [
-        {
-            _id: '626256',
-            name: 'pop',
-            followers: '124.13',
-            role: 'listner'
-        },
-        {
-            _id: '621356',
-            name: 'mo',
-            followers: '591.13',
-            role: 'listner'
-        },
-        {
-            _id: '681256',
-            name: 'lee',
-            followers: '391.13',
-            role: 'listner'
-        },
-        {
-            _id: '6281256',
-            name: 'moo',
-            followers: '191.13',
-            role: 'listner'
-        },
-    ]
 
-}
+/* const removeUserFromRoom = function(id){
+    const userId = document.querySelector(`#${id}`)
+    console.log(userId);
+} */
 
 const renderSpeakers = (speaker, admin) => {
     const markup = `
@@ -120,18 +97,18 @@ const renderSpeakers = (speaker, admin) => {
 }
 
 
-const renderlisteners = (listener) => {
+const renderlisteners = (audience) => {
     const markup = `
-    <div class="user"  data-_id="${listener._id}>
+    <div class="user"  id="${audience._id}">
         <div class="avatar">
-            <img src="https://picsum.photos/seed/picsum/200/300" alt="Avatar">
+            <img src=${audience.photo} alt="Avatar">
         </div>
         <span class="mic">
             <img src="../../assets/room/microphone.svg" alt="">
         </span>
         <div class="user-name listener">
             <div>
-                ${listener.name}
+                ${audience.name}
             </div>
             <div class="user-role">listener</div>
         </div>
@@ -141,42 +118,121 @@ const renderlisteners = (listener) => {
 }
 
 
+socket.on('roomEnded',()=>{
+    console.log('room ended')
+    window.location = '/archclub/home/index.html';
+  })
 
+const EndRoom = function(){
+    document.querySelector('#end-room').addEventListener('click',()=>{
+        socket.emit('endRoom');
+    })
 
-const renderFooter = (role) => {
+}
+
+/* const leaveRoom = function(){
+    document.querySelector('#leave-room').addEventListener('click',()=>{
+        socket.disconnect();
+    })
+} */
+
+const renderFooter = () => {
     const markup = `
+    
     <div class="bt-options">
-        <button class="all-center">
+        ${state.isAdmin? `
+        <button class="all-center" id="end-room">
             <span>✌️</span>
-            ${role === "host" ? `<span class="text host-text">End Room</span> `: `<span class="text">Leave quietly</span>`}
-        </button>
+            <span class="text host-text">End Room</span>
+        </button>`:
+        `
+        <button class="all-center" id="leave-room">
+            <span>✌️</span>
+             <span class="text">Leave quietly</span>
+        </button>`
+}
+        
         <div>
             <div class="plus all-center hand-over" id="handle-mute">
                 <img src="../../assets/room/microphone.svg" alt="">
             </div>
-        ${role === "listener" ? `<div class="hand all-center hand-over">
+        ${state.isListener ? `<div class="hand all-center hand-over">
             <img src="../../assets/room//hand.svg" alt="">
         </div>` : ''}
         </div>
     </div>
     `
     footer.insertAdjacentHTML('beforeend', markup)
+    
+    if(state.isListener){
+        //leaveRoom();
+    }
+    else{
+        EndRoom();
+    }
+    
 }
 
 
 
 const renderRoom = (user,room,token) => {
     renderSpeakers(user, true) //render admin
-    fakeUserObject.speakerUsers.map(user=> renderSpeakers(user, false)) //render users
-    fakeUserObject.listenerUsers.map(user=> renderlisteners(user))
-    renderFooter(fakeUserObject.userRole)
+    room.brodcasters.map(user=> renderSpeakers(user, false)) //render users
+    room.audience.map(user=> renderlisteners(user))
+    
+    renderFooter()
+    
 }
 
+const url = 'https://audiocomms-podcast-platform.herokuapp.com';
+const fetchRoom = async function(id){
+
+    try{
+
+        const response = await fetch(`${url}/api/v1/rooms/${id}`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            }
+        });
+
+        const res = await response.json();
+        if(res.status !='fail'){
+            const {data} = res;
+            console.log(data.name);
+            return (data.name);
+        } 
+        
+        
+    }
+    catch(err){
+        console.log(err);
+    }
+}
 //renderRoom(fakeUserObject)
 
+  
+const queryParams = {}
+const queryArr = window.location.search.slice(1).split('&')
+    //const queryParams = {}
+    queryArr.forEach(elem => {
+      let [key, value] = elem.split('=')
+      queryParams[key] = value
+    })
+const roomId = queryParams.id;
 
-window.addEventListener('load', () => {
-    sideBarView(roomSideBarHref,roomSideBar)
+window.addEventListener('load', async () => {
+    sideBarView(roomSideBarHref,roomSideBar);
+
+    if(roomId){
+
+        document.querySelector('.create-room-container').classList.add('show-modal')
+        const roomName = await fetchRoom(roomId);
+        console.log(roomName);
+        if(roomName){
+            socket.emit('joinRoom', roomName);
+        }
+    }
 })
 
 /*
