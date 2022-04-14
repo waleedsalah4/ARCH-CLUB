@@ -16,6 +16,12 @@ let state = {
     isListener:false
 };
 
+let roomState = {
+        admin : {},
+        audience : [],
+        brodcasters : []
+};
+
 var socket = io('https://audiocomms-podcast-platform.herokuapp.com', {
     auth: {
         token,
@@ -37,8 +43,11 @@ socket.on('createRoomSuccess', (user,room,token) => {
         
     if(room){
         console.log(user,room,token)
+        roomState.admin = user;
+        roomState.audience = room.audience;
+        roomState.brodcasters = room.brodcasters;
         state.isAdmin = true;
-        renderRoom(user,room,token);
+        renderRoom(roomState);
 
     }
     else{
@@ -49,24 +58,46 @@ socket.on('createRoomSuccess', (user,room,token) => {
 socket.on('joinRoomSuccess', (user, room, token) => {
     console.log('join room',user,room,token)
     state.isListener = true;
-    renderRoom(room.admin, room, token)
+    roomState.audience = room.audience;
+    roomState.admin = room.admin
+    renderRoom(roomState)
 })
 
 socket.on('userJoined', (user) => {
     console.log('userJoined', user)
-    renderlisteners(user);
-  })
+    console.log(roomState);
+    addItem(user);
+    renderRoom(roomState);
+})
 
-/*   socket.on('userLeft', (user) => {
+socket.on('userLeft', (user) => {
     console.log('user left', user)
-    removeUserFromRoom(user._id);
-  }) */
+    //removeUserFromRoom(user._id);
+    if(roomState.audience.find())
+    removeItem(user._id,roomState.audience);
+    renderRoom(roomState)
+
+    
+    //window.location = '/archclub/home/index.html';
+
+})
 
 export const createRoom = function(obj){
     
     socket.emit('createRoom', obj);
 
    
+}
+
+
+function removeItem(id, items){
+    items.splice(items.findIndex((i)=>{
+    return i.id === id;
+    }), 1);
+}
+
+function addItem(obj){
+    roomState.audience.push(obj)
 }
 
 
@@ -130,11 +161,7 @@ const EndRoom = function(){
 
 }
 
-/* const leaveRoom = function(){
-    document.querySelector('#leave-room').addEventListener('click',()=>{
-        socket.disconnect();
-    })
-} */
+
 
 const renderFooter = () => {
     const markup = `
@@ -165,7 +192,10 @@ const renderFooter = () => {
     footer.insertAdjacentHTML('beforeend', markup)
     
     if(state.isListener){
-        //leaveRoom();
+        document.querySelector('#leave-room').addEventListener('click',()=>{
+
+            socket.disconnect();
+        })
     }
     else{
         EndRoom();
@@ -175,10 +205,13 @@ const renderFooter = () => {
 
 
 
-const renderRoom = (user,room,token) => {
-    renderSpeakers(user, true) //render admin
-    room.brodcasters.map(user=> renderSpeakers(user, false)) //render users
-    room.audience.map(user=> renderlisteners(user))
+const renderRoom = (roomState) => {
+    roomSpeaker.innerHTML = '';
+    roomListeners.innerHTML = '';
+    footer.innerHTML = '';
+    renderSpeakers(roomState.admin, true) //render admin
+    roomState.brodcasters.map(user=> renderSpeakers(user, false)) //render users
+    roomState.audience.map(user=> renderlisteners(user))
     
     renderFooter()
     
