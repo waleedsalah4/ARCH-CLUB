@@ -38,6 +38,9 @@ socket.on("connect", () => {
         console.log(socket.id); // x8WIv7-mJelg7on_ALbx
  });
 
+ socket.on('disconnect', (reason)=>{
+    window.location = '/archclub/home/index.html';
+ })
 
 socket.on('createRoomSuccess', (user,room,token) => {
         
@@ -73,8 +76,14 @@ socket.on('userJoined', (user) => {
 socket.on('userLeft', (user) => {
     console.log('user left', user)
     //removeUserFromRoom(user._id);
-    if(roomState.audience.find())
-    removeItem(user._id,roomState.audience);
+    // if(roomState.audience.find())
+    // let item = roomState.audience.find(item => item._id === user._id);
+    // if(item){
+        roomState.audience = roomState.audience.filter(usr => usr._id !== user._id)
+    // } else {
+        roomState.brodcasters = roomState.brodcasters.filter(usr => usr._id !== user._id)
+    // }
+    // removeItem(user._id,roomState.audience);
     renderRoom(roomState)
 
     
