@@ -6,6 +6,7 @@ const roomSideBar = document.querySelector('#room-sidebar')
 const roomSpeaker = document.querySelector('.room-speakers')
 const roomListeners = document.querySelector('.room-listeners')
 const footer = document.querySelector('.footer-control')
+const modalContainer = document.querySelector('#modal-container')
 
 
 var token = JSON.parse(localStorage.getItem('user-token'));
@@ -69,41 +70,44 @@ socket.on('joinRoomSuccess', (user, room, token) => {
 socket.on('userJoined', (user) => {
     console.log('userJoined', user)
     console.log(roomState);
+    user.isAsked = false;
     addItem(user);
     renderRoom(roomState);
 })
 
 socket.on('userLeft', (user) => {
     console.log('user left', user)
-    //removeUserFromRoom(user._id);
-    // if(roomState.audience.find())
-    // let item = roomState.audience.find(item => item._id === user._id);
-    // if(item){
-        roomState.audience = roomState.audience.filter(usr => usr._id !== user._id)
-    // } else {
-        roomState.brodcasters = roomState.brodcasters.filter(usr => usr._id !== user._id)
-    // }
-    // removeItem(user._id,roomState.audience);
+
+    roomState.audience = roomState.audience.filter(usr => usr._id !== user._id)
+
+    roomState.brodcasters = roomState.brodcasters.filter(usr => usr._id !== user._id)
+
     renderRoom(roomState)
 
-    
-    //window.location = '/archclub/home/index.html';
-
 })
+
+socket.on('userAskedForPerms', (user) => {
+    console.log('userAskedForPerms', user) 
+    console.log('room state', roomState)
+
+    for (let aud of roomState.audience) {
+        if(aud._id === user._id){
+            aud.isAsked = true;
+            break;
+        }
+    }
+
+    renderRoom(roomState)
+})
+
 
 export const createRoom = function(obj){
     
     socket.emit('createRoom', obj);
 
-   
 }
 
 
-function removeItem(id, items){
-    items.splice(items.findIndex((i)=>{
-    return i.id === id;
-    }), 1);
-}
 
 function addItem(obj){
     roomState.audience.push(obj)
@@ -118,7 +122,7 @@ function addItem(obj){
 const renderSpeakers = (speaker, admin) => {
     const markup = `
     <div class="user" data-_id="${speaker._id}">
-        <div class="avatar">
+        <div class="avatar" id="user-avatar-${speaker._id}">
             <img src=${speaker.photo} alt="Avatar">
         </div>
         <span class="mic">
@@ -134,17 +138,28 @@ const renderSpeakers = (speaker, admin) => {
     </div>
     `
     roomSpeaker.insertAdjacentHTML('beforeend', markup)
+
+    document.querySelector(`#user-avatar-${speaker._id}`).addEventListener('click', ()=>{
+        modalContainer.classList.add('show-modal')
+        insertuserModal(speaker)
+    })
 }
 
 
 const renderlisteners = (audience) => {
     const markup = `
     <div class="user"  id="${audience._id}">
-        <div class="avatar">
+        <div class="avatar" id="user-avatar-${audience._id}">
             <img src=${audience.photo} alt="Avatar">
         </div>
         <span class="mic">
             <img src="../../assets/room/microphone.svg" alt="">
+        </span>
+        <span class="request-hand" id="request-hand-${audience._id}">
+            ${audience.isAsked ? `
+                <img class="request-hand-img" src="../../assets/room/hand.svg" alt="ask-to-speak">
+                ` : ''
+            }     
         </span>
         <div class="user-name listener">
             <div>
@@ -155,6 +170,11 @@ const renderlisteners = (audience) => {
     </div>
     `
     roomListeners.insertAdjacentHTML('beforeend', markup)
+
+    document.querySelector(`#user-avatar-${audience._id}`).addEventListener('click', ()=>{
+        modalContainer.classList.add('show-modal')
+        insertuserModal(audience)
+    })
 }
 
 
@@ -192,14 +212,21 @@ const renderFooter = () => {
             <div class="plus all-center hand-over" id="handle-mute">
                 <img src="../../assets/room/microphone.svg" alt="">
             </div>
-        ${state.isListener ? `<div class="hand all-center hand-over">
+        ${state.isListener ? `<div class="hand all-center hand-over" id="footer-hand">
             <img src="../../assets/room//hand.svg" alt="">
         </div>` : ''}
         </div>
     </div>
     `
     footer.insertAdjacentHTML('beforeend', markup)
+
+    if(document.querySelector('#footer-hand')) {
+        document.querySelector('#footer-hand').addEventListener('click', ()=> {
+            socket.emit('askForPerms') 
+        })
+    }
     
+
     if(state.isListener){
         document.querySelector('#leave-room').addEventListener('click',()=>{
 
@@ -214,7 +241,7 @@ const renderFooter = () => {
 
 
 
-const renderRoom = (roomState) => {
+const renderRoom = (roomState, ) => {
     roomSpeaker.innerHTML = '';
     roomListeners.innerHTML = '';
     footer.innerHTML = '';
@@ -225,6 +252,55 @@ const renderRoom = (roomState) => {
     renderFooter()
     
 }
+
+
+const insertuserModal = (user) => {
+    const markup = `
+    <div class="user-modal">
+        <div class="close-modal">
+            <span id="close-modal-x">X</span>
+        </div>
+        <div class="user-info">
+            <div class="user-img">
+                <img src="${user.photo}" alt="Avatar">
+            </div>
+            <h3> 
+                <a href="#">${user.name}</a>
+            </h3>
+        </div>
+        ${state.isAdmin ? `
+            <div class="controls">
+                <button id="cancel">cancel</button>
+                <button id="change-user">change user</button>
+            </div>` : ''
+        }
+        
+    </div>
+    `
+    modalContainer.insertAdjacentHTML('beforeend', markup)
+
+    if(document.querySelector('#cancel')){
+        document.querySelector('#cancel').addEventListener('click', ()=> {
+            modalContainer.innerHTML = '';
+            modalContainer.classList.remove('show-modal')
+        })
+    }
+
+    if(document.querySelector('#change-user')) {
+        document.querySelector('#change-user').addEventListener('click', ()=> {
+            console.log(user._id)
+        })
+    }
+    
+
+    document.querySelector('#close-modal-x').addEventListener('click', ()=> {
+        modalContainer.innerHTML = '';
+        modalContainer.classList.remove('show-modal')
+    })
+
+    
+}
+
 
 const url = 'https://audiocomms-podcast-platform.herokuapp.com';
 const fetchRoom = async function(id){

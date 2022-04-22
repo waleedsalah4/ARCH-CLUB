@@ -77,15 +77,16 @@ export const sideBarView = (hrefObject, container) => {
         // }
         bar.classList.toggle('opened');
     
-        if(!bar.classList.contains('opened')){
-            barLinks.forEach(ln=>ln.classList.remove('highlight')) ;
-            const active = Array(...barLinks).filter(ln=> ln.classList.contains('active'))[0];
-            active.classList.toggle('highlight');
-        }
+        // if(!bar.classList.contains('opened')){
+        //     barLinks.forEach(ln=>ln.classList.remove('highlight')) ;
+        //     const active = Array(...barLinks).filter(ln=> ln.classList.contains('active'))[0];
+        //     active.classList.toggle('highlight');
+            
+        // }
     
-        else{
-            barLinks.forEach(ln=>ln.classList.remove('highlight')) ;
-        }
+        // else{
+        //     barLinks.forEach(ln=>ln.classList.remove('highlight')) ;
+        // }
         
     });
     

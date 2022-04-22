@@ -191,15 +191,16 @@
     width: 62px;
     height: 62px;
     border-radius: 50%;
+    cursor: pointer;
   }
   
   
   
   #page .house .screen main > div .user > .fun,
-  #page .house .screen main > div .user > .mic {
+  #page .house .screen main > div .user > .mic,
+  .request-hand-img {
     width: 25px;
     height: 25px;
-    /* position: absolute; */
     background: #fff;
     border-radius: 50%;
     display: flex;
@@ -207,10 +208,17 @@
     align-items: center;
   }
   
-  #page .house .screen main > div .user > .fun {
+  .request-hand{
+    
+    position: absolute;
+    top: 40px;
+    left: 0px;
+  }
+  
+  /* #page .house .screen main > div .user > .fun {
     top: 38px;
     left: 1px;
-  }
+  } */
   
   #page .house .screen main > div .user > .mic {
     position: absolute;
@@ -219,7 +227,8 @@
   }
   
   #page .house .screen main > div .user > .fun > img,
-  #page .house .screen main > div .user > .mic > img {
+  #page .house .screen main > div .user > .mic > img,
+  .request-hand-img  {
     width: 15px;
     height: auto;
   }
@@ -330,3 +339,91 @@
   
   
   
+  /*user card modal*/
+
+.modal-container {
+  background-color: rgba(0,0,0, 0);
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-width: 300px;
+  margin-left: 5rem;
+  z-index: 3000;
+}
+.modal-container.show-modal{
+  display: block;
+}
+.user-modal {
+  border-radius: 5px;
+  color: var(--primary-color-light);
+  background: var(--body-color);
+  box-shadow: 0 0 10px rgb(0 0 0 / 30%);
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  width: 325px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.user-info a {
+  text-decoration: none;
+  color: var(--primary-color-light);
+}
+.user-info a:hover {
+  color: var(--secondary-color);
+}
+.user-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-bottom: 2px;
+}
+.user-img img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.controls {
+  padding: 10px;
+  display: flex;
+  gap: 10px 10px;
+}
+
+.controls button {
+  color: var(--primary-color-light);
+  background-color: var(--secondary-color);
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+  width: 120px;
+  font-size: 18px;
+}
+
+.close-modal {
+  width: 100%;
+  position: relative;
+}
+.close-modal span {
+  position: absolute;
+  bottom: -7px;
+  right: -12px;
+  font-size: 20px;
+  cursor: pointer;
+}
