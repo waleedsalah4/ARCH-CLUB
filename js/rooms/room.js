@@ -39,8 +39,29 @@ socket.on("connect", () => {
         console.log(socket.id); // x8WIv7-mJelg7on_ALbx
  });
 
+ let timerCounter=0;
  socket.on('disconnect', (reason)=>{
-    window.location = '/archclub/home/index.html';
+    
+    if (reason === 'transport close' && state.isAdmin) {
+        const reconnectTimer =  setInterval(()=>{
+            if(socket.connected) {
+                socket.emit('adminReJoinRoom')
+                clearInterval(reconnectTimer)
+                timerCounter = 0;
+            }else{
+                if(timerCounter>= 60){
+                    window.location = '/archclub/home/index.html';
+                }
+                timerCounter+=3;
+                console.log('please check your internet connection')
+            }
+        } , 3000) 
+
+    } else{
+        window.location = '/archclub/home/index.html';
+    }
+
+    console.log(reason)
  })
 
 socket.on('createRoomSuccess', (user,room,token) => {
@@ -51,7 +72,8 @@ socket.on('createRoomSuccess', (user,room,token) => {
         roomState.audience = room.audience;
         roomState.brodcasters = room.brodcasters;
         state.isAdmin = true;
-        renderRoom(roomState);
+        console.log(state)
+        renderRoom(roomState, state);
 
     }
     else{
@@ -64,7 +86,8 @@ socket.on('joinRoomSuccess', (user, room, token) => {
     state.isListener = true;
     roomState.audience = room.audience;
     roomState.admin = room.admin
-    renderRoom(roomState)
+    console.log(state)
+    renderRoom(roomState, state)
 })
 
 socket.on('userJoined', (user) => {
@@ -72,7 +95,7 @@ socket.on('userJoined', (user) => {
     console.log(roomState);
     user.isAsked = false;
     addItem(user);
-    renderRoom(roomState);
+    renderRoom(roomState, state);
 })
 
 socket.on('userLeft', (user) => {
@@ -82,7 +105,7 @@ socket.on('userLeft', (user) => {
 
     roomState.brodcasters = roomState.brodcasters.filter(usr => usr._id !== user._id)
 
-    renderRoom(roomState)
+    renderRoom(roomState, state)
 
 })
 
@@ -97,14 +120,54 @@ socket.on('userAskedForPerms', (user) => {
         }
     }
 
-    renderRoom(roomState)
+    renderRoom(roomState,state)
+    
+})
+
+socket.on('userChangedToBrodcaster', (user)=> {
+    console.log('user changed to Brodcaster', user)
+    user.isAsked = false;
+    const newState = {...state}
+    newState.isListener = false;
+    roomState.audience = roomState.audience.filter(usr => usr._id !== user._id)
+    addUserToSpeakers(user)
+    renderRoom(roomState, newState)
+
+    console.log('room state after change user to speaker',roomState)
+})
+
+socket.on('brodcasterToken', (token)=>{
+    console.log('brodcaster token when user changed from aud to brod', token)
+    //only for user who asked
+})
+
+socket.on('userChangedToAudience', (user)=>{
+    console.log('user back to be aud', user)
+    const newState = {...state}
+    newState.isListener = true;
+    roomState.brodcasters = roomState.brodcasters.filter(usr => usr._id !== user._id)
+    addItem(user)
+    renderRoom(roomState, newState)
+
+    console.log('room state after change user to audience',roomState)
+})
+
+socket.on('audienceToken', (token) => {
+    console.log('aud token', token)
+}) // will be only for user ho return be an audience
+
+socket.on('adminReJoinedRoomSuccess', ()=>{
+    console.log('admin is back') //on for me
+})
+
+socket.on('adminLeft', ()=>{
+    console.log('admin has left if he does not come back after one min room will ended')
 })
 
 
-export const createRoom = function(obj){
-    
-    socket.emit('createRoom', obj);
 
+export const createRoom = function(obj){ 
+    socket.emit('createRoom', obj);
 }
 
 
@@ -113,6 +176,9 @@ function addItem(obj){
     roomState.audience.push(obj)
 }
 
+function addUserToSpeakers(user){
+    roomState.brodcasters.push(user)
+}
 
 /* const removeUserFromRoom = function(id){
     const userId = document.querySelector(`#${id}`)
@@ -141,7 +207,7 @@ const renderSpeakers = (speaker, admin) => {
 
     document.querySelector(`#user-avatar-${speaker._id}`).addEventListener('click', ()=>{
         modalContainer.classList.add('show-modal')
-        insertuserModal(speaker)
+        insertuserModal(speaker, 'speaker')
     })
 }
 
@@ -173,7 +239,7 @@ const renderlisteners = (audience) => {
 
     document.querySelector(`#user-avatar-${audience._id}`).addEventListener('click', ()=>{
         modalContainer.classList.add('show-modal')
-        insertuserModal(audience)
+        insertuserModal(audience, 'audience')
     })
 }
 
@@ -183,37 +249,34 @@ socket.on('roomEnded',()=>{
     window.location = '/archclub/home/index.html';
   })
 
-const EndRoom = function(){
-    document.querySelector('#end-room').addEventListener('click',()=>{
-        socket.emit('endRoom');
-    })
-
-}
 
 
 
-const renderFooter = () => {
+const renderFooter = (state) => {
     const markup = `
     
     <div class="bt-options">
         ${state.isAdmin? `
-        <button class="all-center" id="end-room">
-            <span>✌️</span>
-            <span class="text host-text">End Room</span>
-        </button>`:
-        `
-        <button class="all-center" id="leave-room">
-            <span>✌️</span>
-             <span class="text">Leave quietly</span>
-        </button>`
-}
+            <button class="all-center" id="end-room">
+                <span>✌️</span>
+                <span class="text host-text">End Room</span>
+            </button>`:
+            `
+            <button class="all-center" id="leave-room">
+                <span>✌️</span>
+                <span class="text">Leave quietly</span>
+            </button>`
+        }
         
         <div>
             <div class="plus all-center hand-over" id="handle-mute">
                 <img src="../../assets/room/microphone.svg" alt="">
             </div>
-        ${state.isListener ? `<div class="hand all-center hand-over" id="footer-hand">
-            <img src="../../assets/room//hand.svg" alt="">
+            ${state.isListener && !state.isAdmin ? `<div class="hand all-center hand-over" id="footer-hand">
+                <img src="../../assets/room/hand.svg" alt="">
+            </div>` : ''}
+            ${!state.isAdmin && !state.isListener ? `<div class="hand all-center hand-over" id="goback">
+            <img src="../../assets/room/down-arrow.svg" alt="">
         </div>` : ''}
         </div>
     </div>
@@ -223,25 +286,41 @@ const renderFooter = () => {
     if(document.querySelector('#footer-hand')) {
         document.querySelector('#footer-hand').addEventListener('click', ()=> {
             socket.emit('askForPerms') 
+            console.log('you asked for perms')
+        })
+    }
+
+    if(document.querySelector('#goback')) {
+        document.querySelector('#goback').addEventListener('click', ()=> {
+            socket.emit('weHaveToGoBack')//user want to go back to audience
+            console.log('user go back to aud')
         })
     }
     
 
-    if(state.isListener){
-        document.querySelector('#leave-room').addEventListener('click',()=>{
-
-            socket.disconnect();
-        })
+    if(!state.isAdmin){
+        if(document.querySelector('#leave-room')){
+            document.querySelector('#leave-room').addEventListener('click',()=>{
+                socket.disconnect();
+            })
+        }
+        
     }
     else{
-        EndRoom();
+        console.log('is end room exist')
+        if(document.querySelector('#end-room')) {
+            document.querySelector('#end-room').addEventListener('click',()=>{
+                socket.emit('endRoom');
+                console.log('emit end room')
+            })
+        }
     }
     
 }
 
 
 
-const renderRoom = (roomState, ) => {
+const renderRoom = (roomState, newState) => {
     roomSpeaker.innerHTML = '';
     roomListeners.innerHTML = '';
     footer.innerHTML = '';
@@ -249,12 +328,13 @@ const renderRoom = (roomState, ) => {
     roomState.brodcasters.map(user=> renderSpeakers(user, false)) //render users
     roomState.audience.map(user=> renderlisteners(user))
     
-    renderFooter()
+    renderFooter(newState)
     
 }
 
 
-const insertuserModal = (user) => {
+const insertuserModal = (user, type) => {
+    const adminUser = user._id === roomState.admin._id ? true : false; //for not showing controls when click on admin photo
     const markup = `
     <div class="user-modal">
         <div class="close-modal">
@@ -268,10 +348,10 @@ const insertuserModal = (user) => {
                 <a href="#">${user.name}</a>
             </h3>
         </div>
-        ${state.isAdmin ? `
+        ${state.isAdmin && !adminUser ? `
             <div class="controls">
                 <button id="cancel">cancel</button>
-                <button id="change-user">change user</button>
+                ${type === 'audience' ? `<button id="changeToSpk">change to speaker</button>` : `<button id="changeToAud">change to audience</button>`}
             </div>` : ''
         }
         
@@ -286,9 +366,23 @@ const insertuserModal = (user) => {
         })
     }
 
-    if(document.querySelector('#change-user')) {
-        document.querySelector('#change-user').addEventListener('click', ()=> {
-            console.log(user._id)
+    if(document.querySelector('#changeToSpk')) {
+        document.querySelector('#changeToSpk').addEventListener('click', ()=> {
+            socket.emit('givePermsTo', {
+                _id: user._id // user id 
+            })
+            modalContainer.innerHTML = '';
+            modalContainer.classList.remove('show-modal')
+        })
+    }
+
+    if(document.querySelector('#changeToAud')) {
+        document.querySelector('#changeToAud').addEventListener('click', ()=> {
+            socket.emit('takeAwayPermsFrom', {
+                _id: user._id  // id for user who you want to change
+            })
+            modalContainer.innerHTML = '';
+            modalContainer.classList.remove('show-modal')
         })
     }
     
