@@ -306,6 +306,7 @@ const renderFooter = (state) => {
         document.querySelector('#footer-hand').addEventListener('click', ()=> {
             socket.emit('askForPerms') 
             console.log('you asked for perms')
+            snackbar(snackbarContainer,'info', `<b>info: </b> you asked to speak`, 5000);
         })
     }
 
