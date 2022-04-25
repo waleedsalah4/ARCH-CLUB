@@ -8,6 +8,8 @@ const createbtn = document.querySelector('.create-btn');
 const getCategoryValue = document.querySelector('#categories')
 const getRoomName = document.querySelector('.room-name input')
 
+import { snackbar } from '../utilities/snackbar.js';
+
 
 let roomType = 'private'
 
@@ -41,16 +43,15 @@ setRoomType.addEventListener("click" , () =>{
 
 createbtn.addEventListener('click' ,()=>{
     if(!getRoomName.value){
-        alert('enter room name and make sure of other setup')
+        // alert('enter room name and make sure of other setup')
+
+        snackbar(document.getElementById('snackbar-container'),'error', `<b>Error: </b>  enter room name and make sure of other setup`, 5000);
     } else {
         let rmVal = getRoomName.value;
         let catVal = getCategoryValue.value
         console.log(rmVal, catVal, roomType)
 
-        //do request
-        //when request is success
-     
-        createRoomContainer.classList.add('show-modal')
+    
         //start load your room
         createRoom({
             name: rmVal,

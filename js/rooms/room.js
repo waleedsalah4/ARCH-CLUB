@@ -1,12 +1,13 @@
 import { sideBarView } from '../sideBar/sideBarView.js';
 import { roomSideBarHref } from '../sideBar/sideBarHref.js';
-
+import { snackbar } from '../utilities/snackbar.js';
 const roomSideBar = document.querySelector('#room-sidebar')
 
 const roomSpeaker = document.querySelector('.room-speakers')
 const roomListeners = document.querySelector('.room-listeners')
 const footer = document.querySelector('.footer-control')
 const modalContainer = document.querySelector('#modal-container')
+const snackbarContainer = document.getElementById('snackbar-container');
 
 
 var token = JSON.parse(localStorage.getItem('user-token'));
@@ -17,30 +18,36 @@ let state = {
     isListener:false
 };
 
+// let newState = {}
+
 let roomState = {
         admin : {},
         audience : [],
         brodcasters : []
 };
 
+let Me= {}
+
 var socket = io('https://audiocomms-podcast-platform.herokuapp.com', {
     auth: {
         token,
-        }
-      });
+    }
+});
 
 window.socket = socket;
 
 socket.on('errorMessage', (msg) => {
-        console.log(msg)
+    // snackbar(snackbarContainer,)
+    snackbar(snackbarContainer,'error', `<b>Error: </b>  ${msg}`, 5000);
+    console.log(msg)
 });
 
 socket.on("connect", () => {
-        console.log(socket.id); // x8WIv7-mJelg7on_ALbx
- });
+    console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+});
 
- let timerCounter=0;
- socket.on('disconnect', (reason)=>{
+let timerCounter=0;
+socket.on('disconnect', (reason)=>{
     
     if (reason === 'transport close' && state.isAdmin) {
         const reconnectTimer =  setInterval(()=>{
@@ -66,8 +73,9 @@ socket.on("connect", () => {
 
 socket.on('createRoomSuccess', (user,room,token) => {
         
-    if(room){
+    // if(room){
         console.log(user,room,token)
+        document.querySelector('.create-room-container').classList.add('show-modal') 
         roomState.admin = user;
         roomState.audience = room.audience;
         roomState.brodcasters = room.brodcasters;
@@ -75,16 +83,21 @@ socket.on('createRoomSuccess', (user,room,token) => {
         console.log(state)
         renderRoom(roomState, state);
 
-    }
-    else{
-        document.querySelector('.create-room-container').classList.remove('show-modal')  
-  }
+        const roomLink = `${window.location.host}/archclub/rooms/room.html?id=${room._id}`
+        console.log(roomLink)
+
+//     }
+//     else{
+//         document.querySelector('.create-room-container').classList.remove('show-modal')  
+//   }
 })
 
 socket.on('joinRoomSuccess', (user, room, token) => {
     console.log('join room',user,room,token)
+    Me = {...user};
     state.isListener = true;
     roomState.audience = room.audience;
+    roomState.brodcasters = room.brodcasters;
     roomState.admin = room.admin
     console.log(state)
     renderRoom(roomState, state)
@@ -95,6 +108,7 @@ socket.on('userJoined', (user) => {
     console.log(roomState);
     user.isAsked = false;
     addItem(user);
+    console.log(state)
     renderRoom(roomState, state);
 })
 
@@ -127,13 +141,15 @@ socket.on('userAskedForPerms', (user) => {
 socket.on('userChangedToBrodcaster', (user)=> {
     console.log('user changed to Brodcaster', user)
     user.isAsked = false;
-    const newState = {...state}
-    newState.isListener = false;
+    // const newState = {...state}
+    // state.isListener = false;
+    user._id === Me._id ? state.isListener = false : '';
     roomState.audience = roomState.audience.filter(usr => usr._id !== user._id)
     addUserToSpeakers(user)
-    renderRoom(roomState, newState)
+    renderRoom(roomState, state)
 
-    console.log('room state after change user to speaker',roomState)
+    // console.log('newState',newState)
+    console.log('state', state)
 })
 
 socket.on('brodcasterToken', (token)=>{
@@ -143,13 +159,16 @@ socket.on('brodcasterToken', (token)=>{
 
 socket.on('userChangedToAudience', (user)=>{
     console.log('user back to be aud', user)
-    const newState = {...state}
-    newState.isListener = true;
+    // const newState = {...state}
+    // state.isListener = true;
+    user._id === Me._id ? state.isListener = true : '';
     roomState.brodcasters = roomState.brodcasters.filter(usr => usr._id !== user._id)
     addItem(user)
-    renderRoom(roomState, newState)
+    renderRoom(roomState, state)
 
-    console.log('room state after change user to audience',roomState)
+    // console.log('room state after change user to audience',roomState)
+    // console.log('newState',newState)
+    console.log('state', state)
 })
 
 socket.on('audienceToken', (token) => {
@@ -320,7 +339,7 @@ const renderFooter = (state) => {
 
 
 
-const renderRoom = (roomState, newState) => {
+const renderRoom = (roomState, state) => {
     roomSpeaker.innerHTML = '';
     roomListeners.innerHTML = '';
     footer.innerHTML = '';
@@ -328,7 +347,7 @@ const renderRoom = (roomState, newState) => {
     roomState.brodcasters.map(user=> renderSpeakers(user, false)) //render users
     roomState.audience.map(user=> renderlisteners(user))
     
-    renderFooter(newState)
+    renderFooter(state)
     
 }
 
@@ -351,7 +370,8 @@ const insertuserModal = (user, type) => {
         ${state.isAdmin && !adminUser ? `
             <div class="controls">
                 <button id="cancel">cancel</button>
-                ${type === 'audience' ? `<button id="changeToSpk">change to speaker</button>` : `<button id="changeToAud">change to audience</button>`}
+                ${type === 'audience' && user.isAsked ? `<button id="changeToSpk">change to speaker</button>` : ''}
+                ${type === 'speaker' ? `<button id="changeToAud">change to audience</button>` : ''}
             </div>` : ''
         }
         
@@ -413,12 +433,15 @@ const fetchRoom = async function(id){
             const {data} = res;
             console.log(data.name);
             return (data.name);
-        } 
+        } else{
+            snackbar(snackbarContainer,'error', `<b>Error: </b>  ${res.message}`, 5000);
+        }
         
         
     }
     catch(err){
         console.log(err);
+        snackbar(snackbarContainer,'error', `<b>Error: </b>  ${err.message}`, 5000);
     }
 }
 //renderRoom(fakeUserObject)

@@ -1,0 +1,65 @@
+#snackbar-container{
+    position: fixed;
+    top:2%;
+    right: 2%;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    z-index: 4000;
+}
+
+.snackbar{
+    padding: 1.5rem 1rem;
+    margin: 0.5rem;
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgba(0,0,0, 0.7);
+    color:white;
+    animation: fade-in 3s ease ;
+}
+
+
+.snackbar span{
+    float: right;
+    cursor: pointer;
+}
+.error{
+    /* background-color: red; */
+    background-color: #3E317A ;
+}
+
+.success{
+    background-color: green;
+}
+
+.info{
+    background-color: dodgerblue;
+}
+
+.warning{
+    background-color: gold;
+    color: black;
+}
+
+
+
+.fadeout{
+    animation: fade-out 1s ease 2s forwards;
+}
+@keyframes fade-in{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out{
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
