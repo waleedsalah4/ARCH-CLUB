@@ -1,6 +1,7 @@
 import { sideBarView } from '../sideBar/sideBarView.js';
 import { roomSideBarHref } from '../sideBar/sideBarHref.js';
 import { snackbar } from '../utilities/snackbar.js';
+import { join, leave, agoraState } from './agora.js';
 const roomSideBar = document.querySelector('#room-sidebar')
 
 const roomSpeaker = document.querySelector('.room-speakers')
@@ -12,10 +13,20 @@ const snackbarContainer = document.getElementById('snackbar-container');
 
 var token = JSON.parse(localStorage.getItem('user-token'));
 
+// let client = AgoraRTC.createClient({
+//     mode: "live",
+//     codec: "vp8",
+// });
+
+// let handleError = function(err){
+//     console.log("Error: ", err);
+// };
+
+
 let state = {
     isAdmin: false,
     isSpeaker:false,
-    isListener:false
+    isListener:false,
 };
 
 // let newState = {}
@@ -28,7 +39,7 @@ let roomState = {
 
 let Me= {}
 
-var socket = io('https://audiocomms-podcast-platform.herokuapp.com', {
+let socket = io('https://audiocomms-podcast-platform.herokuapp.com', {
     auth: {
         token,
     }
@@ -86,10 +97,10 @@ socket.on('createRoomSuccess', (user,room,token) => {
         const roomLink = `${window.location.host}/archclub/rooms/room.html?id=${room._id}`
         console.log(roomLink)
 
-//     }
-//     else{
-//         document.querySelector('.create-room-container').classList.remove('show-modal')  
-//   }
+        //agora 
+        // client.init(room.APP_ID);
+        agoraState.role = 'host';
+        join(room.APP_ID,token,room.name,user.uid)
 })
 
 socket.on('joinRoomSuccess', (user, room, token) => {
@@ -101,6 +112,10 @@ socket.on('joinRoomSuccess', (user, room, token) => {
     roomState.admin = room.admin
     console.log(state)
     renderRoom(roomState, state)
+
+    //agora
+    agoraState.role = 'audience';
+    join(room.APP_ID,token,room.name,user.uid)
 })
 
 socket.on('userJoined', (user) => {
@@ -155,6 +170,7 @@ socket.on('userChangedToBrodcaster', (user)=> {
 socket.on('brodcasterToken', (token)=>{
     console.log('brodcaster token when user changed from aud to brod', token)
     //only for user who asked
+    // changUserToBrod(token)
 })
 
 socket.on('userChangedToAudience', (user)=>{
@@ -198,11 +214,39 @@ function addItem(obj){
 function addUserToSpeakers(user){
     roomState.brodcasters.push(user)
 }
+/*
 
-/* const removeUserFromRoom = function(id){
-    const userId = document.querySelector(`#${id}`)
-    console.log(userId);
-} */
+const userJoinAgora = async(userToken,channelName, uid) => {
+    console.log(client)
+    client.setClientRole('host');
+    await client.join(userToken, channelName, uid, ()=>{
+        // Create a local stream
+        let localStream = AgoraRTC.createStream({
+            audio: true,
+            video: false,
+        });
+        localStream.init(()=>{
+            localStream.play("speakers");
+            client.publish(localStream, handleError);
+        }, handleError);
+    }, handleError);
+
+    client.on("stream-added", function(evt){
+        client.subscribe(evt.stream, handleError);
+    });
+    // Play the remote stream when it is subsribed
+    client.on("stream-subscribed", function(evt){
+        let stream = evt.stream;
+        stream.play();
+    });
+}
+
+const changUserToBrod = (token) =>{
+    client.setClientRole('host');
+    client.renewToken(token)
+}
+*/
+
 
 const renderSpeakers = (speaker, admin) => {
     const markup = `
@@ -330,6 +374,9 @@ const renderFooter = (state) => {
         console.log('is end room exist')
         if(document.querySelector('#end-room')) {
             document.querySelector('#end-room').addEventListener('click',()=>{
+                //agora
+                leave()
+                //socket
                 socket.emit('endRoom');
                 console.log('emit end room')
             })
