@@ -33,7 +33,7 @@ export const changeRole = async(token) => {
             await client.publish(Object.values(localTracks));
         }
 
-          console.log('User ' + ' join channel successfully');
+          console.log('User join channel successfully');
       }, function(err) {
           console.log('[ERROR] : join channel failed', err);
       });
