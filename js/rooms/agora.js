@@ -13,7 +13,7 @@ export let agoraState = {
     role: 'audience'
 }
 
-export const changeRole = (token) => {
+export const changeRole = async(token) => {
     client.renewToken(token)
     client.setClientRole(agoraState.role)
     // client.on("user-published", handleUserPublished);
