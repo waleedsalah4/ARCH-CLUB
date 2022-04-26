@@ -27,7 +27,7 @@ export const changeRole = async(token) => {
         console.log('setClientRole failed', e);
       });
     //   await client.join(appid, channel, token, uid);
-    await  client.join(roomInfo.appid, roomInfo.channelName, token,roomInfo.uid, function() {
+    await  client.join(roomInfo.appid, roomInfo.channelName, token,roomInfo.uid, async function() {
         if(agoraState.role === 'host'){
             localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack();
             await client.publish(Object.values(localTracks));
