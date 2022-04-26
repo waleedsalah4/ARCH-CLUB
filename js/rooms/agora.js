@@ -18,8 +18,8 @@ export const changeRole = async(token) => {
     client.setClientRole(agoraState.role)
     // client.on("user-published", handleUserPublished);
     if(agoraState.role === 'host') {
-        client.on("user-published", handleUserPublished);
-        client.on("user-joined", handleUserJoined);
+        client.on("user-published", handleUserJoined);
+        // client.on("user-joined", handleUserJoined);
         client.on("user-left", handleUserLeft);
         // create local audio and video tracks
         console.log(AgoraRTC)
@@ -28,8 +28,8 @@ export const changeRole = async(token) => {
         await client.publish(Object.values(localTracks));
         console.log("Successfully published.");
     } else {
-        client.on("user-published", handleUserPublished);
-        client.on("user-joined", handleUserJoined);
+        client.on("user-published", handleUserJoined);
+        // client.on("user-joined", handleUserJoined);
         client.on("user-left", handleUserLeft);
     }
 }
