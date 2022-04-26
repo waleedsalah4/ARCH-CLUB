@@ -16,15 +16,15 @@ export let agoraState = {
 export const changeRole = async(token) => {
     client.renewToken(token)
     client.setClientRole(agoraState.role)
+    
     // client.on("user-published", handleUserPublished);
     if(agoraState.role === 'host') {
-        client.on("user-published", handleUserJoined);
-        // client.on("user-joined", handleUserJoined);
-        client.on("user-left", handleUserLeft);
+        // client.on("user-published", handleUserJoined);
+        // client.on("user-left", handleUserLeft);
         // create local audio and video tracks
-        console.log(AgoraRTC)
+        // console.log(AgoraRTC)
         localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-        localTracks.audioTrack.play();
+        // localTracks.audioTrack.play();
         await client.publish(Object.values(localTracks));
         console.log("Successfully published.");
     } else {
