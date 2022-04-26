@@ -29,8 +29,9 @@ export const changeRole = async(token) => {
         console.log("Successfully published.");
     } else {
         // client.on("user-published", handleUserJoined);
-        await client.unpublish();
-        client.on("user-left", handleUserLeft);
+        // await client.unpublish();
+        // client.on("user-left", handleUserLeft);
+        console.log('changed to audience in agora===================')
     }
 }
 
