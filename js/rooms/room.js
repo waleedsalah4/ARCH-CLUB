@@ -170,12 +170,12 @@ socket.on('userChangedToBrodcaster', (user)=> {
     
 })
 
-socket.on('brodcasterToken', (token)=>{
+socket.on('brodcasterToken', async(token)=>{
     console.log('brodcaster token when user changed from aud to brod', token)
     //only for user who asked
     // changUserToBrod(token)
 
-    changeRole(token)
+    await changeRole(token)
 })
 
 socket.on('userChangedToAudience', (user)=>{
@@ -195,10 +195,10 @@ socket.on('userChangedToAudience', (user)=>{
     user._id === Me._id ? agoraState.role = 'audience' : '';
 })
 
-socket.on('audienceToken', (token) => {
+socket.on('audienceToken', async(token) => {
     console.log('aud token', token)
 
-    changeRole(token)
+    await changeRole(token)
 }) // will be only for user ho return be an audience
 
 socket.on('adminReJoinedRoomSuccess', ()=>{
