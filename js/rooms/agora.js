@@ -13,11 +13,29 @@ export let agoraState = {
     role: 'audience'
 }
 
+let roomInfo = {}
+
 export const changeRole = async(token) => {
     client.renewToken(token)
-    await client.unpublish();
-    client.setClientRole(agoraState.role)
+    // await client.unpublish();
+    // client.setClientRole(agoraState.role)
     
+
+    client.setClientRole(agoraState.role, function() {
+        console.log(`Client role set to ${agoraState.role}`);
+      }, function(e) {
+        console.log('setClientRole failed', e);
+      });
+    //   await client.join(appid, channel, token, uid);
+    await  client.join(roomInfo.appid, roomInfo.channelName, token,roomInfo.uid, function() {
+          console.log('User ' + ' join channel successfully');
+      }, function(err) {
+          console.log('[ERROR] : join channel failed', err);
+      });
+    
+
+
+/*
     // client.on("user-published", handleUserPublished);
     if(agoraState.role === 'host') {
         // client.on("user-published", handleUserJoined);
@@ -33,11 +51,14 @@ export const changeRole = async(token) => {
         // await client.unpublish();
         // client.on("user-left", handleUserLeft);
         console.log('changed to audience in agora===================')
-    }
+    }*/
 }
 
 export const join = async(appid,token, channel, uid) => {
     // create Agora client
+    roomInfo.channelName = channel;
+    roomInfo.appid = appid
+    roomInfo.uid = uid
     client.setClientRole(agoraState.role);
     console.log(agoraState.role)
     if (agoraState.role === "audience") {

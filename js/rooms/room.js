@@ -90,6 +90,8 @@ socket.on('createRoomSuccess', (user,room,token) => {
         roomState.admin = user;
         roomState.audience = room.audience;
         roomState.brodcasters = room.brodcasters;
+        roomState.channelName = room.name;
+        roomState.appId = room.APP_ID
         state.isAdmin = true;
         console.log(state)
         renderRoom(roomState, state);
@@ -165,7 +167,7 @@ socket.on('userChangedToBrodcaster', (user)=> {
 
     // console.log('newState',newState)
     console.log('state', state)
-
+    roomState.userUid = user.uid;
     user._id === Me._id ? agoraState.role = 'host' : '';
     
 })
@@ -176,6 +178,7 @@ socket.on('brodcasterToken', async(token)=>{
     // changUserToBrod(token)
 
     await changeRole(token)
+    // join(roomState.appId,token,roomState.name,roomState.userUid)
 })
 
 socket.on('userChangedToAudience', (user)=>{
@@ -186,7 +189,7 @@ socket.on('userChangedToAudience', (user)=>{
     roomState.brodcasters = roomState.brodcasters.filter(usr => usr._id !== user._id)
     addItem(user)
     renderRoom(roomState, state)
-
+    roomState.userUid = user.uid;
     // console.log('room state after change user to audience',roomState)
     // console.log('newState',newState)
     console.log('state', state)
@@ -199,6 +202,7 @@ socket.on('audienceToken', async(token) => {
     console.log('aud token', token)
 
     await changeRole(token)
+    // join(roomState.appId,token,roomState.name,roomState.userUid)
 }) // will be only for user ho return be an audience
 
 socket.on('adminReJoinedRoomSuccess', ()=>{
