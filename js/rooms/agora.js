@@ -16,6 +16,7 @@ export let agoraState = {
 export const changeRole = (token) => {
     client.renewToken(token)
     client.setClientRole(agoraState.role)
+    client.on("user-published", handleUserPublished);
 }
 
 export const join = async(appid,token, channel, uid) => {
@@ -76,17 +77,20 @@ export async function leave() {
 // Subscribe to a remote user
 async function subscribe(user, mediaType) {
     // const uid = user.uid;
-    await client.subscribe(user, mediaType);
+    // await client.subscribe(user, mediaType)
+    await client.subscribe(user,"audio");
+    user.audioTrack.play();
     console.log("Successfully subscribed.");
-    if (mediaType === 'audio') {
-        user.audioTrack.play();
-    }
+    // if (mediaType === 'audio') {
+    //     user.audioTrack.play();
+    // }
 }
 
 // Handle user published
 function handleUserPublished(user, mediaType) {
     const id = user.uid;
     remoteUsers[id] = user;
+    console.log("user published")
     subscribe(user, mediaType);
 }
 
