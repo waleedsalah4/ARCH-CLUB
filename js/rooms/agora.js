@@ -28,6 +28,11 @@ export const changeRole = async(token) => {
       });
     //   await client.join(appid, channel, token, uid);
     await  client.join(roomInfo.appid, roomInfo.channelName, token,roomInfo.uid, function() {
+        if(agoraState.role === 'host'){
+            localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+            await client.publish(Object.values(localTracks));
+        }
+
           console.log('User ' + ' join channel successfully');
       }, function(err) {
           console.log('[ERROR] : join channel failed', err);
