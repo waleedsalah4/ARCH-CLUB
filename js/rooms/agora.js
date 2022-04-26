@@ -1,4 +1,4 @@
-let client = AgoraRTC.createClient({
+export let client = AgoraRTC.createClient({
     mode: "live",
     codec: "vp8"
 });
@@ -12,6 +12,12 @@ var remoteUsers = {};
 export let agoraState = {
     role: 'audience'
 }
+
+export const changeRole = (token) => {
+    client.renewToken(token)
+    client.setClientRole(agoraState.role)
+}
+
 export const join = async(appid,token, channel, uid) => {
     // create Agora client
     client.setClientRole(agoraState.role);
@@ -63,6 +69,7 @@ export async function leave() {
     // remove remote users and player views
     remoteUsers = {};
     // leave the channel
+    console.log('user left agora*******------****--')
     await client.leave();
 }
 

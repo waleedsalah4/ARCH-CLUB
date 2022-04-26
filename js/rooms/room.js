@@ -1,7 +1,7 @@
 import { sideBarView } from '../sideBar/sideBarView.js';
 import { roomSideBarHref } from '../sideBar/sideBarHref.js';
 import { snackbar } from '../utilities/snackbar.js';
-import { join, leave, agoraState } from './agora.js';
+import {client,changeRole ,join, leave, agoraState } from './agora.js';
 const roomSideBar = document.querySelector('#room-sidebar')
 
 const roomSpeaker = document.querySelector('.room-speakers')
@@ -165,12 +165,17 @@ socket.on('userChangedToBrodcaster', (user)=> {
 
     // console.log('newState',newState)
     console.log('state', state)
+
+    user._id === Me._id ? agoraState.role = 'host' : '';
+    
 })
 
 socket.on('brodcasterToken', (token)=>{
     console.log('brodcaster token when user changed from aud to brod', token)
     //only for user who asked
     // changUserToBrod(token)
+
+    changeRole(token)
 })
 
 socket.on('userChangedToAudience', (user)=>{
@@ -185,10 +190,15 @@ socket.on('userChangedToAudience', (user)=>{
     // console.log('room state after change user to audience',roomState)
     // console.log('newState',newState)
     console.log('state', state)
+
+
+    user._id === Me._id ? agoraState.role = 'audience' : '';
 })
 
 socket.on('audienceToken', (token) => {
     console.log('aud token', token)
+
+    changeRole(token)
 }) // will be only for user ho return be an audience
 
 socket.on('adminReJoinedRoomSuccess', ()=>{
