@@ -28,8 +28,8 @@ export const changeRole = async(token) => {
         await client.publish(Object.values(localTracks));
         console.log("Successfully published.");
     } else {
-        client.on("user-published", handleUserJoined);
-        // client.on("user-joined", handleUserJoined);
+        // client.on("user-published", handleUserJoined);
+        await client.unpublish();
         client.on("user-left", handleUserLeft);
     }
 }
@@ -54,22 +54,21 @@ export const join = async(appid,token, channel, uid) => {
         // localTracks.videoTrack = await AgoraRTC.createCameraVideoTrack();
         // play local video track
         // localTracks.audioTrack.play();
-
+/*
         var resp = localTracks.audioTrack.play();
 
         if (resp!== undefined) {
             resp.then(_ => {
                 localTracks.audioTrack.play()
             }).catch(error => {
-                console.log('can not play the thound======***//==')
+                console.log('can not play the thound======//==')
             });
         }
-
+*/
         await client.publish(Object.values(localTracks));
         console.log("Successfully published.");
 
         client.on("user-published", handleUserJoined);
-        // client.on("user-joined", handleUserJoined);
         client.on("user-left", handleUserLeft);
     }
 }
