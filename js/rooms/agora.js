@@ -71,15 +71,16 @@ export const join = async(appid,token, channel, uid) => {
 
     client.setClientRole(agoraState.role);
     console.log(agoraState.role)
-    // if (agoraState.role === "audience") {
-    //     // add event listener to play remote tracks when remote user publishs.
-    //     client.on("user-published", handleUserJoined);
-    //     // client.on("user-joined", handleUserJoined);
-    //     client.on("user-left", handleUserLeft);
-    // }
-    // join the channel
     await client.join(appid, channel, token, uid);
-    if (agoraState.role === "host") {
+
+    if (agoraState.role === "audience") {
+        // add event listener to play remote tracks when remote user publishs.
+        client.on("user-published", handleUserJoined);
+        // client.on("user-joined", handleUserJoined);
+        client.on("user-left", handleUserLeft);
+    }
+    // join the channel
+    else if (agoraState.role === "host") {
 
         // create local audio and video tracks
         console.log(AgoraRTC)
