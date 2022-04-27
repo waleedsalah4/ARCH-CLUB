@@ -16,27 +16,30 @@ export let agoraState = {
 let roomInfo = {}
 
 export const changeRole = async(token) => {
-    client.renewToken(token)
+
+    // client.renewToken(token)
     // await client.unpublish();
     // client.setClientRole(agoraState.role)
-    
-
+    await client.leave();
+    join(roomInfo.appid,token, roomInfo.channelName,roomInfo.uid) 
+    /*
     client.setClientRole(agoraState.role, function() {
         console.log(`Client role set to ${agoraState.role}`);
       }, function(e) {
         console.log('setClientRole failed', e);
       });
     //   await client.join(appid, channel, token, uid);
-    await  client.join(roomInfo.appid, roomInfo.channelName, token,roomInfo.uid, async function() {
+    console.log(roomInfo)
+    
+    await  client.join(roomInfo.appid, roomInfo.channelName, token,roomInfo.uid) 
+
         if(agoraState.role === 'host'){
             localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack();
             await client.publish(Object.values(localTracks));
         }
 
           console.log('User join channel successfully');
-      }, function(err) {
-          console.log('[ERROR] : join channel failed', err);
-      });
+*/
     
 
 
@@ -64,16 +67,18 @@ export const join = async(appid,token, channel, uid) => {
     roomInfo.channelName = channel;
     roomInfo.appid = appid
     roomInfo.uid = uid
+    console.log(roomInfo)
+
     client.setClientRole(agoraState.role);
     console.log(agoraState.role)
-    if (agoraState.role === "audience") {
-        // add event listener to play remote tracks when remote user publishs.
-        client.on("user-published", handleUserJoined);
-        // client.on("user-joined", handleUserJoined);
-        client.on("user-left", handleUserLeft);
-    }
+    // if (agoraState.role === "audience") {
+    //     // add event listener to play remote tracks when remote user publishs.
+    //     client.on("user-published", handleUserJoined);
+    //     // client.on("user-joined", handleUserJoined);
+    //     client.on("user-left", handleUserLeft);
+    // }
     // join the channel
-     await client.join(appid, channel, token, uid);
+    await client.join(appid, channel, token, uid);
     if (agoraState.role === "host") {
 
         // create local audio and video tracks
@@ -81,7 +86,7 @@ export const join = async(appid,token, channel, uid) => {
         localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack()
         // localTracks.videoTrack = await AgoraRTC.createCameraVideoTrack();
         // play local video track
-        // localTracks.audioTrack.play();
+        // localTracks.audioTrack.play(String(uid));
 /*
         var resp = localTracks.audioTrack.play();
 
