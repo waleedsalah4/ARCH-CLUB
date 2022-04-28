@@ -1,7 +1,7 @@
 import { sideBarView } from '../sideBar/sideBarView.js';
 import { roomSideBarHref } from '../sideBar/sideBarHref.js';
 import { snackbar } from '../utilities/snackbar.js';
-import {client,changeRole ,join, leave, agoraState } from './agora.js';
+import {client,changeRole ,join, leave, agoraState ,toggleMic} from './agora.js';
 const roomSideBar = document.querySelector('#room-sidebar')
 
 const roomSpeaker = document.querySelector('.room-speakers')
@@ -35,7 +35,7 @@ let roomState = {
         admin : {},
         audience : [],
         brodcasters : []
-};
+}; 
 
 let Me= {}
 
@@ -263,6 +263,7 @@ const changUserToBrod = (token) =>{
 
 
 const renderSpeakers = (speaker, admin) => {
+    console.log(speaker);
     const markup = `
     <div class="user" data-_id="${speaker._id}">
         <div class="avatar" id="user-avatar-${speaker._id}">
@@ -359,6 +360,10 @@ const renderFooter = (state) => {
     </div>
     `
     footer.insertAdjacentHTML('beforeend', markup)
+    if(state.isAdmin){
+        document.querySelector('#handle-mute').addEventListener('click',toggleMic)
+    }
+    
 
     if(document.querySelector('#footer-hand')) {
         document.querySelector('#footer-hand').addEventListener('click', ()=> {

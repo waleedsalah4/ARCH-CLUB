@@ -107,6 +107,35 @@ export const join = async(appid,token, channel, uid) => {
     }
 }
 
+//mute & unmute
+export async function toggleMic(){
+    if (localTracks.audioTrack._muted){
+        await localTracks.audioTrack.setMuted(false)
+        //change footer icon
+        document.getElementById('handle-mute').innerHTML = `
+        <img src="../../assets/room/microphone-on.svg" alt="">`
+
+        //change speaker icon
+        document.querySelector('.mic').innerHTML = `
+        <img src="../../assets/room/microphone-on.svg" alt="">`
+    }
+    
+    else{
+        await localTracks.audioTrack.setMuted(true)
+        //change footer icon
+        document.getElementById('handle-mute').innerHTML = `
+        <img src="../../assets/room/microphone.svg" alt="">`
+
+        //change speaker icon
+        document.querySelector('.mic').innerHTML = `
+        <img src="../../assets/room/microphone.svg" alt="">`
+
+        
+    }
+}
+
+
+
 // Leave
 export async function leave() {
     for (trackName in localTracks) {
