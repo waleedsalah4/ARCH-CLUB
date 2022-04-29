@@ -360,9 +360,9 @@ const renderFooter = (state) => {
     </div>
     `
     footer.insertAdjacentHTML('beforeend', markup)
-    if(state.isAdmin){
+    
         document.querySelector('#handle-mute').addEventListener('click',toggleMic)
-    }
+    
     
 
     if(document.querySelector('#footer-hand')) {
