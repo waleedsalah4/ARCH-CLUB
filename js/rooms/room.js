@@ -160,7 +160,12 @@ socket.on('userChangedToBrodcaster', (user)=> {
     user.isAsked = false;
     // const newState = {...state}
     // state.isListener = false;
-    user._id === Me._id ? state.isListener = false : '';
+    if(user._id === Me._id){
+        state.isListener = false;
+        state.isSpeaker = true;
+    }
+   
+    
     roomState.audience = roomState.audience.filter(usr => usr._id !== user._id)
     addUserToSpeakers(user)
     renderRoom(roomState, state)
@@ -360,8 +365,11 @@ const renderFooter = (state) => {
     </div>
     `
     footer.insertAdjacentHTML('beforeend', markup)
-    
+    console.log(state.isSpeaker);
+    if(state.isSpeaker || state.isAdmin){
         document.querySelector('#handle-mute').addEventListener('click',toggleMic)
+    }
+        
     
     
 
