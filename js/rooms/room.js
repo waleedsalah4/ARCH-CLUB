@@ -352,9 +352,11 @@ const renderFooter = (state) => {
         }
         
         <div>
-            <div class="plus all-center hand-over" id="handle-mute">
-                <img src="../../assets/room/microphone.svg" alt="">
-            </div>
+        ${state.isSpeaker || state.isAdmin ? `<div class="plus all-center hand-over" id="handle-mute">
+        <img src="../../assets/room/microphone.svg" alt="">
+         </div>
+            ` : `` } 
+            
             ${state.isListener && !state.isAdmin ? `<div class="hand all-center hand-over" id="footer-hand">
                 <img src="../../assets/room/hand.svg" alt="">
             </div>` : ''}
