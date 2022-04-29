@@ -107,9 +107,13 @@ export const join = async(appid,token, channel, uid) => {
     }
 }
 
+let localTracksState = {
+    audioTrackMuted: false
+}
+
 //mute & unmute
 export async function toggleMic(){
-    if (localTracks.audioTrack._muted){
+   /*  if (localTracks.audioTrack._muted){
         await localTracks.audioTrack.setMuted(false)
         //change footer icon
         document.getElementById('handle-mute').innerHTML = `
@@ -129,6 +133,33 @@ export async function toggleMic(){
         //change speaker icon
         document.querySelector('.mic').innerHTML = `
         <img src="../../assets/room/microphone.svg" alt="">`
+
+        
+    } */
+
+    if (!localTracksState.audioTrackMuted){
+        await localTracks.audioTrack.setMuted(true)
+        localTracksState.audioTrackMuted = true
+         //change footer icon
+         document.getElementById('handle-mute').innerHTML = `
+         <img src="../../assets/room/microphone.svg" alt="">`
+ 
+         //change speaker icon
+         document.querySelector('.mic').innerHTML = `
+         <img src="../../assets/room/microphone.svg" alt="">`
+    }
+    
+    else{
+        await localTracks.audioTrack.setMuted(false)
+        localTracksState.audioTrackMuted = false
+        //change footer icon
+        document.getElementById('handle-mute').innerHTML = `
+        <img src="../../assets/room/microphone-on.svg" alt="">`
+
+        //change speaker icon
+        document.querySelector('.mic').innerHTML = `
+        <img src="../../assets/room/microphone-on.svg" alt="">`
+       
 
         
     }
