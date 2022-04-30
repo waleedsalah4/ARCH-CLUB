@@ -1,3 +1,5 @@
+import { changeMutestate, Me } from "./room.js";
+
 export let client = AgoraRTC.createClient({
     mode: "live",
     codec: "vp8"
@@ -32,12 +34,10 @@ export const changeRole = async(token) => {
     console.log(roomInfo)
     
     await  client.join(roomInfo.appid, roomInfo.channelName, token,roomInfo.uid) 
-
         if(agoraState.role === 'host'){
             localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack();
             await client.publish(Object.values(localTracks));
         }
-
           console.log('User join channel successfully');
 */
     
@@ -73,14 +73,11 @@ export const join = async(appid,token, channel, uid) => {
     console.log(agoraState.role)
     await client.join(appid, channel, token, uid);
 
-    if (agoraState.role === "audience") {
-        // add event listener to play remote tracks when remote user publishs.
-        client.on("user-published", handleUserJoined);
-        // client.on("user-joined", handleUserJoined);
-        client.on("user-left", handleUserLeft);
-    }
+    
+    // add event listener to play remote tracks when remote user publishs.
+        
     // join the channel
-    else if (agoraState.role === "host") {
+     if (agoraState.role === "host") {
 
         // create local audio and video tracks
         console.log(AgoraRTC)
@@ -90,7 +87,6 @@ export const join = async(appid,token, channel, uid) => {
         // localTracks.audioTrack.play(String(uid));
 /*
         var resp = localTracks.audioTrack.play();
-
         if (resp!== undefined) {
             resp.then(_ => {
                 localTracks.audioTrack.play()
@@ -102,10 +98,83 @@ export const join = async(appid,token, channel, uid) => {
         await client.publish(Object.values(localTracks));
         console.log("Successfully published.");
 
-        client.on("user-published", handleUserJoined);
-        client.on("user-left", handleUserLeft);
+        // client.on("user-published", handleUserJoined);
+        // client.on("user-left", handleUserLeft);
+
+        // Client.on("user-mute-updated")
+      
+        // client.on("unmute-audio", function (evt) {
+        //     var uid = evt.uid;
+        //     console.log("unmute audio:" + uid);
+        // });
+
+        // setInterval(() => {
+        //     console.log('audio details 1')
+        //     client.getRemoteAudioStats((remoteAudioStatsMap) => {
+        //         console.log('audio details 2')
+        //       console.log("active user audio datails", remoteAudioStatsMap)
+        //     });
+        // }, 1000)
+    }
+
+    client.on("user-published", handleUserPublished);
+    client.on("user-left", handleUserLeft);
+    client.on("user-mute-updated", function(evt) {
+        // var uid = evt.uid;
+        console.log("mute audio:=====>" , evt);
+        // alert("mute audio:" + evt);
+    })
+    client.on("user-unpublished", function(evt) {
+            // var uid = evt.uid;
+        // console.log("unpublished audio:=====>", evt);
+        // var uid = evt.uid;
+        // var muteState = evt._audio_muted_;
+        changeMutestate(evt)
+            // alert("mute audio:", evt);
+    });
+}
+
+let localTracksState = {
+    audioTrackMuted: false
+}
+
+
+
+//mute & unmute
+export async function toggleMic(){
+  
+
+    if (!localTracksState.audioTrackMuted){
+        await localTracks.audioTrack.setEnabled(true)
+        localTracksState.audioTrackMuted = true;
+        Me.isMuted = true;
+         //change footer icon
+         document.getElementById('handle-mute').innerHTML = `
+         <img src="../../assets/room/microphone-on.svg" alt="">`
+ 
+         //change speaker icon
+        //  document.querySelector('.mic').innerHTML = `
+        //  <img src="../../assets/room/microphone.svg" alt="">`
+    }
+    
+    else{
+        await localTracks.audioTrack.setEnabled(false)
+        localTracksState.audioTrackMuted = false;
+        Me.isMuted = false;
+        //change footer icon
+        document.getElementById('handle-mute').innerHTML = `
+        <img src="../../assets/room/microphone.svg" alt="">`
+
+        //change speaker icon
+        // document.querySelector('.mic').innerHTML = `
+        // <img src="../../assets/room/microphone-on.svg" alt="">`
+       
+
+        
     }
 }
+
+
 
 // Leave
 export async function leave() {
@@ -143,7 +212,6 @@ async function handleUserPublished(user, mediaType) {
     remoteUsers[id] = user;
     console.log("user published")
     subscribe(user, mediaType);
-
     // await client.subscribe(user, mediaType);
     // if (mediaType === "audio") {
     //     user.audioTrack.play();
@@ -151,8 +219,9 @@ async function handleUserPublished(user, mediaType) {
 }
 */
 // Handle user joined
-function handleUserJoined(user, mediaType) {
-    console.log('userjoined ======= agora')
+function handleUserPublished(user, mediaType) {
+    console.log('userjoined ======= agora', user)
+    changeMutestate(user)
     const id = user.uid;
     remoteUsers[id] = user;
     subscribe(user, mediaType);

@@ -1,7 +1,7 @@
 import { sideBarView } from '../sideBar/sideBarView.js';
 import { roomSideBarHref } from '../sideBar/sideBarHref.js';
 import { snackbar } from '../utilities/snackbar.js';
-import {client,changeRole ,join, leave, agoraState } from './agora.js';
+import {client,changeRole ,join, leave, agoraState ,toggleMic} from './agora.js';
 const roomSideBar = document.querySelector('#room-sidebar')
 
 const roomSpeaker = document.querySelector('.room-speakers')
@@ -27,17 +27,17 @@ let state = {
     isAdmin: false,
     isSpeaker:false,
     isListener:false,
+    isMuted: false
 };
 
 // let newState = {}
 
 let roomState = {
-        admin : {},
-        audience : [],
-        brodcasters : []
-};
+    audience : [],
+    brodcasters : []
+}; 
 
-let Me= {}
+export let Me= {}
 
 let socket = io('https://audiocomms-podcast-platform.herokuapp.com', {
     auth: {
@@ -87,12 +87,15 @@ socket.on('createRoomSuccess', (user,room,token) => {
     // if(room){
         console.log(user,room,token)
         document.querySelector('.create-room-container').classList.add('show-modal') 
-        roomState.admin = user;
+        user.isMuted = false;
+        user.isAdmin = true;
+        Me = {...user};
         roomState.audience = room.audience;
-        roomState.brodcasters = room.brodcasters;
+        roomState.brodcasters = [user];
         roomState.channelName = room.name;
         roomState.appId = room.APP_ID
         state.isAdmin = true;
+        state.isSpeaker = true;
         console.log(state)
         renderRoom(roomState, state);
 
@@ -107,10 +110,12 @@ socket.on('createRoomSuccess', (user,room,token) => {
 
 socket.on('joinRoomSuccess', (user, room, token) => {
     console.log('join room',user,room,token)
+    user.isMuted = false;
+    room.admin.isAdmin = true;
     Me = {...user};
     state.isListener = true;
     roomState.audience = room.audience;
-    roomState.brodcasters = room.brodcasters;
+    roomState.brodcasters = [room.admin,...room.brodcasters];
     roomState.admin = room.admin
     console.log(state)
     renderRoom(roomState, state)
@@ -124,6 +129,7 @@ socket.on('userJoined', (user) => {
     console.log('userJoined', user)
     console.log(roomState);
     user.isAsked = false;
+    user.isMuted = false;
     addItem(user);
     console.log(state)
     renderRoom(roomState, state);
@@ -160,7 +166,12 @@ socket.on('userChangedToBrodcaster', (user)=> {
     user.isAsked = false;
     // const newState = {...state}
     // state.isListener = false;
-    user._id === Me._id ? state.isListener = false : '';
+    if(user._id === Me._id){
+        state.isListener = false;
+        state.isSpeaker = true;
+    }
+   
+    
     roomState.audience = roomState.audience.filter(usr => usr._id !== user._id)
     addUserToSpeakers(user)
     renderRoom(roomState, state)
@@ -228,8 +239,20 @@ function addItem(obj){
 function addUserToSpeakers(user){
     roomState.brodcasters.push(user)
 }
-/*
 
+
+export const changeMutestate = (obj) => {
+    // let allSpeakers = [roomState.admin, ...roomState.brodcasters]
+    roomState.brodcasters.map(user => {
+        if(user.uid === obj.uid){
+            user.isMuted = obj._audio_muted_;
+        }
+    })
+    roomState.admin.uid === obj.uid ? roomState.admin.isMuted = obj._audio_muted_ : ''
+    renderRoom(roomState, state)
+    
+}
+/*
 const userJoinAgora = async(userToken,channelName, uid) => {
     console.log(client)
     client.setClientRole('host');
@@ -244,7 +267,6 @@ const userJoinAgora = async(userToken,channelName, uid) => {
             client.publish(localStream, handleError);
         }, handleError);
     }, handleError);
-
     client.on("stream-added", function(evt){
         client.subscribe(evt.stream, handleError);
     });
@@ -254,7 +276,6 @@ const userJoinAgora = async(userToken,channelName, uid) => {
         stream.play();
     });
 }
-
 const changUserToBrod = (token) =>{
     client.setClientRole('host');
     client.renewToken(token)
@@ -262,21 +283,25 @@ const changUserToBrod = (token) =>{
 */
 
 
-const renderSpeakers = (speaker, admin) => {
+const renderSpeakers = (speaker) => {
+    // console.log(speaker);
+    // let isMe = speaker._id === Me._id;
+    // console.log(speaker.isMuted)
+    console.log(Me.isMuted)
     const markup = `
     <div class="user" data-_id="${speaker._id}">
         <div class="avatar" id="user-avatar-${speaker._id}">
             <img src=${speaker.photo} alt="Avatar">
         </div>
-        <span class="mic">
-            <img src="../../assets/room/microphone-on.svg" alt="">
-        </span>
-        <div class="user-name ${ admin ? '' : 'speaker'}">
-            ${admin ? `<img src="../../assets/room/star.svg" alt="">` : ''}
+        ${speaker.isMuted || Me.isMuted  ? `<span class="mic">
+            <img src="../../assets/room/microphone.svg" alt="">
+        </span>` : ''}
+        <div class="user-name ${ speaker.isAdmin ? '' : 'speaker'}">
+            ${speaker.isAdmin ? `<img src="../../assets/room/star.svg" alt="">` : ''}
             <div>
                 ${speaker.name}
             </div>
-            ${admin ? '' : `<div class="user-role">speaker</div>`}
+            ${speaker.isAdmin ? '' : `<div class="user-role">speaker</div>`}
         </div>
     </div>
     `
@@ -295,9 +320,6 @@ const renderlisteners = (audience) => {
         <div class="avatar" id="user-avatar-${audience._id}">
             <img src=${audience.photo} alt="Avatar">
         </div>
-        <span class="mic">
-            <img src="../../assets/room/microphone.svg" alt="">
-        </span>
         <span class="request-hand" id="request-hand-${audience._id}">
             ${audience.isAsked ? `
                 <img class="request-hand-img" src="../../assets/room/hand.svg" alt="ask-to-speak">
@@ -331,7 +353,6 @@ socket.on('roomEnded',()=>{
 
 const renderFooter = (state) => {
     const markup = `
-    
     <div class="bt-options">
         ${state.isAdmin? `
             <button class="all-center" id="end-room">
@@ -346,9 +367,10 @@ const renderFooter = (state) => {
         }
         
         <div>
-            <div class="plus all-center hand-over" id="handle-mute">
-                <img src="../../assets/room/microphone.svg" alt="">
-            </div>
+        ${state.isSpeaker ? `<div class="plus all-center hand-over" id="handle-mute">
+            <img src="../../assets/room/microphone-on.svg" alt="">
+             </div>` : ''} 
+            
             ${state.isListener && !state.isAdmin ? `<div class="hand all-center hand-over" id="footer-hand">
                 <img src="../../assets/room/hand.svg" alt="">
             </div>` : ''}
@@ -359,6 +381,17 @@ const renderFooter = (state) => {
     </div>
     `
     footer.insertAdjacentHTML('beforeend', markup)
+    // console.log(state.isSpeaker);
+    if(state.isSpeaker){
+        document.querySelector('#handle-mute').addEventListener('click',() => {
+            // state.isMuted = !state.isMuted
+            toggleMic()
+            renderRoom(roomState, state)
+        })
+    }
+        
+    
+    
 
     if(document.querySelector('#footer-hand')) {
         document.querySelector('#footer-hand').addEventListener('click', ()=> {
@@ -405,8 +438,9 @@ const renderRoom = (roomState, state) => {
     roomSpeaker.innerHTML = '';
     roomListeners.innerHTML = '';
     footer.innerHTML = '';
-    renderSpeakers(roomState.admin, true) //render admin
-    roomState.brodcasters.map(user=> renderSpeakers(user, false)) //render users
+
+    //renderSpeakers(roomState.admin, true) //render admin
+    roomState.brodcasters.map(user=> renderSpeakers(user)) //render users
     roomState.audience.map(user=> renderlisteners(user))
     
     renderFooter(state)
@@ -532,310 +566,3 @@ window.addEventListener('load', async () => {
     }
 })
 
-/*
-// const sidebar = document.querySelector('.nav')
-// const toggle = document.querySelector("#toggle");
-
-
-/*room details 
-const speakerListener = document.querySelector('.speak-listen');
-const currentSpeakersInRoom = document.querySelector('.current-talkers')
-const talkersCount = document.querySelector('.talkers-count')
-const audincesCount = document.querySelector('.audinces-count')
-// const showUserAndControls = document.querySelector('.all-displayRoom')
-const displayTitle = document.querySelector('.display-title')
-const titleForUsersInAllDisplayRoom = document.querySelector('.display-title p')
-const usersInAllDisplay = document.querySelector('.display-users')
-const getControls = document.querySelector('.display-controls')
-
-const speakerBtn = document.querySelector('#getSpeakers')
-const audincesBtn = document.querySelector('#getAudinces') 
-const controlBtn = document.querySelector('#control-button')
-
-
-const fakeUserObject = {
-    speakers: 12,
-    listeners: 5,
-    userRole: 'listner', // host | speaker
-    speakerUsers: [
-        {
-            _id: '623256',
-            name: 'alex',
-            followers: '121.13',
-            role: 'host'
-        },
-        {
-            _id: '626256',
-            name: 'tony',
-            followers: '124.13',
-            role: 'speaker'
-        },
-        {
-            _id: '621356',
-            name: 'ahmed',
-            followers: '591.13',
-            role: 'speaker'
-        },
-        {
-            _id: '681256',
-            name: 'lee',
-            followers: '391.13',
-            role: 'speaker'
-        },
-        {
-            _id: '6281256',
-            name: 'max',
-            followers: '191.13',
-            role: 'speaker'
-        },
-        {
-            _id: '620256',
-            name: 'mark',
-            followers: '131.103',
-            role: 'speaker'
-        },
-    ],
-    listenerUsers: [
-        {
-            _id: '623256',
-            name: 'alx',
-            followers: '121.13',
-            role: 'listner'
-        },
-        {
-            _id: '626256',
-            name: 'pop',
-            followers: '124.13',
-            role: 'listner'
-        },
-        {
-            _id: '621356',
-            name: 'mo',
-            followers: '591.13',
-            role: 'listner'
-        },
-        {
-            _id: '681256',
-            name: 'lee',
-            followers: '391.13',
-            role: 'listner'
-        },
-        {
-            _id: '6281256',
-            name: 'moo',
-            followers: '191.13',
-            role: 'listner'
-        },
-        {
-            _id: '620256',
-            name: 'marki',
-            followers: '131.103',
-            role: 'listner'
-        },
-        {
-            _id: '629256',
-            name: 'alee',
-            followers: '191.153',
-            role: 'listner'
-        },
-    ]
-
-}
-
-// ----display controls
-
-const displayControls = (role) =>{
-    let markup;
-    if(role === 'host'){
-       markup = `
-        <div>
-            <button class="control-btn">End Room</button>
-        </div>
-        <div>
-            <button class="control-btn mic"> 
-                <span class="control-mic">
-                    <i class='bx bx-microphone'></i>
-                </span>
-                Mic off
-            </button>
-        </div>
-        `
-    } else if(role === 'speaker'){
-        markup = `
-            <div>
-                <button class="control-btn">Leave Room</button>
-            </div>
-            <div>
-                <button class="control-btn mic"> 
-                    <span class="control-mic">
-                        <i class='bx bx-microphone-off'></i>
-                    </span>
-                    Mic on
-                </button>
-            </div>
-        `
-    } else {
-        markup = `
-            <div>
-                <button class="control-btn">Leave Room</button>
-            </div>
-            <div>
-                <button class="control-btn">Ask To Talk</button>
-            </div>
-            <div>
-                <button class="control-btn mic"> 
-                    <span class="control-mic">
-                        <i class='bx bx-microphone-off'></i>
-                    </span>
-                    Mic on
-                </button>
-            </div>
-        `
-    }
-    if(!displayTitle.classList.contains('hide') || !usersInAllDisplay.classList.contains('hide')){
-        displayTitle.classList.add('hide');
-    }
-    getControls.textContent = '';
-    usersInAllDisplay.textContent = ''
-    getControls.insertAdjacentHTML('beforeend', markup)
-    getControls.classList.remove('hide')
-     
-}
-
-// ------------------show all----------------------------------
-
-const setTitleForUsersInDisplayAll = (title) => {
-   
-    if(displayTitle.classList.contains('hide')){
-        displayTitle.classList.remove('hide')
-    }
-    titleForUsersInAllDisplayRoom.textContent= title;
-}
-
-//listeners
-const getAllListeners = (listener, role) => {
-    let markup =`
-    <div class="users-list" id=${listener._id}>
-        <div class="user-img">
-            <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80" alt="user-img">
-        </div>
-        <div>
-            <h3 class="user-name">${listener.name}</h3>
-            <p class="user-followers">${listener.followers} Followers</p>
-        </div>
-        ${role === 'host' ? `<div>
-            <button class="control-btn">Make Speaker</button>
-        </div>` : ''}
-        
-    </div>
-    `
-    // if(usersInAllDisplay.classList.contains('hide')){
-    //     usersInAllDisplay.remove('hide')
-    // }
-    usersInAllDisplay.insertAdjacentHTML('beforeend', markup)
-}
-
-
-//speakers
-const getAllSpeakers = (speaker, role)=>{
-    let markup =`
-    <div class="users-list" id=${speaker._id}>
-        <div class="user-img">
-            <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80" alt="user-img">
-        </div>
-        <div>
-            <h3 class="user-name">${speaker.name}</h3>
-            <p class="user-followers">${speaker.followers} Followers</p>
-        </div>
-        ${role === 'host' ? `<div>
-            <button class="control-btn">Make Audience</button>
-        </div>` : ''}
-        
-    </div>
-    `
-    
-    usersInAllDisplay.insertAdjacentHTML('beforeend', markup)
-}
-
-const displayAllSpeakers = (role)=> {
-    usersInAllDisplay.textContent = '';
-    if(!getControls.classList.contains('hide')){
-        getControls.classList.add('hide')
-    }
-    // if(usersInAllDisplay.classList.contains('hide')){
-    //     usersInAllDisplay.remove('hide')
-    // }
-    fakeUserObject.speakerUsers.map(speaker=> getAllSpeakers(speaker, role))
-}
-const displayAllListeners = (role)=> {
-    usersInAllDisplay.textContent = '';
-    if(!getControls.classList.contains('hide')){
-        getControls.classList.add('hide')
-    }
-    // if(usersInAllDisplay.classList.contains('hide')){
-    //     usersInAllDisplay.remove('hide')
-    // }
-    console.log(usersInAllDisplay)
-    fakeUserObject.listenerUsers.map(listener=> getAllListeners(listener, role))
-}
-
-
-// ------------------ end show all----------------------------------
-
-
-const setSpeakersAndListenersCount = (listeners, speakers) => {
-    audincesCount.textContent = listeners;
-    talkersCount.textContent = speakers;
-}
-
-//speakers in room
-const displayCurrentSpeakers = (speaker) => {
-    let mark = `
-        <div class="talkers-card">
-            <div class="user-img">
-                <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80" alt="user">
-                ${speaker.role === 'host' ? `<i class='bx bxs-star host' style='color:#c5be2a'></i>` : ''}
-                <i class='bx bxs-microphone user-mic'></i>
-            </div>
-            <div>
-                <span>|'|'|'|' |'|'|'|' |'|'|'|'</span>
-            </div>
-        </div>
-    
-    `;
-    currentSpeakersInRoom.insertAdjacentHTML('beforeend', mark)
-}
-
-//speakers in room
-const getCurrentSpeakers = () => {
-   fakeUserObject.speakerUsers.map(speaker=> displayCurrentSpeakers(speaker)) 
-}
-
-setSpeakersAndListenersCount(fakeUserObject.listeners, fakeUserObject.speakers)
-getCurrentSpeakers()
-
-displayControls(fakeUserObject.userRole)
-
-//events
-// toggle.addEventListener("click" , () =>{
-//     sidebar.classList.toggle("close");
-// })
-
-
-//room events
-
-speakerBtn.addEventListener('click', ()=>{
-    setTitleForUsersInDisplayAll('Speakers')
-    displayAllSpeakers(fakeUserObject.userRole)
-})
-audincesBtn.addEventListener('click', ()=> {
-    setTitleForUsersInDisplayAll('Listeners')
-    displayAllListeners(fakeUserObject.userRole)
-})
-
-controlBtn.addEventListener('click', ()=>{
-    displayControls(fakeUserObject.userRole)
-})
-
-
-*/
