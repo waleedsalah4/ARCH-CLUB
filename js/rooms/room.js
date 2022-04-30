@@ -62,6 +62,7 @@ let timerCounter=0;
 socket.on('disconnect', (reason)=>{
     
     if (reason === 'transport close' && state.isAdmin) {
+        leave()//agora
         const reconnectTimer =  setInterval(()=>{
             if(socket.connected) {
                 socket.emit('adminReJoinRoom')
@@ -117,6 +118,7 @@ socket.on('joinRoomSuccess', (user, room, token) => {
     state.isListener = true;
     roomState.audience = room.audience;
     roomState.brodcasters = [room.admin,...room.brodcasters];
+    roomState.brodcasters.map(bro => bro.isMuted = true);
     roomState.admin = room.admin
     console.log(state)
     renderRoom(roomState, state)
@@ -197,8 +199,13 @@ socket.on('userChangedToAudience', (user)=>{
     console.log('user back to be aud', user)
     // const newState = {...state}
     // state.isListener = true;
-    user._id === Me._id ? state.isListener = true : '';
+    if(user._id === Me._id){
+        state.isSpeaker = false;
+        state.isListener = true;
+        state.isMuted = false
+    }
     roomState.brodcasters = roomState.brodcasters.filter(usr => usr._id !== user._id)
+   
     addItem(user)
     renderRoom(roomState, state)
     roomState.userUid = user.uid;
@@ -217,15 +224,37 @@ socket.on('audienceToken', async(token) => {
     // join(roomState.appId,token,roomState.name,roomState.userUid)
 }) // will be only for user ho return be an audience
 
-socket.on('adminReJoinedRoomSuccess', ()=>{
+socket.on('adminReJoinedRoomSuccess', async(user, room,token)=>{
     console.log('admin is back') //on for me
+    console.log(user,room,token)
+    user.isMuted = state.isMuted;
+    room.admin.isAdmin = true;
+    Me = {...user};
+    state.isListener = true;
+    roomState.audience = room.audience;
+    roomState.brodcasters = [room.admin,...room.brodcasters];
+    roomState.brodcasters.map(bro => bro.isMuted = true);
+    roomState.admin = room.admin
+    console.log(state)
+    renderRoom(roomState, state)
+
+    //agora
+    agoraState.role = 'host';
+    await join(room.APP_ID,token,room.name,user.uid)
+    console.log("state.isMuted ===",state.isMuted)
+    toggleMic(!state.isMuted)
+
 })
 
 socket.on('adminLeft', ()=>{
     console.log('admin has left if he does not come back after one min room will ended')
 })
 
-
+socket.on('roomEnded',()=>{
+    console.log('room ended')
+    leave()
+    window.location = '/archclub/home/index.html';
+})
 
 export const createRoom = function(obj){ 
     socket.emit('createRoom', obj);
@@ -255,16 +284,33 @@ export const changeMutestate = (obj) => {
 }
 
 
+export const changeVolumesIndicator = (arr) => {
+    // let allSpeakers = [roomState.admin, ...roomState.brodcasters]
+    arr.forEach(volume => {
+        console.log(volume.level)
+        const user = roomState.brodcasters.find(user => user.uid === volume.uid)
+        if(user && volume.level > 15){
+            document.querySelector(`#volume-indicator-${user.uid}`).style.border = '3px solid #867ce9e6'
+        }
+        else if(user && volume.level < 15){
+            document.querySelector(`#volume-indicator-${user.uid}`).style.border = '3px solid transparent'
+        }
+    })
+    // roomState.admin.uid === obj.uid ? roomState.admin.isMuted = obj._audio_muted_ : ''
+    // renderRoom(roomState, state)
+    
+}
+
 
 const renderSpeakers = (speaker) => {
     // console.log(speaker);
     // let isMe = speaker._id === Me._id;
     // console.log(speaker.isMuted)
-    console.log(Me.isMuted)
+    // console.log(Me.isMuted)
     const markup = `
     <div class="user" data-_id="${speaker._id}">
         <div class="avatar" id="user-avatar-${speaker._id}">
-            <img src=${speaker.photo} alt="Avatar">
+            <img src=${speaker.photo} alt="Avatar" class="volume-indicator" id="volume-indicator-${speaker.uid}">
         </div>
         ${speaker.isMuted ? `<span class="mic">
             <img src="../../assets/room/microphone.svg" alt="">
@@ -317,10 +363,7 @@ const renderlisteners = (audience) => {
 }
 
 
-socket.on('roomEnded',()=>{
-    console.log('room ended')
-    window.location = '/archclub/home/index.html';
-  })
+
 
 
 
@@ -341,9 +384,15 @@ const renderFooter = (state) => {
         }
         
         <div>
-        ${state.isSpeaker ? `<div class="plus all-center hand-over" id="handle-mute">
-            <img src="../../assets/room/microphone-on.svg" alt="">
-             </div>` : ''} 
+            ${state.isSpeaker && state.isMuted ? `<div class="plus all-center hand-over" id="handle-mute">
+                <img src="../../assets/room/microphone.svg" alt="">
+                </div>` : ''
+            } 
+            
+            ${state.isSpeaker && !state.isMuted ? `<div class="plus all-center hand-over" id="handle-mute">
+                <img src="../../assets/room/microphone-on.svg" alt="">
+                </div>` : ''
+            }
             
             ${state.isListener && !state.isAdmin ? `<div class="hand all-center hand-over" id="footer-hand">
                 <img src="../../assets/room/hand.svg" alt="">
@@ -358,8 +407,13 @@ const renderFooter = (state) => {
     // console.log(state.isSpeaker);
     if(state.isSpeaker){
         document.querySelector('#handle-mute').addEventListener('click',() => {
-            // state.isMuted = !state.isMuted
-            toggleMic()
+            toggleMic(state.isMuted)
+            state.isMuted = !state.isMuted;
+            Me.isMuted = state.isMuted;
+            roomState.brodcasters.map(brod =>{
+                brod._id === Me._id ? brod.isMuted = Me.isMuted : ''
+            })
+            
             renderRoom(roomState, state)
         })
     }
@@ -395,8 +449,6 @@ const renderFooter = (state) => {
         console.log('is end room exist')
         if(document.querySelector('#end-room')) {
             document.querySelector('#end-room').addEventListener('click',()=>{
-                //agora
-                leave()
                 //socket
                 socket.emit('endRoom');
                 console.log('emit end room')

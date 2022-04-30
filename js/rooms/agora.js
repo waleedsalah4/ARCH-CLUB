@@ -1,4 +1,4 @@
-import { changeMutestate, Me } from "./room.js";
+import { changeMutestate, Me, changeVolumesIndicator } from "./room.js";
 
 export let client = AgoraRTC.createClient({
     mode: "live",
@@ -114,45 +114,38 @@ export const join = async(appid,token, channel, uid) => {
     client.on("user-unpublished", function(evt) {
             // var uid = evt.uid;
         console.log("unpublished audio:=====>", evt);
-        var uid = evt;
-        if(uid !== undefined) {
-            uid.then(_ => {
-                console.log('worked******')
-              }).catch(error => {
-                console.log('not worked******')
-              });
-        }
+      
         // var muteState = evt._audio_muted_;
         changeMutestate(evt)
             // alert("mute audio:", evt);
     });
 
     client.on("volume-indicator", volumes => {
-        volumes.forEach((volume, index) => {
-            console.log(`${index} UID ${volume.uid} Level ${volume.level}`);
-        });
+        changeVolumesIndicator(volumes)
     })
 }
 
-let localTracksState = {
-    audioTrackMuted: false
-}
+// let localTracksState = {
+//     audioTrackMuted: false
+// }
 
 
 
 
 //mute & unmute
-export async function toggleMic(){
+export async function toggleMic(isMuted = false){
   
 
-    if (!localTracksState.audioTrackMuted){
+    if (isMuted){
         await localTracks.audioTrack.setEnabled(true)
-        await client.unpublish(Object.values(localTracks));
-        localTracksState.audioTrackMuted = true;
-        Me.isMuted = true;
+        // await client.unpublish(Object.values(localTracks));
+        // localTracksState.audioTrackMuted = true;
+        console.log(' un muted ===>')
+        // Me.isMuted = true;
          //change footer icon
-         document.getElementById('handle-mute').innerHTML = `
-         <img src="../../assets/room/microphone-on.svg" alt="">`
+         
+        //  document.getElementById('handle-mute').innerHTML = `
+        //  <img src="../../assets/room/microphone-on.svg" alt="">`
  
          //change speaker icon
         //  document.querySelector('.mic').innerHTML = `
@@ -161,23 +154,26 @@ export async function toggleMic(){
     
     else{
         await localTracks.audioTrack.setEnabled(false)
-        localTracksState.audioTrackMuted = false;
-        Me.isMuted = false;
+        
+
+        console.log(' muted ===>')
+        // Me.isMuted = false;
         //change footer icon
-        document.getElementById('handle-mute').innerHTML = `
-        <img src="../../assets/room/microphone.svg" alt="">`
+        // document.getElementById('handle-mute').innerHTML = `
+        // <img src="../../assets/room/microphone.svg" alt="">`
 
         //change speaker icon
         // document.querySelector('.mic').innerHTML = `
         // <img src="../../assets/room/microphone-on.svg" alt="">`
     }
+    // localTracksState.audioTrackMuted = !localTracksState.audioTrackMuted;
 }
 
 
 
 // Leave
 export async function leave() {
-    for (trackName in localTracks) {
+    for (let trackName in localTracks) {
         var track = localTracks[trackName];
         if (track) {
             track.stop();

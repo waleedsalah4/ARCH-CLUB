@@ -193,6 +193,10 @@
     border-radius: 50%;
     cursor: pointer;
   }
+
+  #page .house .screen main > div .user .avatar img.volume-indicator {
+    border: 3px solid transparent;
+  }
   
   
   
