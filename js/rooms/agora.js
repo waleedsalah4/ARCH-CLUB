@@ -70,6 +70,9 @@ export const join = async(appid,token, channel, uid) => {
     console.log(roomInfo)
 
     client.setClientRole(agoraState.role);
+    //
+    client.enableAudioVolumeIndicator();
+    
     console.log(agoraState.role)
     await client.join(appid, channel, token, uid);
 
@@ -82,27 +85,10 @@ export const join = async(appid,token, channel, uid) => {
         // create local audio and video tracks
         console.log(AgoraRTC)
         localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack()
-        // localTracks.videoTrack = await AgoraRTC.createCameraVideoTrack();
-        // play local video track
-        // localTracks.audioTrack.play(String(uid));
-/*
-        var resp = localTracks.audioTrack.play();
-        if (resp!== undefined) {
-            resp.then(_ => {
-                localTracks.audioTrack.play()
-            }).catch(error => {
-                console.log('can not play the thound======//==')
-            });
-        }
-*/
+ 
         await client.publish(Object.values(localTracks));
         console.log("Successfully published.");
 
-        // client.on("user-published", handleUserJoined);
-        // client.on("user-left", handleUserLeft);
-
-        // Client.on("user-mute-updated")
-      
         // client.on("unmute-audio", function (evt) {
         //     var uid = evt.uid;
         //     console.log("unmute audio:" + uid);
@@ -124,14 +110,28 @@ export const join = async(appid,token, channel, uid) => {
         console.log("mute audio:=====>" , evt);
         // alert("mute audio:" + evt);
     })
+    
     client.on("user-unpublished", function(evt) {
             // var uid = evt.uid;
-        // console.log("unpublished audio:=====>", evt);
-        // var uid = evt.uid;
+        console.log("unpublished audio:=====>", evt);
+        var uid = evt;
+        if(uid !== undefined) {
+            uid.then(_ => {
+                console.log('worked******')
+              }).catch(error => {
+                console.log('not worked******')
+              });
+        }
         // var muteState = evt._audio_muted_;
         changeMutestate(evt)
             // alert("mute audio:", evt);
     });
+
+    client.on("volume-indicator", volumes => {
+        volumes.forEach((volume, index) => {
+            console.log(`${index} UID ${volume.uid} Level ${volume.level}`);
+        });
+    })
 }
 
 let localTracksState = {
@@ -147,6 +147,7 @@ export async function toggleMic(){
 
     if (!localTracksState.audioTrackMuted){
         await localTracks.audioTrack.setEnabled(true)
+        await client.unpublish(Object.values(localTracks));
         localTracksState.audioTrackMuted = true;
         Me.isMuted = true;
          //change footer icon

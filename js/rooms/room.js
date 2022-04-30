@@ -46,6 +46,7 @@ let socket = io('https://audiocomms-podcast-platform.herokuapp.com', {
 });
 
 window.socket = socket;
+// window.Me = Me;
 
 socket.on('errorMessage', (msg) => {
     // snackbar(snackbarContainer,)
@@ -248,39 +249,11 @@ export const changeMutestate = (obj) => {
             user.isMuted = obj._audio_muted_;
         }
     })
-    roomState.admin.uid === obj.uid ? roomState.admin.isMuted = obj._audio_muted_ : ''
+    // roomState.admin.uid === obj.uid ? roomState.admin.isMuted = obj._audio_muted_ : ''
     renderRoom(roomState, state)
     
 }
-/*
-const userJoinAgora = async(userToken,channelName, uid) => {
-    console.log(client)
-    client.setClientRole('host');
-    await client.join(userToken, channelName, uid, ()=>{
-        // Create a local stream
-        let localStream = AgoraRTC.createStream({
-            audio: true,
-            video: false,
-        });
-        localStream.init(()=>{
-            localStream.play("speakers");
-            client.publish(localStream, handleError);
-        }, handleError);
-    }, handleError);
-    client.on("stream-added", function(evt){
-        client.subscribe(evt.stream, handleError);
-    });
-    // Play the remote stream when it is subsribed
-    client.on("stream-subscribed", function(evt){
-        let stream = evt.stream;
-        stream.play();
-    });
-}
-const changUserToBrod = (token) =>{
-    client.setClientRole('host');
-    client.renewToken(token)
-}
-*/
+
 
 
 const renderSpeakers = (speaker) => {
@@ -293,7 +266,7 @@ const renderSpeakers = (speaker) => {
         <div class="avatar" id="user-avatar-${speaker._id}">
             <img src=${speaker.photo} alt="Avatar">
         </div>
-        ${speaker.isMuted || Me.isMuted  ? `<span class="mic">
+        ${speaker.isMuted ? `<span class="mic">
             <img src="../../assets/room/microphone.svg" alt="">
         </span>` : ''}
         <div class="user-name ${ speaker.isAdmin ? '' : 'speaker'}">
@@ -303,7 +276,7 @@ const renderSpeakers = (speaker) => {
             </div>
             ${speaker.isAdmin ? '' : `<div class="user-role">speaker</div>`}
         </div>
-        
+
     </div>
     `
     roomSpeaker.insertAdjacentHTML('beforeend', markup)
@@ -450,7 +423,7 @@ const renderRoom = (roomState, state) => {
 
 
 const insertuserModal = (user, type) => {
-    const adminUser = user._id === roomState.admin._id ? true : false; //for not showing controls when click on admin photo
+    // const adminUser = user._id === roomState.admin._id ? true : false; //for not showing controls when click on admin photo
     const markup = `
     <div class="user-modal">
         <div class="close-modal">
@@ -464,7 +437,7 @@ const insertuserModal = (user, type) => {
                 <a href="#">${user.name}</a>
             </h3>
         </div>
-        ${state.isAdmin && !adminUser ? `
+        ${state.isAdmin  ? `
             <div class="controls">
                 <button id="cancel">cancel</button>
                 ${type === 'audience' && user.isAsked ? `<button id="changeToSpk">change to speaker</button>` : ''}
