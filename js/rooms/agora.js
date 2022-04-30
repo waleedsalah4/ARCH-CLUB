@@ -140,6 +140,7 @@ let localTracksState = {
 
 
 
+
 //mute & unmute
 export async function toggleMic(){
   
@@ -168,9 +169,6 @@ export async function toggleMic(){
         //change speaker icon
         // document.querySelector('.mic').innerHTML = `
         // <img src="../../assets/room/microphone-on.svg" alt="">`
-       
-
-        
     }
 }
 

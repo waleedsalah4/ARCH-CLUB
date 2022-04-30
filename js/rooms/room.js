@@ -303,6 +303,7 @@ const renderSpeakers = (speaker) => {
             </div>
             ${speaker.isAdmin ? '' : `<div class="user-role">speaker</div>`}
         </div>
+        
     </div>
     `
     roomSpeaker.insertAdjacentHTML('beforeend', markup)
