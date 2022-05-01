@@ -12,7 +12,7 @@
     margin: 1.5rem 8rem;
 }
 
-.header-container img{
+.left-header-part img{
     width: 6em;
     height: 6em;
     padding: .7em;
@@ -42,9 +42,15 @@
     gap: 10px 40px;
 }
 
-.left-header-part .create-btn {
+.left-header-part .create-btn,
+.left-header-part .room-btn {
     padding: 0.7rem;
     background: #6a4cff;
     border-radius: 2px;
     cursor: pointer;
+}
+.room-btn a{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
 }

@@ -14,6 +14,7 @@
 
     <!-- icons -->
     <link rel="stylesheet" href="../../css/sidebar/sidebar.css">
+    <link rel="stylesheet" href="../../css/cssUtilities/header.css">
     <link rel="stylesheet" href="../../css/home.css">
     <!-- <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'> -->
 
@@ -21,91 +22,6 @@
     <title>Home</title> 
 </head>
 <body>
-    <!-- <nav class="nav sidebar close">
-        <header>
-            <div class="image-text">
-                <span class="image">
-                    <img src="../../assets/logo.png" alt="logo">
-                </span>
-
-                <div class="text logo-text">
-                    <span class="name">ARCH CLUB</span>
-                </div>
-            </div>
-
-            <i class='bx bx-chevron-right toggle' id="toggle"></i>
-        </header>
-
-        <div class="menu-bar">
-            <div class="menu">
-
-                 <li class="search-box">
-                    <i class='bx bx-search icon'></i>
-                    <input type="text" placeholder="Search...">
-                </li> 
-
-                <ul class="menu-links">
-                    <li class="nav-link active">
-                        <a href="#">
-                            <i class='bx bx-home-alt icon'></i>
-                            <span class="text nav-text">Home</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-search-alt icon'></i>
-                            <span class="text nav-text">Discover</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bxs-user-voice icon'></i>
-                            <span class="text nav-text">My podcasts</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-broadcast icon'></i>
-                            <span class="text nav-text">Podcasts</span>
-                        </a>
-                    </li>
-
-                    <li class="nav-link">
-                        <a href="../profile/index.html">
-                            <i class='bx bxs-user icon'></i>
-                            <span class="text nav-text">Profile</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="bottom-content">
-                <li class="">
-                    <a href="#">
-                        <i class='bx bx-log-out icon' ></i>
-                        <span class="text nav-text">Logout</span>
-                    </a>
-                </li>
-
-                 <li class="mode">
-                    <div class="sun-moon">
-                        <i class='bx bx-moon icon moon'></i>
-                        <i class='bx bx-sun icon sun'></i>
-                    </div>
-                    <span class="mode-text text">Dark mode</span>
-
-                    <div class="toggle-switch">
-                        <span class="switch"></span>
-                    </div>
-                </li> 
-                
-            </div>
-        </div>
-
-    </nav> -->
 
     <div class="sideBar" id="home-sideBar">
        
@@ -114,7 +30,8 @@
 
     <section class="home">
         <div class="main-content">
-            <div class="top-nav">
+            <!--start header -->
+            <div class="header-container d-flex justify-content-between align-items-center" id="header">
                 <div class="top-nav-item box">
                     <input type="checkbox" id="check" />
                     <div class="search-box">
@@ -124,23 +41,20 @@
                         </label>
                     </div>
                 </div>
-                <div class="flex-end">
-                    <div class="top-nav-item">
-                        <div class="create-room">
-                            <a href="../rooms/room.html">
-                                <i class='bx bx-home-alt icon'></i>
-                                <span class="nav-text">create room</span>
-                            </a>
-                        </div>
-                    </div>
 
-                    <div class="top-nav-item">
-                        <div class="profile-pic">
-                            <img src="../../assets/logo.png">
-                        </div>
+                <div class="left-header-part">
+                    <div class="room-btn">
+                        <a href="../rooms/room.html" id="">rooms</a>
+                    </div>
+                    <div>
+                        <a href="../profile/index.html" id="user-avatar">
+                                <!-- <img  src="../../assets/user2.png" alt="user profile picture" class="circle-profile-img"> -->
+                        </a>
                     </div>
                 </div>
             </div>
+            <!--end header -->
+
             <div class="category">
                 <!-- <button class="category-btn active">All</button>
                 <button class="category-btn">Education</button>

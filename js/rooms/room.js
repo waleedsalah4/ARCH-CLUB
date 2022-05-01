@@ -89,6 +89,7 @@ socket.on('createRoomSuccess', (user,room,token) => {
     // if(room){
         console.log(user,room,token)
         document.querySelector('.create-room-container').classList.add('show-modal') 
+        document.querySelector('#create-join-container').classList.remove('show-modal')
         user.isMuted = false;
         user.isAdmin = true;
         Me = {...user};
@@ -566,8 +567,21 @@ const fetchRoom = async function(id){
         snackbar(snackbarContainer,'error', `<b>Error: </b>  ${err.message}`, 5000);
     }
 }
-//renderRoom(fakeUserObject)
 
+
+ export const joinRoomFun = async(id) => {
+    if(document.querySelector('#create-join-container').classList.contains('show-modal')) {
+        document.querySelector('#create-join-container').classList.remove('show-modal')
+    }
+    document.querySelector('.create-room-container').classList.add('show-modal')
+        const roomName = await fetchRoom(id);
+        console.log(roomName);
+        if(roomName){
+            socket.emit('joinRoom', roomName);
+        } else {
+            snackbar(snackbarContainer,'error', `<b>Error: </b>  something went wrong, please try later `, 5000);
+        }
+}
   
 const queryParams = {}
 const queryArr = window.location.search.slice(1).split('&')
@@ -578,17 +592,12 @@ const queryArr = window.location.search.slice(1).split('&')
     })
 const roomId = queryParams.id;
 
-window.addEventListener('load', async () => {
+window.addEventListener('load', () => {
     sideBarView(roomSideBarHref,roomSideBar);
 
     if(roomId){
 
-        document.querySelector('.create-room-container').classList.add('show-modal')
-        const roomName = await fetchRoom(roomId);
-        console.log(roomName);
-        if(roomName){
-            socket.emit('joinRoom', roomName);
-        }
+        joinRoomFun(roomId)
     }
 })
 

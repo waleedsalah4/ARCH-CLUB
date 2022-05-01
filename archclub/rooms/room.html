@@ -22,40 +22,23 @@
     </div>
     <section id="snackbar-container"></section>
     <div class="create-room-container">
-        <div class="create-room">
-            <div class="header">
-                <h2>SetUp your Room!</h2>
-            </div>
-            <div class="room-name">
-                <input type="text" placeholder="room Name">
-            </div>
-            <div class="category-select">
-                <div>
-                    <label for="categories">Category</label>
-                </div>
-                <div>
-                    <select id="categories">
-                         <option value="ai">ai</option>
-                        <option value="programming">programming</option>
-                        <option value="education">education</option> 
-                    </select>
-                </div>
-            </div>
-            <div class="room-type">
-
-                <div>
-                    <h4 class="type-header">Private</h4>
-                    <h6 class="type-text">only people have the link will join</h6>
-                </div>
-                    <div class="toggle-switch">
-                        <span class="switch"></span> 
-                    </div>
-            </div>
-            <div class="create-btn">
-                <button>Create</button>
-            </div>
+      <div class="create-room create-room-and-join">
+        <div class="create-join-btns">
+          <button id="show-create-modal">create</button>
         </div>
+        <div class="create-join-btns">
+          <button id="joinPrivateRoomBtn">join private room</button>
+        </div>
+      </div>
     </div>
+
+    <!-- for showing create room modal or join private room -->
+    <div class="create-join-container" id="create-join-container">
+      <div class="event-modal" id="event-modal">
+         
+      </div>
+    </div>
+    <!-- ********************* -->
     <div id="page">
         <div class="house">
           <div class="screen">

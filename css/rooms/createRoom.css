@@ -22,23 +22,38 @@ body{
 .create-room {
     margin: 50px auto;
     width: 600px;
-    height: 600px;
+    /* height: 600px; */
     background: conic-gradient(from 140.08deg at 49.86% 51.06%, #1E1C1C 0deg, #1F1A30 135deg, #3E317A 360deg);
     border-radius: 55px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 65px 5px;
+    gap: 38px 5px;
     padding: 2rem;
 
 }
+.create-room-and-join {
+    width: 40%;
+    border-radius: 10px;
+    margin: 130px auto;
+}
+.create-join-btns{
+    width: 45%;
+}
+.create-join-btns button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+}
+
 @media  (max-width: 600px) {
     /* For mobile phones: */
     .create-room {
       width: 400px;
-      height: 400px;
-      gap: 30px 5px;
+      /* height: 400px; */
+      gap: 25px 5px;
     }
 }
 
@@ -91,8 +106,8 @@ body{
 
 
 .room-type .toggle-switch{
-    position: absolute;
-    right: 0;
+    /* position: absolute;
+    right: 0; */
     height: 100%;
     min-width: 60px;
     display: flex;
@@ -125,6 +140,9 @@ body{
 .toggle-switch.public .switch::before{
     left: 20px;
 }
+.toggle-switch.recorded .switch::before{
+    left: 20px;
+}
 
 
 .create-btn {
@@ -138,4 +156,73 @@ body{
     border: none;
     font-size: 16px;
     background-color: var(--primary-color-light);
+}
+
+.close-btn {
+    background: transparent;
+    font-size: 25px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+}
+
+@keyframes modalopen {
+    form {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* for showing create room modal or join private room */
+.create-join-container {
+    background-color: rgba(0,0,0, 0.6);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3000;
+    min-width: 25%;
+}
+
+.create-join-container.show-modal {
+    display: block;
+}
+
+.event-modal {
+    /* background-color: #fff; */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0, 0.3);
+    position: absolute;
+    /* overflow: hidden; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* max-width: 100%;
+    width: 450px; */
+    animation: modalopen var(--modal-duration);
+}
+.join-private-room {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: 6rem;
+    background: #3E317A ;
+    border-radius: 7px;
+}
+
+.join-private-room .room-id {
+    width: 100%;
+}
+
+.join-private-room .room-id input{
+    width: 100%;
+   padding: 10px;
 }

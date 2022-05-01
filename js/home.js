@@ -3,6 +3,9 @@ import { homeSideBarHref } from './sideBar/sideBarHref.js';
 import { sideBarView } from './sideBar/sideBarView.js';
 import { getCategories } from './utilities/getCategory.js';
 
+const user_avatar = JSON.parse(localStorage.getItem('user-data'));
+const userImg = document.querySelector('#user-avatar')
+
 const homeSideBar = document.querySelector('#home-sideBar')
 // const sidebar = document.querySelector('.nav')
 // const toggle = document.querySelector("#toggle");
@@ -57,7 +60,18 @@ createCategory();
 
 
 
-
+const insertUserImg = () => {
+    
+    if(user_avatar){
+        const markup = `
+            <img  src="${user_avatar.photo}" alt="user profile picture" class="circle-profile-img">
+        `
+        userImg.insertAdjacentHTML('beforeend', markup)
+    }
+    else{
+        return;
+    }
+}
 
 
 
@@ -74,6 +88,7 @@ function removeAllCtegorActive() {
 
 window.addEventListener('load', ()=> {
     sideBarView(homeSideBarHref,homeSideBar)
+    insertUserImg()
 })
 
 //events

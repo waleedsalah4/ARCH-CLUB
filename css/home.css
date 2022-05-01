@@ -311,18 +311,17 @@ body.dark .mode .sun-moon i.moon{
     display: flex;
     flex-direction: column;
     gap: 40px 30px;
-    margin-top: 3rem;
+    margin-top: 1rem;
     margin-left: 4rem;
 }
-.main-content .top-nav{
+/* .main-content .top-nav{
     display: flex;
     flex-direction: row;
-    /* justify-content: flex-start; */
     gap: 10px 170px;
-}
-.top-nav .top-nav-item{
+} */
+ .top-nav-item{
     margin-left: 1rem;
-}
+} 
 
 /* search bar */
 .top-nav-item.box {
