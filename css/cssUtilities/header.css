@@ -1,6 +1,12 @@
 #header{
     margin-bottom: 2rem;
 }
+@media (max-width: 600px) {
+    #header {
+        font-size: 12px;
+    }
+}
+
 .logo{
     color: var(--primary-color);
     font-weight: bold;

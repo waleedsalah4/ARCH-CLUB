@@ -5,8 +5,11 @@ import { getAllMyFollowingPodcasts, getMyFollowingPodcastsByCategoryName } from 
 // import {requesting, podPage} from '../utilities/requests.js';
 import { podcastsSideBarHref } from '../sideBar/sideBarHref.js';
 import { sideBarView } from '../sideBar/sideBarView.js';
+
 const podcastsSideBar = document.querySelector('#podcasts-sidebar')
 
+const userImg = document.querySelector('#user-avatar');
+const user_avatar = JSON.parse(localStorage.getItem('user-data'));
 
 let podPage = 1;
 let categoryItemsPage = 1
@@ -115,7 +118,11 @@ export const displayPodcasts = (podcast) => {
             </a>
         </div>
         <div class="description p-2">
-            <div class="podcast-name text-light fw-bold  fs-5">${podcast.name}</div>
+            <div class="podcast-name">
+                <h4>
+                    ${podcast.name}
+                </h4>
+            </div>
             <p class="p-1 " title="go to ${podcast.createdBy.name} page">
                 By <a href="../profile/index.html?id=${podcast.createdBy._id}" class="fw-bold">${podcast.createdBy.name}</a>
             </p>
@@ -232,8 +239,24 @@ const insertPodPlayerElement = (podsrc, name) => {
     })
 }
 
+
+//get user image
+const insertUserImg = () => {
+    
+    if(user_avatar){
+        const markup = `
+            <img  src="${user_avatar.photo}" alt="user profile picture" class="circle-profile-img">
+        `
+        userImg.insertAdjacentHTML('beforeend', markup)
+    }
+    else{
+        return;
+    }
+}
+
 window.addEventListener('load', () =>{
     sideBarView(podcastsSideBarHref, podcastsSideBar)
+    insertUserImg()
     //mainContentcontainer => for feedback
     getAllMyFollowingPodcasts(podcastContainer, podPage)
  });

@@ -1,16 +1,33 @@
 .container{
-    margin-left: 10em;
+    margin-left: 6em;
+    /* margin-top: 6em; */
 }
 
 
 .search{
-    margin-top: -4em;
+    /* margin-top: -4em; */
     
+}
+
+@media (max-width: 900px) {
+    .search {
+        font-size: 13px;
+    }
+}
+@media (max-width: 600px) {
+    .search {
+        font-size: 11px;
+    }
+}
+@media (max-width: 400px) {
+    .search {
+        font-size: 10px;
+    }
 }
 
 .search-box {
     width: 35em;
-    height: 3em;
+    height: 4em;
 }
 
 .search-input{
@@ -18,8 +35,24 @@
 }
 
 .categories-container{
-    width: 50em;
+    max-width: 50em;
     flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+    .categories-container {
+        font-size: 13px;
+    }
+}
+@media (max-width: 600px) {
+    .categories-container {
+        font-size: 11px;
+    }
+}
+@media (max-width: 400px) {
+    .categories-container {
+        font-size: 10px;
+    }
 }
 
 .categorie-component{
@@ -45,10 +78,26 @@
 
 .podcasts-veiw-container{
     flex-wrap: wrap;
+    font-size: 13px;
+}
+@media (max-width: 900px) {
+    .podcasts-view-container{
+        font-size: 13px;
+    }
+}
+@media (max-width: 600px) {
+    .podcasts-view-container {
+        font-size: 11px;
+    }
+}
+@media (max-width: 400px) {
+    .podcasts-view-container {
+        font-size: 10px;
+    }
 }
 
 .podcast-component{
-    margin-left: 5em;
+    /* margin-left: 5em; */
 }
 
 /*feed back*/

@@ -1,4 +1,5 @@
 import { sideBarView } from "../sideBar/sideBarView.js";
+import { snackbar } from "../utilities/snackbar.js";
 import { playPodcastsSideBarHref } from "../sideBar/sideBarHref.js";
 const token = JSON.parse(localStorage.getItem('user-token'))
 // const tempId = '62320d4813eb0800162867f7'
@@ -138,19 +139,23 @@ const displayPodPlayer = (data) => {
 
 
 const likePodcastById = async(token, id) => {
-    const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/likes/${id}`, {
-        method: 'POST',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
-    const res = await response.json();
-    
-    if(res.status !== 'fail'){
-        liked_track.classList.add('liked')
-    }
-    else{
-        alert(`${res.message}`);
+    try{
+        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/likes/${id}`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        const res = await response.json();
+        
+        if(res.status !== 'fail'){
+            liked_track.classList.add('liked')
+        }
+        else{
+            snackbar(podcastContainer,'error', `<b>Error: </b> Somthing went wrong, please try again `, 5000);
+        }
+    } catch(error) {
+        snackbar(podcastContainer,'error', `<b>Error: </b> Somthing went wrong, please try again `, 5000);
     }
 }
 
@@ -168,10 +173,10 @@ const disLikePodcastById = async(token, id) => {
             liked_track.classList.remove('liked')
         }
         else{
-            alert(`${res.message}`);
+            snackbar(podcastContainer,'error', `<b>Error: </b> Somthing went wrong, please try again `, 5000);
         }
     }  catch(error) {
-        alert(`${res.message}`);
+        snackbar(podcastContainer,'error', `<b>Error: </b> Somthing went wrong, please try again `, 5000);
     }
 }
 
@@ -195,10 +200,12 @@ const getPodcastbyId = async(token, id) => {
             duration= data.audio.duration;
         }
         else{
-            alert(`${res.message}`);
+            console.log(res.message)
+            snackbar(podcastContainer,'error', `<b>Error: </b> Invalid data `, 5000);
         }
     } catch(error) {
-        alert(`${error.message}`);
+        console.log(error.message)
+        snackbar(podcastContainer,'error', `<b>Error: </b>  ${error.msg}`, 5000);
     }
 }
 
@@ -217,7 +224,9 @@ function loadTrack(track_index) {
     updateTimer = setInterval(setUpdate, 1000)
 
     curr_track.addEventListener('ended', ()=> {
-        return
+        userImg.classList.remove('rotate');
+        wave.classList.remove('show-loader')
+       // playpause_btn.innerHTML = `<i class="fa-solid fa-circle-play fa-3x"></i>`
     })
 }
 

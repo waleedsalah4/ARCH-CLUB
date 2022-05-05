@@ -4,6 +4,8 @@
     align-items: center;
     gap: 40px 1px;
     margin-bottom: 6rem;
+    margin-left: 6rem;
+    min-width: 350px;
 }
 .event-component{
     width: 41em;

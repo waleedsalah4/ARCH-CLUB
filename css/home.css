@@ -289,6 +289,8 @@ body.dark .mode .sun-moon i.moon{
 */
 .home{
     margin-left: 6rem;
+    min-width: 350px;
+    overflow: hidden;
 }
 /* .home .text{
     font-size: 30px;
@@ -427,7 +429,22 @@ body.dark .mode .sun-moon i.moon{
     border-bottom: 1px solid var(--primary-color-light); */
     display: flex;
     flex-wrap: wrap;
-    width: 55em;
+    max-width: 55em;
+}
+@media (max-width: 900px) {
+    .category {
+        font-size: 13px;
+    }
+}
+@media (max-width: 600px) {
+    .category {
+        font-size: 11px;
+    }
+}
+@media (max-width: 400px) {
+    .category {
+        font-size: 10px;
+    }
 }
 .categorie-component{
     background-color: #25242D;
@@ -470,7 +487,23 @@ body.dark .mode .sun-moon i.moon{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 20px 150px;
+    gap: 20px 95px;
+}
+
+@media (max-width: 900px) {
+    .rooms {
+        font-size: 14px;
+    }
+}
+@media (max-width: 600px) {
+    .rooms {
+        font-size: 11px;
+    }
+}
+@media (max-width: 400px) {
+    .rooms {
+        font-size: 10px;
+    }
 }
 .room{
     /* display: flex;
@@ -485,10 +518,10 @@ body.dark .mode .sun-moon i.moon{
     flex-direction: column;
     gap: 35px 5px;
 }
-/* .room .room-title {
+.room .room-title {
     display: flex;
-     flex-direction: column; 
-} */
+    justify-content: space-between;
+}
 .room-title .room-name {
     margin-top: 2px;
     font-size: 18px;
@@ -499,7 +532,13 @@ body.dark .mode .sun-moon i.moon{
     margin-top: 3px;
     display: block;
 }
-
+.join-public-room {
+    background: white;
+    text-decoration: none;
+    color: black;
+    padding: 4px;
+    border-radius: 4px;
+}
 .room-info{
     display: flex;
     flex-direction: row;
@@ -511,6 +550,7 @@ body.dark .mode .sun-moon i.moon{
     height: 50px;
     border-radius: 50%;
     margin-right: -16px;
+    cursor: pointer;
 }
 .speakers,
 .listeners{
@@ -527,14 +567,34 @@ body.dark .mode .sun-moon i.moon{
     color: var(--sidebar-color);
 }
 
-.host-info{
+/* .host-info{
     margin-top: 6px;
     display: flex;
     flex-direction: row;
     gap: 10px 30px;
     align-items: center;
-}
+} */
 
+.load-more {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.load-more-btn {
+    background: #6A4CFF;
+    border: none;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+.load-more-category{
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.end-of-data {
+    width: 100%;
+    margin-bottom: 2rem;
+    text-align: center;
+}
 
 /* Spinner*/
 .spinner {
