@@ -1,4 +1,5 @@
 import { loadSpinner, clearLoader } from '../loader.js';
+import { limiTitle } from './podcastsView.js';
 import {getCategories}from '../utilities/getCategory.js';
 import { getAllMyFollowingPodcasts, getMyFollowingPodcastsByCategoryName } from '../utilities/requests.js';
 // import {podcastFeedback} from '../podcast/feedBack.js';
@@ -29,6 +30,22 @@ let playPodcastBtn;
 
 const categoriesContainer = document.querySelector('.categories-container')
 let categoreisItems = [];
+
+
+
+
+//-------------------------------------
+//run when window loads
+const chechIfUserIsSign = () => {
+    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+    if(isLoggedIn === true) {
+        return
+    } else{
+        window.location = '/';
+    }
+}
+chechIfUserIsSign()
+//-------------------------------------
 
 //---------------podcasts category----------------------
 
@@ -75,7 +92,7 @@ const createCategory = async() => {
                     categorieLoadMore = null
                 }
                 podPage = 1
-                getAllMyFollowingPodcasts(podcastContainer,podPage)
+                getAllMyFollowingPodcasts(podcastContainer,podPage,mainContentcontainer)
 
             } else {
                 clearLoadMore(loadmore)
@@ -85,7 +102,7 @@ const createCategory = async() => {
                 }
                 categoryItemsPage = 1
                 console.log(categoreisItems[i].textContent, categoryItemsPage)
-                getMyFollowingPodcastsByCategoryName(podcastContainer,categoreisItems[i].textContent,categoryItemsPage);
+                getMyFollowingPodcastsByCategoryName(podcastContainer,categoreisItems[i].textContent,categoryItemsPage,mainContentcontainer);
                 // insertLoadMoreBtnForCategories(categoreisItems[i].textContent)
                
                 
@@ -119,9 +136,7 @@ export const displayPodcasts = (podcast) => {
         </div>
         <div class="description p-2">
             <div class="podcast-name">
-                <h4>
-                    ${podcast.name}
-                </h4>
+                <h4 title="${podcast.name}">${limiTitle(podcast.name)}</h4>
             </div>
             <p class="p-1 " title="go to ${podcast.createdBy.name} page">
                 By <a href="../profile/index.html?id=${podcast.createdBy._id}" class="fw-bold">${podcast.createdBy.name}</a>
@@ -181,7 +196,7 @@ export const insertLoadMoreBtn = () => {
     loadmore = document.querySelector('.load-more')
     loadmore.addEventListener('click', () => {
         podPage++
-        getAllMyFollowingPodcasts(podcastContainer, podPage)
+        getAllMyFollowingPodcasts(podcastContainer, podPage,mainContentcontainer)
         clearLoadMore(loadmore)
 
     })
@@ -202,7 +217,7 @@ export const insertLoadMoreBtnForCategories = (value) => {
         categorieLoadMore = null
         categoryItemsPage++
         console.log(categoryItemsPage)
-        getMyFollowingPodcastsByCategoryName(podcastContainer,value, categoryItemsPage)
+        getMyFollowingPodcastsByCategoryName(podcastContainer,value, categoryItemsPage,mainContentcontainer)
         
     })
 }
@@ -240,6 +255,10 @@ const insertPodPlayerElement = (podsrc, name) => {
 }
 
 
+
+
+
+
 //get user image
 const insertUserImg = () => {
     
@@ -258,7 +277,7 @@ window.addEventListener('load', () =>{
     sideBarView(podcastsSideBarHref, podcastsSideBar)
     insertUserImg()
     //mainContentcontainer => for feedback
-    getAllMyFollowingPodcasts(podcastContainer, podPage)
+    getAllMyFollowingPodcasts(podcastContainer, podPage, mainContentcontainer)
  });
 
 // let newScrolltop = 0

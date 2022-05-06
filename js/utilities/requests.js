@@ -8,7 +8,7 @@ const token = JSON.parse(localStorage.getItem('user-token'))
 
 
 
-export const getAllMyFollowingPodcasts = async(podcastContainer ,page) => {
+export const getAllMyFollowingPodcasts = async(podcastContainer ,page, feedBackContainer) => {
     try {
         loadSpinner(podcastContainer)
         const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/following/me?limit=4&page=${page}`, {
@@ -27,24 +27,24 @@ export const getAllMyFollowingPodcasts = async(podcastContainer ,page) => {
                 data.map(d => displayPodcasts(d))
                 insertLoadMoreBtn()
             }else {
-                podcastFeedback(podcastContainer,'your followings have no more podcasts yet',0)
+                podcastFeedback(feedBackContainer,'your followings have no more podcasts yet',0)
             }
             
             
         }
         else{
             clearLoader()
-            podcastFeedback(podcastContainer,res.message);
+            podcastFeedback(feedBackContainer,res.message);
         }
     } catch(error) {
         clearLoader()
-        podcastFeedback(podcastContainer,error.message)
+        podcastFeedback(feedBackContainer,error.message)
     }
 }
 
 
 
-export const getMyFollowingPodcastsByCategoryName = async(podcastContainer,category,page) => {
+export const getMyFollowingPodcastsByCategoryName = async(podcastContainer,category,page, feedBackContainer) => {
     try {
         const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/following/me?category=${category}&limit=4&page=${page}`, {
             method: 'GET',
@@ -60,14 +60,14 @@ export const getMyFollowingPodcastsByCategoryName = async(podcastContainer,categ
                 data.map(d => displayPodcasts(d))
                 insertLoadMoreBtnForCategories(category)
             }else {
-                podcastFeedback(podcastContainer ,'There is no more podcasts for this category yet',0)
+                podcastFeedback(feedBackContainer ,'There is no more podcasts for this category yet',0)
             }   
         }
         else{
-            podcastFeedback(podcastContainer,res.message);
+            podcastFeedback(feedBackContainer,res.message);
         }
     } catch(error) {
-        podcastFeedback(podcastContainer,error.message)
+        podcastFeedback(feedBackContainer,error.message)
     }
 }
 

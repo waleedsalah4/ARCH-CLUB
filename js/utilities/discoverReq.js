@@ -39,7 +39,7 @@ export const getAllPodcasts = async(podcastContainer,page) => {
 export const discoverUsersReq = async(container, page) => {
     try {
         loadSpinner(container)
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/discover?page=${page}&limit=10`, {
+        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/discover?page=${page}&limit=10&sort=-followers`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,

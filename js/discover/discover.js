@@ -2,6 +2,10 @@ import { getAllPodcasts, discoverUsersReq, searchForUsers } from "../utilities/d
 import { followUser, unFollowUser} from "../utilities/Follow.js";
 import { sideBarView } from "../sideBar/sideBarView.js";
 import { discoverSideBarHref } from "../sideBar/sideBarHref.js";
+import { limiTitle } from "../podcast/podcastsView.js";
+
+const user_avatar = JSON.parse(localStorage.getItem('user-data'));
+const userImg = document.querySelector('#user-avatar')
 
 const discoverSideBar = document.querySelector('#discover-sideBar')
 
@@ -81,7 +85,9 @@ export const renderSearchUserResult=(user)=> {
     <li class="d-flex justify-content-between">
         <div class="d-flex"> 
             <img src="${user.photo}" alt="">
-            <p >${user.name} <br> <span>${user.followers} Followers</span> </p>
+            <p>
+            <a href="../profile/index.html?id=${user._id}" target="_blank">${user.name}</a>
+             <br> <span>${user.followers} Followers</span> </p>
         </div>
     </li>
     `
@@ -101,7 +107,9 @@ export const discoverPodcasts = (podcast) => {
             </a>
         </div>
         <div class="description p-2">
-            <div class="podcast-name text-light fw-bold  fs-5">${podcast.name}</div>
+            <div class="podcast-name">
+                <h4 title="${podcast.name}">${limiTitle(podcast.name)}</h4>
+            </div>
             <p class="p-1 " title="go to ${podcast.createdBy.name} page">By <span class="fw-bold">${podcast.createdBy.name}</span></p>
             <div class="likes">
                 <p>${podcast.likes}</p>
@@ -173,7 +181,7 @@ export const discoverUsersDisplay = (user) => {
     <li class="d-flex justify-content-between">
         <div class="d-flex"> 
             <img src="${user.photo}" alt="">
-            <p >${user.name} <br> <span>${user.followers} Followers</span> </p>
+            <p title="${user.name}">${limiTitle(user.name)} <br> <span>${user.followers} Followers</span> </p>
         </div>
         <div> 
          <button class="cBtn follow-btn" id="follow-btn-${user._id}">Follow</button>
@@ -238,10 +246,39 @@ const clearLoadMore  = (element) => {
 }
 
 //---------------------------------------------------------------------------
-// search users
+
+//run when window loads
+const chechIfUserIsSign = () => {
+    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+    if(isLoggedIn === true) {
+        return
+    } else{
+        window.location = '/';
+    }
+}
+chechIfUserIsSign()
+
+
+
+
+//get user image
+const insertUserImg = () => {
+    
+    if(user_avatar){
+        const markup = `
+            <img  src="${user_avatar.photo}" alt="user profile picture" class="circle-profile-img">
+        `
+        userImg.insertAdjacentHTML('beforeend', markup)
+    }
+    else{
+        return;
+    }
+}
+
 
 window.addEventListener('load', () =>{
     sideBarView(discoverSideBarHref, discoverSideBar)
+    insertUserImg()
     discoverUsersReq(usersList, usersPage)
     getAllPodcasts(podcastContentHolder, podcastPage)
 });

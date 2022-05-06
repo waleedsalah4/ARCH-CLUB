@@ -211,6 +211,16 @@ window.addEventListener('click', e => {
     e.target == modal ? modal.classList.remove('show-modal') : false;
 })
 
+//run when window loads
+const chechIfUserIsSign = () => {
+    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+    if(isLoggedIn === true) {
+        return
+    } else{
+        window.location = '/';
+    }
+}
+chechIfUserIsSign()
 
 
 window.addEventListener('load', () =>{
