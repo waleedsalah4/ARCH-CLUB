@@ -431,3 +431,26 @@
   font-size: 20px;
   cursor: pointer;
 }
+
+.record-room{
+  visibility: visible;
+  animation: recordRoom 2s linear infinite;
+}
+
+@keyframes recordRoom {
+  0% {
+    visibility: hidden;
+  }
+  20% {
+    visibility: hidden;
+  }
+  50% {
+    visibility: hidden;
+  }
+  70% {
+    visibility: visible;
+  }
+  100% {
+    visibility: visible;
+  }
+}

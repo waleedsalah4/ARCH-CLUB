@@ -5,7 +5,13 @@ export let client = AgoraRTC.createClient({
     codec: "vp8"
 });
 
-
+// for record
+let audioTracks = []
+let recording = false;
+let ac = new AudioContext();
+let sources=[];
+let dest ;
+//-----
 var localTracks = {
     audioTrack: null
 };
@@ -18,48 +24,9 @@ export let agoraState = {
 let roomInfo = {}
 
 export const changeRole = async(token) => {
-
-    // client.renewToken(token)
-    // await client.unpublish();
-    // client.setClientRole(agoraState.role)
     await client.leave();
     join(roomInfo.appid,token, roomInfo.channelName,roomInfo.uid) 
-    /*
-    client.setClientRole(agoraState.role, function() {
-        console.log(`Client role set to ${agoraState.role}`);
-      }, function(e) {
-        console.log('setClientRole failed', e);
-      });
-    //   await client.join(appid, channel, token, uid);
-    console.log(roomInfo)
     
-    await  client.join(roomInfo.appid, roomInfo.channelName, token,roomInfo.uid) 
-        if(agoraState.role === 'host'){
-            localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-            await client.publish(Object.values(localTracks));
-        }
-          console.log('User join channel successfully');
-*/
-    
-
-
-/*
-    // client.on("user-published", handleUserPublished);
-    if(agoraState.role === 'host') {
-        // client.on("user-published", handleUserJoined);
-        // client.on("user-left", handleUserLeft);
-        // create local audio and video tracks
-        // console.log(AgoraRTC)
-        localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-        // localTracks.audioTrack.play();
-        await client.publish(Object.values(localTracks));
-        console.log("Successfully published.");
-    } else {
-        // client.on("user-published", handleUserJoined);
-        // await client.unpublish();
-        // client.on("user-left", handleUserLeft);
-        console.log('changed to audience in agora===================')
-    }*/
 }
 
 export const join = async(appid,token, channel, uid) => {
@@ -86,21 +53,20 @@ export const join = async(appid,token, channel, uid) => {
         console.log(AgoraRTC)
         localTracks.audioTrack = await AgoraRTC.createMicrophoneAudioTrack()
  
+        console.log(localTracks.audioTrack.getMediaStreamTrack())
+        audioTracks.push(localTracks.audioTrack.getMediaStreamTrack())
+        if (ac.state === 'suspended') {
+            ac.resume();
+        }
+        console.log('audio tracks after adding media track', audioTracks)
+
+
         await client.publish(Object.values(localTracks));
+        // audioTracks.push(localTracks.audioTrack.getMediaStreamTrack())
+        // if (ac.state === 'suspended') {
+        //     ac.resume();
+        // }
         console.log("Successfully published.");
-
-        // client.on("unmute-audio", function (evt) {
-        //     var uid = evt.uid;
-        //     console.log("unmute audio:" + uid);
-        // });
-
-        // setInterval(() => {
-        //     console.log('audio details 1')
-        //     client.getRemoteAudioStats((remoteAudioStatsMap) => {
-        //         console.log('audio details 2')
-        //       console.log("active user audio datails", remoteAudioStatsMap)
-        //     });
-        // }, 1000)
     }
 
     client.on("user-published", handleUserPublished);
@@ -113,7 +79,7 @@ export const join = async(appid,token, channel, uid) => {
     
     client.on("user-unpublished", function(evt) {
             // var uid = evt.uid;
-        console.log("unpublished audio:=====>", evt);
+        // console.log("unpublished audio:=====>", evt);
       
         // var muteState = evt._audio_muted_;
         changeMutestate(evt)
@@ -135,38 +101,13 @@ export const join = async(appid,token, channel, uid) => {
 //mute & unmute
 export async function toggleMic(isMuted = false){
   
-
     if (isMuted){
         await localTracks.audioTrack.setEnabled(true)
-        // await client.unpublish(Object.values(localTracks));
-        // localTracksState.audioTrackMuted = true;
         console.log(' un muted ===>')
-        // Me.isMuted = true;
-         //change footer icon
-         
-        //  document.getElementById('handle-mute').innerHTML = `
-        //  <img src="../../assets/room/microphone-on.svg" alt="">`
- 
-         //change speaker icon
-        //  document.querySelector('.mic').innerHTML = `
-        //  <img src="../../assets/room/microphone.svg" alt="">`
-    }
-    
-    else{
+    } else{
         await localTracks.audioTrack.setEnabled(false)
-        
-
         console.log(' muted ===>')
-        // Me.isMuted = false;
-        //change footer icon
-        // document.getElementById('handle-mute').innerHTML = `
-        // <img src="../../assets/room/microphone.svg" alt="">`
-
-        //change speaker icon
-        // document.querySelector('.mic').innerHTML = `
-        // <img src="../../assets/room/microphone-on.svg" alt="">`
     }
-    // localTracksState.audioTrackMuted = !localTracksState.audioTrackMuted;
 }
 
 
@@ -195,24 +136,21 @@ async function subscribe(user, mediaType) {
     // await client.subscribe(user, mediaType)
     await client.subscribe(user,"audio");
     user.audioTrack.play();
+
+
+    if(recording){
+        sources.push(ac.createMediaStreamSource(new MediaStream([user.audioTrack.getMediaStreamTrack()])))
+        sources[sources.length-1].connect(dest)
+    } else{
+        audioTracks.push(user.audioTrack.getMediaStreamTrack());
+    }
+    console.log('AudioTracks ======>',audioTracks)
     console.log("Successfully subscribed.");
     // if (mediaType === 'audio') {
     //     user.audioTrack.play();
     // }
 }
-/*
-// Handle user published
-async function handleUserPublished(user, mediaType) {
-    const id = user.uid;
-    remoteUsers[id] = user;
-    console.log("user published")
-    subscribe(user, mediaType);
-    // await client.subscribe(user, mediaType);
-    // if (mediaType === "audio") {
-    //     user.audioTrack.play();
-    // }
-}
-*/
+
 // Handle user joined
 function handleUserPublished(user, mediaType) {
     console.log('userjoined ======= agora', user)
@@ -224,6 +162,46 @@ function handleUserPublished(user, mediaType) {
 
 // Handle user left
 function handleUserLeft(user) {
+    audioTracks=audioTracks.filter(audioTrack => audioTrack.uid !== user.uid)
     const id = user.uid;
     delete remoteUsers[id];
+}
+
+export let recorder;
+let chunks = [];
+
+export function startRecording(roomName){
+    recording = true
+// WebAudio MediaStream sources only use the first track.
+    console.log('AudioTracks ======>',audioTracks)
+
+    // The destination will output one track of mixed audio.
+    dest = ac.createMediaStreamDestination();
+
+    sources = audioTracks.map(t => ac.createMediaStreamSource(new MediaStream([t])));
+    // Mixing
+    sources.forEach(s => s.connect(dest));
+
+    // Record 10s of mixed audio as an example
+    recorder = new MediaRecorder(dest.stream);
+    recorder.start();
+    recorder.ondataavailable = e => chunks.push(e.data);
+    recorder.onstop = () => {
+        // var clipName = prompt("Enter a name for your recording")
+        const blob = new Blob(chunks, {
+            type: 'audio/mp3'
+        })
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none"
+        a.href = url;
+        a.download = roomName +".mp3"
+        document.body.appendChild(a)
+        a.click();
+        setTimeout(()=>{
+            document.body.removeChild(a)
+            window.URL.revokeObjectURL(url)
+        }, 100)
+    };
+    // setTimeout(() => recorder.stop(), 10000);
 }

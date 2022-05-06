@@ -1,7 +1,7 @@
 import { sideBarView } from '../sideBar/sideBarView.js';
 import { roomSideBarHref } from '../sideBar/sideBarHref.js';
 import { snackbar } from '../utilities/snackbar.js';
-import {client,changeRole ,join, leave, agoraState ,toggleMic} from './agora.js';
+import {client,changeRole ,join, leave, agoraState ,toggleMic, startRecording, recorder} from './agora.js';
 const roomSideBar = document.querySelector('#room-sidebar')
 
 const roomSpeaker = document.querySelector('.room-speakers')
@@ -84,19 +84,32 @@ socket.on('disconnect', (reason)=>{
     console.log(reason)
  })
 
-socket.on('createRoomSuccess', (user,room,token) => {
+
+const handleUIWhenCreateRoom = (roomName ,isRocording) => {
+    document.querySelector('.create-room-container').classList.add('show-modal') 
+    document.querySelector('#create-join-container').classList.remove('show-modal')
+    document.querySelector('#room-title').innerHTML = roomName
+    if(isRocording) {
+        startRecording(roomName)
+        document.querySelector('#recordRoom-span').classList.add('record-room')
+        document.querySelector('#recordRoom-span').innerHTML = '🟢';
+
+    }
+}
+
+socket.on('createRoomSuccess', async(user,room,token) => {
         
     // if(room){
         console.log(user,room,token)
-        document.querySelector('.create-room-container').classList.add('show-modal') 
-        document.querySelector('#create-join-container').classList.remove('show-modal')
+        
         user.isMuted = false;
         user.isAdmin = true;
         Me = {...user};
         roomState.audience = room.audience;
         roomState.brodcasters = [user];
         roomState.channelName = room.name;
-        roomState.appId = room.APP_ID
+        roomState.appId = room.APP_ID,
+        roomState.isRecording = room.isRecording;
         state.isAdmin = true;
         state.isSpeaker = true;
         console.log(state)
@@ -108,11 +121,13 @@ socket.on('createRoomSuccess', (user,room,token) => {
         //agora 
         // client.init(room.APP_ID);
         agoraState.role = 'host';
-        join(room.APP_ID,token,room.name,user.uid)
+        await join(room.APP_ID,token,room.name,user.uid)
+        handleUIWhenCreateRoom(room.name ,room.isRecording)
 })
 
 socket.on('joinRoomSuccess', (user, room, token) => {
     console.log('join room',user,room,token)
+    handleUIWhenCreateRoom(room.name, room.isRecording)
     user.isMuted = false;
     room.admin.isAdmin = true;
     Me = {...user};
@@ -288,7 +303,7 @@ export const changeMutestate = (obj) => {
 export const changeVolumesIndicator = (arr) => {
     // let allSpeakers = [roomState.admin, ...roomState.brodcasters]
     arr.forEach(volume => {
-        console.log(volume.level)
+        // console.log(volume.level)
         const user = roomState.brodcasters.find(user => user.uid === volume.uid)
         if(user && volume.level > 15){
             document.querySelector(`#volume-indicator-${user.uid}`).style.border = '3px solid #867ce9e6'
@@ -449,7 +464,10 @@ const renderFooter = (state) => {
     else{
         console.log('is end room exist')
         if(document.querySelector('#end-room')) {
-            document.querySelector('#end-room').addEventListener('click',()=>{
+            document.querySelector('#end-room').addEventListener('click',async ()=>{
+                if(roomState.isRecording) {
+                    await recorder.stop();
+                }
                 //socket
                 socket.emit('endRoom');
                 console.log('emit end room')
