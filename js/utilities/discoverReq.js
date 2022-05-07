@@ -6,6 +6,7 @@ const token = JSON.parse(localStorage.getItem('user-token'))
 
 export const getAllPodcasts = async(podcastContainer,page) => {
     try {
+        loadSpinner(podcastContainer)
         const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts?page=${page}&limit=4`, {
             method: 'GET',
             headers: {
@@ -17,20 +18,24 @@ export const getAllPodcasts = async(podcastContainer,page) => {
         if(res.status !== 'fail'){
             const {data} = res;
             if(data.length > 0 ){
+                clearLoader()
                 data.map(d => discoverPodcasts(d))
                 insertLoadMorePodsBtn()
             }
             else {
-                console.log(res.message)
+                clearLoader()
+                // console.log(res.message)
                 podcastFeedback(podcastContainer,'There is no more podcasts to display')
             }
         }
         else{
+            clearLoader()
             // console.log(res.message)
             podcastFeedback(podcastContainer,res.message);
         }
     } catch(error) {
         // alert(error.message)
+        clearLoader()
         console.log(error.message)
         podcastFeedback(podcastContainer,error.message)
     }

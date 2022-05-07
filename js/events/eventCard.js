@@ -26,7 +26,8 @@ export const eventView = (evt) => {
             </div>
         </div>
         <div class="event-description">
-            ${evt.description}
+            <div>Event Title:  ${evt.name}</div>
+            About Event:  ${evt.description}
         </div>
         <div class="event-coming-date">
             <h6>comming at:</h6>

@@ -1,6 +1,7 @@
+import {snackbar} from '../utilities/snackbar.js';
 const token = JSON.parse(localStorage.getItem('user-token'))
 
-export const followUser = async(id, btnValue) => {
+export const followUser = async(id, btnValue, snackbarContainer) => {
     btnValue.textContent = 'following...';
     try {
         const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/${id}/following`, {
@@ -17,16 +18,18 @@ export const followUser = async(id, btnValue) => {
         }
         else{
             btnValue.textContent = 'unFollow';
-            alert(res.message);
+            // alert(res.message);
+            snackbar(snackbarContainer,'error', `<b>Error: </b>  ${res.message}`, 5000);
         }
     } catch(error) {
         // alert(error.message)
         btnValue.textContent = 'Follow';
-        alert(error.message)
+        // alert(error.message)
+        snackbar(snackbarContainer,'error', `<b>Error: </b>  ${error.message}`, 5000);
     }
 }
 
-export const unFollowUser = async(id, btnValue) => {
+export const unFollowUser = async(id, btnValue, snackbarContainer) => {
     try {
         btnValue.textContent = 'unFollowing...';
         const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/${id}/following`, {
@@ -42,11 +45,13 @@ export const unFollowUser = async(id, btnValue) => {
         }
         else{
             btnValue.textContent = 'unFollow';
-            alert(res.message);
+            // alert(res.message);
+            snackbar(snackbarContainer,'error', `<b>Error: </b>  ${res.message}`, 5000);
         }
     } catch(error) {
         // alert(error.message)
         btnValue.textContent = 'unFollow';
-        alert(error.message)
+        // alert(error.message)
+        snackbar(snackbarContainer,'error', `<b>Error: </b>  ${error.message}`, 5000);
     }
 }

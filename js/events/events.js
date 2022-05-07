@@ -59,10 +59,11 @@ export const eventView = (evt) => {
             </div>
         </div>
         <div class="event-description">
-            ${evt.description}
+            <div><strong>Event Title</strong>:  ${evt.name}</div>
+            <strong>About Event</strong>:   ${evt.description}
         </div>
         <div class="event-coming-date">
-            <h6>comming at:</h6>
+            <h6>Comming at:</h6>
             <p>${getDate(evt.date)}</p>
         </div>
     </div>

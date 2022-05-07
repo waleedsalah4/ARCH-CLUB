@@ -292,6 +292,7 @@ export const changeMutestate = (obj) => {
     roomState.brodcasters.map(user => {
         if(user.uid === obj.uid){
             user.isMuted = obj._audio_muted_;
+            console.log('from toggle mic fun ==>',user.isMuted)
         }
     })
     // roomState.admin.uid === obj.uid ? roomState.admin.isMuted = obj._audio_muted_ : ''

@@ -6,6 +6,7 @@ import { limiTitle } from "../podcast/podcastsView.js";
 
 const user_avatar = JSON.parse(localStorage.getItem('user-data'));
 const userImg = document.querySelector('#user-avatar')
+const snackbarContainer = document.querySelector('#snackbar-container')
 
 const discoverSideBar = document.querySelector('#discover-sideBar')
 
@@ -150,15 +151,18 @@ export const discoverPodcasts = (podcast) => {
         if(podPlayerContainer){
             podPlayerContainer.parentElement.removeChild(podPlayerContainer)
         }
-        insertPodPlayerElement(podcast.audio.url)
+        insertPodPlayerElement(podcast.audio.url, podcast.name)
     })
 }
 
-const insertPodPlayerElement = (podsrc) => {
+const insertPodPlayerElement = (podsrc, name) => {
     
     const markup = `
         <div class="pod-palyer-container">
                 <div class="pod-player">
+                    <h6 class="pod-name">
+                        ${name}
+                    </h6>
                     <audio src="${podsrc}" autoplay controls></audio>
                 </div>
                 <div id="remove-player-container">
@@ -193,10 +197,10 @@ export const discoverUsersDisplay = (user) => {
     document.querySelector(`#follow-btn-${user._id}`).addEventListener('click', () =>{
         if(document.querySelector(`#follow-btn-${user._id}`).textContent === 'Follow') {
             console.log(document.querySelector(`#follow-btn-${user._id}`))
-            followUser(user._id, document.querySelector(`#follow-btn-${user._id}`) )
+            followUser(user._id, document.querySelector(`#follow-btn-${user._id}`) , snackbarContainer)
         }
         else {
-            unFollowUser(user._id, document.querySelector(`#follow-btn-${user._id}`) )
+            unFollowUser(user._id, document.querySelector(`#follow-btn-${user._id}`) , snackbarContainer)
         }
     })
 }
