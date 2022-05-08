@@ -85,7 +85,7 @@ socket.on('disconnect', (reason)=>{
  })
 
 
-const handleUIWhenCreateRoom = (roomName ,isRocording) => {
+const handleUIWhenCreateRoom = (roomName ,isRocording, status, id) => {
     document.querySelector('.create-room-container').classList.add('show-modal') 
     document.querySelector('#create-join-container').classList.remove('show-modal')
     document.querySelector('#room-title').innerHTML = roomName
@@ -94,6 +94,13 @@ const handleUIWhenCreateRoom = (roomName ,isRocording) => {
         document.querySelector('#recordRoom-span').classList.add('record-room')
         document.querySelector('#recordRoom-span').innerHTML = '🟢';
 
+    }
+    if(status === 'private'){
+        document.querySelector('.private-room').innerHTML = `
+            <div>
+                room id: ${id}
+            </div>
+        `
     }
 }
 
@@ -122,7 +129,7 @@ socket.on('createRoomSuccess', async(user,room,token) => {
         // client.init(room.APP_ID);
         agoraState.role = 'host';
         await join(room.APP_ID,token,room.name,user.uid)
-        handleUIWhenCreateRoom(room.name ,room.isRecording)
+        handleUIWhenCreateRoom(room.name ,room.isRecording, room.status, room._id)
 })
 
 socket.on('joinRoomSuccess', (user, room, token) => {

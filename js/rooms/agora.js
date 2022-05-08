@@ -127,6 +127,7 @@ export async function leave() {
     // leave the channel
     console.log('user left agora*******------****--')
     await client.leave();
+    console.log('userleft==>', audioTracks)
 }
 
 // Subscribe to a remote user
@@ -162,7 +163,8 @@ function handleUserPublished(user, mediaType) {
 
 // Handle user left
 function handleUserLeft(user) {
-    audioTracks=audioTracks.filter(audioTrack => audioTrack.uid !== user.uid)
+    // audioTracks=audioTracks.filter(audioTrack => audioTrack.uid !== user.uid)
+    console.log('userLeft ===> ', audioTracks)
     const id = user.uid;
     delete remoteUsers[id];
 }

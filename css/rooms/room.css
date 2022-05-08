@@ -454,3 +454,17 @@
     visibility: visible;
   }
 }
+
+.private-room{
+  margin-left: 49px;
+    min-width: 331.908px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.private-room .id {
+  position: absolute;
+  bottom: 0;
+  right: 16%;
+}
