@@ -4,6 +4,8 @@ import {
 } from "../events/events.js";
 import { loadSpinner, clearLoader} from "../loader.js";
 import { podcastFeedback  } from "../podcast/feedBack.js";
+import {snackbar} from '../utilities/snackbar.js';
+
 
 const token = JSON.parse(localStorage.getItem('user-token'))
 
@@ -62,12 +64,14 @@ export const createEventReq = async(data, btn) => {
         else{
             btn.textContent = 'Create'
             // console.log(res.message)
-            alert(res.message);
+            // alert(res.message);
+            snackbar(snackbarContainer,'error', `<b>Error: </b>  ${res.message}`, 5000);
 
         }
     } catch(error) {
         btn.textContent = 'Create'
         // console.log(error.message)
-        alert(error.message)
+        // alert(error.message)
+        snackbar(snackbarContainer,'error', `<b>Error: </b>  ${error.message}`, 5000);
     }
 }

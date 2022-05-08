@@ -33,6 +33,7 @@ body{
     left:-210px;
     background-color: var(--main-gray-color);
     width: 290px;
+    height: -webkit-fill-available;
     z-index: 1000;
     min-height: 130vh;
     /* color:#928F9B; */
@@ -105,6 +106,18 @@ body{
     font-weight:400;
 }
 
+/* @media (max-width: 600px) {
+    .sideBar ul .navbar-item h3 {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 320px) {
+    .sideBar ul .navbar-item h3 {
+        font-size: 9px;
+    }
+} */
+
 .sideBar ul .navbar-item a {
     text-decoration: none;
     color: var(--text-secondary-color);
@@ -143,6 +156,18 @@ body{
     right:35px; */
 
 }
+/* 
+@media (max-width: 600px) {
+    .sideBar .bar-icons {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 320px) {
+    .sideBar .bar-icons {
+        font-size: 9px;
+    }
+} */
 
 .logout-div{
     width: 100%;
