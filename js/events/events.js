@@ -6,6 +6,7 @@ const eventSidBar = document.querySelector('#events-sidebar')
 
 const user_avatar = JSON.parse(localStorage.getItem('user-data'));
 const userImg = document.querySelector('#user-avatar')
+const snackEventBarContainer = document.querySelector('#snackbar-container')
 
 const eventContainer = document.querySelector('.events-container')
 let eventPage = 1
@@ -154,7 +155,7 @@ createEventForm.addEventListener('submit', (e)=> {
     }
     if(eventDataObj.name && eventDataObj.description && eventDate.value && eventTime.value){
         // console.log(eventDataObj)
-        createEventReq(eventDataObj, submitBtn)
+        createEventReq(eventDataObj, submitBtn, snackEventBarContainer)
     }else{
         alert('All fields are requird')
     }

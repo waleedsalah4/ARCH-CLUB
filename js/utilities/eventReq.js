@@ -42,7 +42,7 @@ export const getAllMyFollowingEvents = async(container ,page) => {
 }
 
 
-export const createEventReq = async(data, btn) => {
+export const createEventReq = async(data, btn, snackbarContainer) => {
     try {
         console.log(data)
         btn.textContent = 'Creating...'
