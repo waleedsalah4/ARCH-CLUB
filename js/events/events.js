@@ -1,6 +1,7 @@
 import { getAllMyFollowingEvents,createEventReq } from "../utilities/eventReq.js";
 import { sideBarView } from "../sideBar/sideBarView.js";
 import { eventsSideBarHref } from "../sideBar/sideBarHref.js";
+import { snackbar } from "../utilities/snackbar.js";
 
 const eventSidBar = document.querySelector('#events-sidebar')
 
@@ -157,7 +158,8 @@ createEventForm.addEventListener('submit', (e)=> {
         // console.log(eventDataObj)
         createEventReq(eventDataObj, submitBtn, snackEventBarContainer)
     }else{
-        alert('All fields are requird')
+        // alert('All fields are requird')
+        snackbar(snackEventBarContainer,'error', `<b>Error: </b>  All fields are requird`, 5000);
     }
 })
 

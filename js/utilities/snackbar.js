@@ -17,7 +17,7 @@ export function snackbar(snackbarContainer,type, msg, time){
     }
 
     snackbarContainer.appendChild(para);
-    para.classList.add('fadeout');
+    // para.classList.add('fadeout');
 
     setTimeout(()=>{
             snackbarContainer.removeChild(para)

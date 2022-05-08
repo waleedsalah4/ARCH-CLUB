@@ -24,6 +24,13 @@ html{
     display: flex;
     justify-content: center;
 }
+
+@media (max-width: 400px) {
+    .swap-users-podcasts {
+        margin-left: 6rem;
+    }
+}
+
 .swap-users-podcasts .disc-users,
 .swap-users-podcasts .disc-pods {
     width: 30%;
@@ -60,6 +67,16 @@ html{
     margin-bottom: 2em;
 }
 
+@media (max-width: 400px) {
+    .container {
+        align-items: center;
+        flex-direction: column-reverse;
+        width: 100%;
+        gap: 24px;
+        margin-left: 10rem;
+    }
+}
+
 
 .header-container img{
     width: 7em;
@@ -72,6 +89,12 @@ html{
 
 .top-podcasters{
     margin: 2em 2em 2em 7em;
+}
+@media (max-width: 400px) {
+    .top-podcasters{
+        margin: 0;
+        width: 140%;
+    }
 }
 
 .top-podcasters h2{
