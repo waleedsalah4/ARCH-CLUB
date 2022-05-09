@@ -102,10 +102,12 @@ export const join = async(appid,token, channel, uid) => {
 export async function toggleMic(isMuted = false){
   
     if (isMuted){
-        await localTracks.audioTrack.setEnabled(true)
+        // await localTracks.audioTrack.setEnabled(true)
+        await localTracks.audioTrack.setMuted(false)
         console.log(' un muted ===>')
     } else{
-        await localTracks.audioTrack.setEnabled(false)
+        // await localTracks.audioTrack.setEnabled(false)
+        await localTracks.audioTrack.setMuted(true)
         console.log(' muted ===>')
     }
 }

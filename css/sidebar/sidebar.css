@@ -33,9 +33,9 @@ body{
     left:-210px;
     background-color: var(--main-gray-color);
     width: 290px;
-    height: -webkit-fill-available;
+    /* height: -webkit-fill-available; */
     z-index: 1000;
-    min-height: 130vh;
+    height: 100vh;
     /* color:#928F9B; */
    transition: .3s;
 }
@@ -147,7 +147,9 @@ body{
 }
 
 .sideBar .bar-icons{
-    color: var(--main-icon-color);
+    /* color: var(--main-icon-color);
+     */
+     color: var(--sidebar-primary-color);
     font-size: 1.375rem;
 
     margin-right: 1.1rem;
