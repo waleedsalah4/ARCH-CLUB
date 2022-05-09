@@ -139,7 +139,7 @@ export const displayPodcasts = (podcast) => {
                 <h4 title="${podcast.name}">${limiTitle(podcast.name)}</h4>
             </div>
             <p class="p-1 " title="go to ${podcast.createdBy.name} page">
-                By <a href="../profile/index.html?id=${podcast.createdBy._id}" class="fw-bold">${podcast.createdBy.name}</a>
+                By <a href="../profile/index.html?id=${podcast.createdBy._id}" class="fw-bold" target="_blank">${podcast.createdBy.name}</a>
             </p>
             <div class="likes">
                 <p>${podcast.likes}</p>

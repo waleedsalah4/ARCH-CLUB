@@ -111,7 +111,9 @@ export const discoverPodcasts = (podcast) => {
             <div class="podcast-name">
                 <h4 title="${podcast.name}">${limiTitle(podcast.name)}</h4>
             </div>
-            <p class="p-1 " title="go to ${podcast.createdBy.name} page">By <span class="fw-bold">${podcast.createdBy.name}</span></p>
+            <p class="p-1 " title="go to ${podcast.createdBy.name} page">
+                By <a href="../profile/index.html?id=${podcast.createdBy._id}" class="fw-bold" target="_blank">${podcast.createdBy.name}</a>
+            </p>
             <div class="likes">
                 <p>${podcast.likes}</p>
                 <i class="fa-solid fa-heart fa-2x"></i>
@@ -136,8 +138,7 @@ export const discoverPodcasts = (podcast) => {
                         <p class="duration">${Math.floor(podcast.audio.duration / 60)} : ${ Math.floor(podcast.audio.duration - Math.floor(podcast.audio.duration / 60) * 60)}</p>
                     </div>
                     <button title="play podcast in this page" class="play-podcast-btn" id="play-podcast-btn-${podcast._id}">
-                        <img src="../../assets/circle-play-solid.svg" alt="play" >
-                        Play</button>
+                        <img src="../../assets/circle-play-solid.svg" alt="play">Play</button>
                 </div> 
             </div>
         </div> 

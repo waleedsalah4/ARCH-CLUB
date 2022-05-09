@@ -144,5 +144,17 @@
 }
 
 .duration {
-    width: 44px;
+    width: 50px;
+}
+.d-flex .duration {
+    margin-bottom: 0.3rem;
+}
+
+.d-flex {
+    align-items: center;
+    justify-content: center;
+}
+
+.d-flex .category {
+    margin-bottom: 0.3rem;
 }

@@ -55,7 +55,7 @@ const displayPodPlayer = (data) => {
     const markup = `
     <div class="user-info">
             <div class="user-img">
-                <img id="user-img" src="../../assets/user.jpg" alt="user-img" >
+                <img id="user-img" src="${data.createdBy.photo}" alt="user-img" >
             </div>
             <div class="user-name">
                 <h3>${data.createdBy.name}</h3>
