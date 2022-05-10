@@ -22,10 +22,21 @@
     <link href="../../css/cssUtilities/podcastCard.css" rel="stylesheet">
     <link rel="stylesheet" href="../../css/discover/discover.css">
     <title>ARCH CLUB | DISCOVER</title>
-
 </head>
 <body>
-   
+    
+    <script>
+        const chechIfUserIsSign = () => {
+        const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+        if(isLoggedIn === true) {
+            return
+        } else{
+            window.location = '/';
+        }
+        }
+        chechIfUserIsSign()
+    </script>
+    
 
    <!-- start the side bar-->
 

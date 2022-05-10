@@ -24,23 +24,33 @@
 </head>
 <body>
 
+    <script>
+        const chechIfUserIsSign = () => {
+            const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+            if(isLoggedIn === true) {
+                return
+            } else{
+                window.location = '/';
+            }
+        }
+        chechIfUserIsSign()
+    </script>
+
     <div class="sideBar" id="home-sideBar">
        
     </div>
+
+     <!-- for showing create room modal or join private room -->
+        <div class="join-private-container" id="join-private-container">
+            <div class="event-modal" id="event-modal">
+            
+            </div>
+        </div>
+      <!-- ********************* -->
      <!-- end the side bar-->
 
               <!--start header -->
               <div class="header-container d-flex justify-content-between align-items-center" id="header">
-
-                <!-- <div class="top-nav-item box">
-                    <input type="checkbox" id="check" />
-                    <div class="search-box">
-                        <input type="search" placeholder="Search for room..." id="search-room" />
-                        <label for="check" class="icon">
-                            <img src="../../assets/search.svg" alt="" class="searchIcon" id="search-input-icon">
-                        </label>
-                    </div>
-                </div> -->
                 <div class="search home-search">
     
                     <li class="search-box text-center d-flex search-box-home">
@@ -52,8 +62,11 @@
 
                 <div class="left-header-part">
                     <div class="room-btn">
-                        <a href="../rooms/room.html" id="">rooms</a>
+                        <button id="join-private" class="join-private">Join private room</button>
                     </div>
+                    <div class="room-btn create">
+                        <a href="../rooms/room.html">Create Room</a>
+                    </div>  
                     <div>
                         <a href="../profile/index.html" id="user-avatar">
                                 <!-- <img  src="../../assets/user2.png" alt="user profile picture" class="circle-profile-img"> -->

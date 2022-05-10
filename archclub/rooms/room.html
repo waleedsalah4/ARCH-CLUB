@@ -11,33 +11,92 @@
 
     <link rel="stylesheet" href="../../css/sidebar/sidebar.css">
     <link rel="stylesheet" href="../../css/cssUtilities/snackbar.css">
+    <link rel="stylesheet" href="../../css/cssUtilities/spinner.css">
     <link rel="stylesheet" href="../../css/rooms/createRoom.css">
     <link rel="stylesheet" href="../../css/rooms/room.css">
     <title>ARCH CLUB | ROOM</title>
 </head>
 <body>
 
+  <script>
+    const chechIfUserIsSign = () => {
+      const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+      if(isLoggedIn === true) {
+          return
+      } else{
+          window.location = '/';
+      }
+    }
+    chechIfUserIsSign()
+  </script>
     <div class="sideBar" id="room-sidebar">
         
     </div>
     <section id="snackbar-container"></section>
+
+    <div class="loader-container">
+      <div class="event-loader-modal" id="event-loader-modal">
+          <div class="spinner"></div>
+      </div>
+    </div>
+
     <div class="create-room-container">
-      <div class="create-room create-room-and-join">
-        <div class="create-join-btns">
-          <button id="show-create-modal">create</button>
+      <div class="create-room">
+        <div class="header">
+            <h2>SetUp your Room!</h2>
         </div>
-        <div class="create-join-btns">
-          <button id="joinPrivateRoomBtn">join private room</button>
+        <div class="room-name">
+            <input type="text" placeholder="room Name">
+        </div>
+        <div class="category-select">
+            <div>
+                <label for="categories">Category</label>
+            </div>
+            <div>
+                <select id="categories">
+                    <option value="ai">ai</option>
+                    <option value="education">education</option>
+                    <option value="engineering">engineering</option> 
+                    <option value="football">football</option>
+                    <option value="gaming">gaming</option>
+                    <option value="history">history</option>
+                    <option value="just chatting">just chatting</option>
+                    <option value="programming">programming</option>
+                    <option value="science">science</option>
+                    <option value="storytelling">storytelling</option>
+                </select>
+            </div>
+        </div>
+        <div class="room-type">
+            <div>
+                <h4 class="type-header">Public</h4>
+                <h6 class="type-text">Any one can join this room</h6>
+            </div>
+                <div class="toggle-switch" id="toggle-status">
+                    <span class="switch"></span> 
+                </div>
+        </div>
+        <div class="room-type">
+            <div>
+                <h4 class="record-header">Record</h4>
+                <h6 class="record-text">Room will not be recorded</h6>
+            </div>
+            <div class="toggle-switch" id="toggle-record">
+                <span class="switch"></span> 
+            </div>
+        </div>
+        <div class="create-btn">
+            <button>Create</button>
         </div>
       </div>
     </div>
 
     <!-- for showing create room modal or join private room -->
-    <div class="create-join-container" id="create-join-container">
+    <!-- <div class="create-join-container" id="create-join-container">
       <div class="event-modal" id="event-modal">
          
       </div>
-    </div>
+    </div> -->
     <!-- ********************* -->
     <div id="page">
         <div class="house">

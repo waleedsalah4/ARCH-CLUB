@@ -3,11 +3,17 @@ import { homeSideBarHref } from '../sideBar/sideBarHref.js';
 import { sideBarView } from '../sideBar/sideBarView.js';
 import { getCategories } from '../utilities/getCategory.js';
 import { getAllRooms, getRoomsByCategoryName } from './fetchRooms.js';
+import { addJoinPrivateRoom } from './joinPrivateRoomCard.js';
 
 const user_avatar = JSON.parse(localStorage.getItem('user-data'));
 const userImg = document.querySelector('#user-avatar')
 
 const homeSideBar = document.querySelector('#home-sideBar')
+const joinPrivateRoomModal = document.querySelector('#join-private-container');
+const JoinModalcontainer = document.querySelector('#event-modal')//hold content
+
+const joinPrivateRoomBtn = document.querySelector('#join-private')
+
 const homeMainContent = document.querySelector('.main-content') // to insert load more btn in it
 const roomContainer = document.querySelector('.rooms')
 const categoryContainer = document.querySelector('.category')
@@ -17,23 +23,7 @@ let roomCategorieLoadMore;
 let roomCategoryItemsPage = 1;
 let roomPage = 1;
 let categoreisButtons = [];
-//const searchBtn = document.querySelector(".search-box"),
-//const modeSwitch = document.querySelector(".toggle-switch"),
-//const modeText = document.querySelector(".mode-text");
 
-
-//-------------------------------------------------
-//run when window loads
-const chechIfUserIsSign = () => {
-    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
-    if(isLoggedIn === true) {
-        return
-    } else{
-        window.location = '/';
-    }
-}
-chechIfUserIsSign()
-//--------------------------------------------------
 
 
 
@@ -175,6 +165,16 @@ const clearLoadMoreRooms  = (element) => {
     loadmore = null;
 }
 
+
+
+joinPrivateRoomBtn.addEventListener('click', ()=> {
+    joinPrivateRoomModal.classList.add('show-modal')
+    addJoinPrivateRoom(JoinModalcontainer)
+})
+
+window.addEventListener('click', e => {
+    e.target == joinPrivateRoomModal ? joinPrivateRoomModal.classList.remove('show-modal') : false;
+})
 
 window.addEventListener('load', ()=> {
     sideBarView(homeSideBarHref,homeSideBar)

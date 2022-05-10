@@ -87,7 +87,7 @@ socket.on('disconnect', (reason)=>{
 
 const handleUIWhenCreateRoom = (roomName ,isRocording, status, id) => {
     document.querySelector('.create-room-container').classList.add('show-modal') 
-    document.querySelector('#create-join-container').classList.remove('show-modal')
+    // document.querySelector('#create-join-container').classList.remove('show-modal')
     document.querySelector('#room-title').innerHTML = roomName
     if(isRocording) {
         startRecording(roomName)
@@ -596,14 +596,15 @@ const fetchRoom = async function(id){
 
 
  export const joinRoomFun = async(id) => {
-    if(document.querySelector('#create-join-container').classList.contains('show-modal')) {
-        document.querySelector('#create-join-container').classList.remove('show-modal')
-    }
+    // if(document.querySelector('#create-join-container').classList.contains('show-modal')) {
+    //     document.querySelector('#create-join-container').classList.remove('show-modal')
+    // }
     document.querySelector('.create-room-container').classList.add('show-modal')
         const roomName = await fetchRoom(id);
         console.log(roomName);
         if(roomName){
             socket.emit('joinRoom', roomName);
+            document.querySelector('.loader-container').classList.add('show-modal')
         } else {
             snackbar(snackbarContainer,'error', `<b>Error: </b>  something went wrong, please try later `, 5000);
         }
@@ -624,6 +625,8 @@ window.addEventListener('load', () => {
     if(roomId){
 
         joinRoomFun(roomId)
+    } else {
+        document.querySelector('.loader-container').classList.add('show-modal')
     }
 })
 

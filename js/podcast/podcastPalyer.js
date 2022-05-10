@@ -10,15 +10,15 @@ const playPodcastsSidebar = document.querySelector('#play-podcasts-sidebar')
 
 
 //run when window loads
-const chechIfUserIsSign = () => {
-    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
-    if(isLoggedIn === true) {
-        return
-    } else{
-        window.location = '/';
-    }
-}
-chechIfUserIsSign()
+// const chechIfUserIsSign = () => {
+//     const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+//     if(isLoggedIn === true) {
+//         return
+//     } else{
+//         window.location = '/';
+//     }
+// }
+// chechIfUserIsSign()
 
 window.addEventListener('load', () =>{
     sideBarView(playPodcastsSideBarHref, playPodcastsSidebar)

@@ -23,6 +23,17 @@
 <body>
     <body>
     
+        <script>
+            const chechIfUserIsSign = () => {
+            const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+            if(isLoggedIn === true) {
+                return
+            } else{
+                window.location = '/';
+            }
+        }
+        chechIfUserIsSign()
+        </script>
         <!-- start the side bar-->
 
         <div class="sideBar" id="podcasts-sidebar">

@@ -36,15 +36,15 @@ let categoreisItems = [];
 
 //-------------------------------------
 //run when window loads
-const chechIfUserIsSign = () => {
-    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
-    if(isLoggedIn === true) {
-        return
-    } else{
-        window.location = '/';
-    }
-}
-chechIfUserIsSign()
+// const chechIfUserIsSign = () => {
+//     const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+//     if(isLoggedIn === true) {
+//         return
+//     } else{
+//         window.location = '/';
+//     }
+// }
+// chechIfUserIsSign()
 //-------------------------------------
 
 //---------------podcasts category----------------------

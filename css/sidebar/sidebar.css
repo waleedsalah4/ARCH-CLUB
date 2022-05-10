@@ -101,7 +101,7 @@ body{
 
 
 .sideBar ul .navbar-item h3 {
-    margin-left: 30px;
+    margin-left: 28px;
     line-height: .7;
     font-weight:400;
 }
@@ -149,7 +149,7 @@ body{
 .sideBar .bar-icons{
     /* color: var(--main-icon-color);
      */
-     color: var(--sidebar-primary-color);
+     color: var(--text-color);
     font-size: 1.375rem;
 
     margin-right: 1.1rem;

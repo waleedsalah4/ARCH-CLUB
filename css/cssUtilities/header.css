@@ -65,18 +65,41 @@
     border-radius: 2px;
     cursor: pointer;
 }
+.room-btn.create {
+    
+    width: max-content;
+}
 .room-btn a{
     text-decoration: none;
     color: white;
-    font-size: 20px;
+    font-size: 14px;
     padding: 0.7rem;
     background: #6a4cff;
     border-radius: 2px;
     cursor: pointer;
 }
+.room-btn .join-private{
+    width: max-content;
+    color: white;
+    font-size: 15px;
+    padding: 0.5rem;
+    background: #6a4cff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+@media (max-width: 600px) {
+    .room-btn a,
+    .room-btn .join-private {
+        font-size: 10px;
+    }
+}
+
 
 @media (max-width: 320px) {
-    .room-btn a {
+    .room-btn a,
+    .room-btn .join-private {
         font-size: 9px;
     }
 }
