@@ -27,15 +27,6 @@
     margin: 4rem 2rem 3rem;
 }
 
-/* .podcast-component-heading::after{
-    content: '';
-    width: 400px;
-    height: 3px;
-    display: block;
-    margin: 3rem 0rem;
-    background-color: #BCBCBC ;
-    position: absolute;
-} */
 
 .podcast-component .pic img{
     padding: 1.3rem;
@@ -152,7 +143,7 @@
 
 .d-flex {
     align-items: center;
-    justify-content: center;
+   /*  justify-content: center; */
 }
 
 .d-flex .category {

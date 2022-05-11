@@ -1,7 +1,8 @@
 import {popupMessage,logout} from './helpers.js';
 import {eventView, deletElmenetFromUi} from './../events/eventCard.js'
-import {renderMainInfo} from '../profile/controller.js';
+import {renderMainInfo,insertLoadMoreEventsBtn,queryParams} from '../profile/controller.js';
 import { loadSpinner, clearLoader} from '../loader.js';
+import { podcastFeedback  } from "../podcast/feedBack.js";
 import PodcastClass from '../profile/PodcastClass.js';
 import Follow from '../profile/Follow.js';
 
@@ -138,10 +139,11 @@ export const uploadPodcast = async function(file,podName,podCategory){
 
 
 
-export const fetchFollowing = async function(){
+
+export const fetchFollowing = async function(container = Follow.followingContainer,page ,paggined=false){
     loadSpinner(document.querySelector('.following-content'));
     try{
-        const response = await fetch(`${url}/api/v1/users/me/following`,{
+        const response = await fetch(`${url}/api/v1/users/me/following?limit=4&page=${page}`,{
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
@@ -149,21 +151,48 @@ export const fetchFollowing = async function(){
     });
 
     const res = await response.json();
-    Follow.renderFollowing(res.data);
-    /* localStorage.setItem('my-following',JSON.stringify(res.data));
-    localStorage.setItem('number-of-my-following',JSON.stringify(res.results)) */
-    //console.log(res);
+    /* Follow.renderFollowing(res.data); */
+    if(res.status !== 'fail'){
+        const {data} = res;
 
-}
+        if(data.length > 0 ){
+            if(paggined){
+                Follow.renderFollowing(data,true);
+            }
+            else{
+                Follow.renderFollowing(data);
+            }
+            
+            Follow.myFollowingPaggination(fetchFollowing);
+        }
+        else {
+            clearLoader()
+            if(paggined){
+                podcastFeedback(container,'End of results ')
+            }
+            else{
+                podcastFeedback(container,'there is no following')
+            }
+            
+        }  
+    }
+    else{
+        clearLoader()
+        podcastFeedback(container,res.message);
+    }
+    }
+
     catch(err){
         console.log(err);
     }
 }
 
-export const fetchFollowers = async function(){
+export const fetchFollowers = async function(container = Follow.followersContainer,page ,paggined=false){
     loadSpinner(document.querySelector('.followers-content'));
     try{
-        const response = await fetch(`${url}/api/v1/users/me/followers`,{
+        
+        console.log(page);
+        const response = await fetch(`${url}/api/v1/users/me/followers?limit=4&page=${page}`,{
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
@@ -171,9 +200,36 @@ export const fetchFollowers = async function(){
     });
 
     const res = await response.json();
-    Follow.renderFollowers(res.data);
-    /* localStorage.setItem('my-followers',JSON.stringify(res.data));
-    localStorage.setItem('number-of-my-followers',JSON.stringify(res.results)) */
+    
+    
+    if(res.status !== 'fail'){
+        const {data} = res;
+       
+        if(data.length > 0 ){
+            if(paggined){
+                Follow.renderFollowers(data,true);
+            }
+            else{
+                Follow.renderFollowers(data);
+            }
+            
+            Follow.myFollowersPaggination(fetchFollowers);
+        }
+        else {
+            clearLoader()
+            if(paggined){
+                podcastFeedback(container,'End of results ')
+            }
+            else{
+                podcastFeedback(container,'there is no followers')
+            }
+            
+        }  
+    }
+    else{
+        clearLoader()
+        podcastFeedback(container,res.message);
+    }
 }
     catch(err){
         console.log(err);
@@ -279,30 +335,7 @@ export const getMyEvents = async function(parent){
 
 }
 
-/* export const getEventById = async function(id){
-    try{
 
-        const response = await fetch(`${url}/api/v1/events/${id}`,{
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-            },
-    });
-
-    const res = await response.json();
-    console.log(res);
-    if(res.status !== 'fail'){
-        const {data} = res;
-        //displayPost(data);
-        
-    }     
-}
-
-    catch(error){
-        console.log(error);
-    }
-}
- */
 
 export const deleteEventById = async function(id){
     try{
@@ -361,10 +394,11 @@ export const getUser = async function(id){
     
 }
 
-export const fetchPodcasts =  async function(){ 
+export const fetchPodcasts =  async function(container, page){ 
     
     try{
-        const response = await fetch(`${url}/api/v1/podcasts/me`,{
+        loadSpinner(document.querySelector('.tab-content'))
+        const response = await fetch(`${url}/api/v1/podcasts/me?limit=4&page=${page}`,{
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
@@ -372,19 +406,38 @@ export const fetchPodcasts =  async function(){
     });
 
     const res = await response.json();
-    document.querySelector('.podcasts .tab-number').textContent =  res.results;
-    PodcastClass.renderPodcast(res.data,false,res.results);
+    
+    if(res.status !== 'fail'){
+        const {data} = res;
+        if(data.length > 0 ){
+            
+            document.querySelector('.podcasts .tab-number').textContent =  res.results;
+            PodcastClass.renderPodcast(res.data,false,res.results);
+            insertLoadMoreEventsBtn(true)
+        }
+        else {
+            clearLoader()
+            podcastFeedback(container,'theres no more podcasts')
+        }
 }
+
+else{
+    clearLoader()
+    podcastFeedback(container,res.message);
+}
+    }
+
     catch(err){
         console.log(err);
     }
 }
 
-export const getUserPodcasts = async function(id){
+export const getUserPodcasts = async function(id,container ,page,paggined = false){
 
     try{
-
-        const response = await fetch(`${url}/api/v1/podcasts?createdBy=${id}`,{
+        console.log(page);
+       loadSpinner(document.querySelector('.tab-content'))
+        const response = await fetch(`${url}/api/v1/podcasts?createdBy=${id}&limit=4&page=${page}`,{
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
@@ -395,13 +448,29 @@ export const getUserPodcasts = async function(id){
     console.log(res);
     if(res.status !== 'fail'){
         const {data} = res;
-        
-        //renderPodcasts(data,true,res.results);
-        document.querySelector('.podcasts .tab-number').textContent =  res.results;
-        PodcastClass.renderPodcast(data,true,res.results);
-        
-        
-    }     
+       
+
+        if(data.length > 0 ){
+           
+            document.querySelector('.podcasts .tab-number').textContent =  res.results;
+            if(paggined){
+                PodcastClass.renderPodcast(data,true,res.results,true);
+            }
+            else{
+                PodcastClass.renderPodcast(data,true,res.results);
+            }
+           
+            insertLoadMoreEventsBtn()
+        }else {
+            clearLoader()
+            podcastFeedback(container,'theres no more podcasts')
+        }
+    }
+    
+    else{
+        clearLoader()
+        podcastFeedback(container,res.message);
+    }
 }
 
     catch(error){
@@ -410,11 +479,11 @@ export const getUserPodcasts = async function(id){
     
 }
 
-export const getUserFollowers = async function(id){
-    loadSpinner(document.querySelector('.followers-content'));
+export const getUserFollowers = async function(id,container = Follow.followersContainer ,page,paggined = false){
+    
     try{
-
-        const response = await fetch(`${url}/api/v1/users/${id}/followers`,{
+        loadSpinner(document.querySelector('.followers-content'));
+        const response = await fetch(`${url}/api/v1/users/${id}/followers?limit=4&page=${page}`,{
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
@@ -425,13 +494,34 @@ export const getUserFollowers = async function(id){
     console.log(res);
     if(res.status !== 'fail'){
         const {data} = res;
-        if(data.results !=0){
-            //renderFollowers(data,true);
-            Follow.renderFollowers(data);
+      
+        if(data.length > 0 ){
+            
+            if(paggined){
+                Follow.renderFollowers(data,true);
+            }
+            else{
+                Follow.renderFollowers(data);
+            }
+            Follow.followersPaggination(getUserFollowers);
         }
-        
-        
-    }     
+        else {
+            clearLoader()
+            if(paggined){
+                podcastFeedback(container,'there is no more followers')
+            }
+            else{
+                podcastFeedback(container,'there is no followers')
+            }
+            
+        }  
+    }
+    else{
+        clearLoader()
+        podcastFeedback(container,res.message);
+    }
+    
+
 }
 
     catch(error){
@@ -440,11 +530,11 @@ export const getUserFollowers = async function(id){
     
 }
 
-export const getUserFollowing = async function(id){
-    loadSpinner(document.querySelector('.following-content'));
+export const getUserFollowing = async function(id = queryParams.id,container = Follow.followingContainer ,page,paggined = false){
+    
     try{
-
-        const response = await fetch(`${url}/api/v1/users/${id}/following`,{
+        loadSpinner(document.querySelector('.following-content'));
+        const response = await fetch(`${url}/api/v1/users/${id}/following?limit=4&page=${page}`,{
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
@@ -455,13 +545,32 @@ export const getUserFollowing = async function(id){
     console.log(res);
     if(res.status !== 'fail'){
         const {data} = res;
-        if(data.results !=0){
-            //renderFollowing(data,true);
-            Follow.renderFollowing(data);
+       
+        if(data.length > 0 ){
+            if(paggined){
+                Follow.renderFollowing(data,true);
+            }
+            else{
+                Follow.renderFollowing(data);
+            }
+            
+            Follow.followingPaggination(getUserFollowing);
         }
-        
-        
-    }     
+        else {
+            clearLoader()
+            if(paggined){
+                podcastFeedback(container,'End of results ')
+            }
+            else{
+                podcastFeedback(container,'there is no following')
+            }
+            
+        }  
+    }
+    else{
+        clearLoader()
+        podcastFeedback(container,res.message);
+    }
 }
 
     catch(error){

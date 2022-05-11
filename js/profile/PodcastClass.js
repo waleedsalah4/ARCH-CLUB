@@ -20,10 +20,12 @@ class PodcastClass{
         //loadSpinner(this.podcastContainerProfile);
     }
 
-    renderPodcast(podcastData ,otherUser = false,numOfPods){
-        console.log(this.podcastContainerProfile);
-       
+    renderPodcast(podcastData ,otherUser = false,numOfPods,paggined = false){
+        
+       if(!paggined){
         this.podcastContainerProfile.innerHTML = '';
+       }
+        
         
         //podcastData
         
@@ -88,7 +90,7 @@ class PodcastClass{
                                 <div class="podcast-name text-light fw-bold  fs-5">${podcastData.name}</div>
 
                                 <div class="d-flex justify-content-between mt-3">
-                                    <p class="p-1 ">By <span class="fw-bold">${podcastData.createdBy.name}</span></p>
+                                    <p class="p-1 ">By <span class="fw-bold"><a class="userLink" href="./index.html?id=${podcastData.createdBy._id}">${podcastData.createdBy.name}</a></span></p>
                                     <div class="likes">
                                     <p>${podcastData.likes}</p>
                                     <i class="fa-solid fa-heart fa-2x"></i>

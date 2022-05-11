@@ -9,8 +9,9 @@ import { profileSideBarHref } from '../sideBar/sideBarHref.js';
 const profileVeiw = document.querySelector('.profile-veiw');
 //const generalBtn = document.querySelectorAll('.cBtn');
 const podcastPopup = document.querySelector('.popup-overlay-podcast');
-const queryParams = {}
-
+export const queryParams = {}
+let podcastPage = 1;
+let mypodcastsPage = 1;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //side bar element
@@ -54,7 +55,7 @@ export const renderMainInfo = function(data,otherUser=false){
 
             <div d-flex>
 
-            <div class="d-flex">
+            <div class="d-flex fr-wrab">
 
                     <div>
                     <img  src=${data.photo} alt="user profile picture" class="circle-profile-img">
@@ -119,13 +120,13 @@ const showTabContent = function(){
                 console.log('podcasts');
                 
                 document.querySelector('.tab-content').innerHTML = '';
-                loadSpinner(document.querySelector('.tab-content'));
+                //loadSpinner(document.querySelector('.tab-content'));
                 if(queryParams.id){
-                    
-                    getUserPodcasts(queryParams.id);
+                   console.log(podcastPage);
+                    getUserPodcasts(queryParams.id,document.querySelector('.tab-content'), podcastPage);
                 }
                 else{
-                    fetchPodcasts();
+                    fetchPodcasts(podcastContainer, mypodcastsPage);
                 }
             }
 
@@ -243,12 +244,52 @@ const deletePodcastPopup =  function(podcast){
         document.querySelector('.delete-podcast-popup-overlay').classList.add('hidden');
         await getMe();
         //renderPodcasts();
-        await fetchPodcasts();
+        await fetchPodcasts(podcastContainer, mypodcastsPage);
 
     });
     
 
 }
+
+/////////////////////////////////////////////////////// Paggination //////////////////////////////////////////////////////////////
+const podcastContainer = document.querySelector('.tab-content');
+let loadmore;
+export const insertLoadMoreEventsBtn = (my=false) => {
+    const markup =`
+        <div class="load-more">
+            <button class="load-more-btn">Load More</button>
+        </div>
+    `
+    podcastContainer.insertAdjacentHTML('beforeend', markup)
+
+    loadmore = document.querySelector('.load-more')
+    loadmore.addEventListener('click', () => {
+        
+        if(my){
+            mypodcastsPage++;
+            fetchPodcasts(podcastContainer, mypodcastsPage)
+        }
+        else{
+            podcastPage++;
+            getUserPodcasts(queryParams.id,podcastContainer, podcastPage,true)
+        }
+        
+        clearLoadMore(loadmore)
+    })
+}
+
+const clearLoadMore  = (element) => {
+    if(element) {
+        element.parentElement.removeChild(element)
+    }
+    //categorieLoadMore = null 
+    loadmore = null;
+}
+
+/////////////////////////////////////////////////////// Paggination my podcasts/////
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 //////////////////////////////////////////////////////////// get user's data onload ///////////////////////////////////////////////
@@ -257,8 +298,8 @@ const init = async function(){
    loadSpinner(profileVeiw);
    await getMe();
    getMainInfo();
-   loadSpinner(document.getElementById('podcast-container1'));
-   await fetchPodcasts();
+   //loadSpinner(document.getElementById('podcast-container1'));
+   await fetchPodcasts(podcastContainer, mypodcastsPage);
    getPodcastId();
    triggerUploadPodcast();
 }
@@ -288,7 +329,7 @@ window.addEventListener('load', () => {
             loadSpinner(profileVeiw);
             document.querySelector('.events').classList.add('hidden');
             getUser(queryParams.id);
-            getUserPodcasts(queryParams.id);
+            getUserPodcasts(queryParams.id,document.querySelector('.tab-content'), podcastPage);
             getUserFollowers(queryParams.id);
             getUserFollowing(queryParams.id);
         }
