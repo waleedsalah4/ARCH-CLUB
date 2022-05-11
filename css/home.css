@@ -78,6 +78,17 @@ hr {
     margin-top: 1rem;
     margin-left: 4rem;
 }
+
+@media (max-width: 996px) {
+    .main-content {
+        margin-left: 0;
+    }
+}
+@media (max-width: 320px) {
+    .main-content {
+        margin-left: 3rem;
+    }
+}
 /* .main-content .top-nav{
     display: flex;
     flex-direction: row;
@@ -274,8 +285,10 @@ hr {
     border-radius: 5px;
 }
 .room-card{
-    background-color: var(--primary-color);
+    /* background-color: var(--primary-color); */
+    color: white;
     padding: 1rem;
+    border: 2px solid #6a4cff;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -323,12 +336,12 @@ hr {
 .listeners-count {
     display: block;
     font-weight: bold;
-    color: var(--body-color);
+    /* color: var(--body-color); */
 }
-.speakers-text,
+/* .speakers-text,
 .listeners-text{
     color: var(--sidebar-color);
-}
+} */
 
 /* .host-info{
     margin-top: 6px;
@@ -387,3 +400,54 @@ hr {
     }
   }
   
+/* for showing create room modal or join private room */
+.join-private-container{
+    background-color: rgba(0,0,0, 0.6);
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3000;
+    min-width: 25%;
+}
+
+.join-private-container.show-modal {
+    display: block;
+}
+
+.join-private-container .event-modal {
+    /* background-color: #fff; */
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0, 0.3);
+    position: absolute;
+    /* overflow: hidden; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* max-width: 100%;
+    width: 450px; */
+    animation: modalopen var(--modal-duration);
+}
+
+.join-private-room {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    padding: 6rem;
+    background: #3E317A ;
+    border-radius: 7px;
+}
+
+.join-private-room .room-id {
+    width: 100%;
+}
+
+.join-private-room .room-id input{
+    width: 100%;
+   padding: 10px;
+}

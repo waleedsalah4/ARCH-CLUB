@@ -4,16 +4,16 @@ const submitBtn = document.querySelector('.submit-btn')
 const mainContainer = document.querySelector('.main-container')
 let feedBackDiv;
 
-const chechIfUserIsSign = () => {
-    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
-    if(isLoggedIn === true) {
-        window.location = '../home/index.html'
-    } else{
-        return
-    }
-}
+// const chechIfUserIsSign = () => {
+//     const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+//     if(isLoggedIn === true) {
+//         window.location = '../home/index.html'
+//     } else{
+//         return
+//     }
+// }
 
-chechIfUserIsSign()
+// chechIfUserIsSign()
 
 const signInFeedback = (message) => {
     let markup = `

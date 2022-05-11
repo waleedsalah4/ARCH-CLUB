@@ -14,8 +14,24 @@
     <link rel="stylesheet" href="./css/landpage.css">
 
     <title>ARCH CLUB</title>
+
+    
 </head>
 <body>
+
+
+    <script>
+        const chechIfUserIsSign = () => {
+            const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+            if(isLoggedIn === true) {
+                window.location = './archclub/home/index.html';
+            } else{
+                return
+            }
+        }
+        chechIfUserIsSign()
+    </script>
+
     <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #0C0B0E;">
         <div class="container-xxl">
            <a href="#intro" class="navbar-brand fw-bold">
@@ -63,17 +79,5 @@
             </div>
         </div>
     </main>
-
-    <script>
-        const chechIfUserIsSign = () => {
-            const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
-            if(isLoggedIn === true) {
-                window.location = './archclub/home/index.html';
-            } else{
-                return
-            }
-        }
-        chechIfUserIsSign()
-    </script>
 </body>
 </html>

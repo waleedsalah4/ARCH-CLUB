@@ -27,14 +27,15 @@ let state = {
     isAdmin: false,
     isSpeaker:false,
     isListener:false,
-    isMuted: false
+    isMuted: false,
+    isAskedState: false
 };
 
 // let newState = {}
 
 let roomState = {
     audience : [],
-    brodcasters : []
+    brodcasters : [],
 }; 
 
 export let Me= {}
@@ -59,9 +60,14 @@ socket.on("connect", () => {
 });
 
 let timerCounter=0;
-socket.on('disconnect', (reason)=>{
+socket.on('disconnect', async(reason)=>{
     
     if (reason === 'transport close' && state.isAdmin) {
+
+        if(roomState.isRecording) {
+            //stop record when admin disconnect
+            await recorder.stop();
+        }
         leave()//agora
         const reconnectTimer =  setInterval(()=>{
             if(socket.connected) {
@@ -87,7 +93,7 @@ socket.on('disconnect', (reason)=>{
 
 const handleUIWhenCreateRoom = (roomName ,isRocording, status, id) => {
     document.querySelector('.create-room-container').classList.add('show-modal') 
-    document.querySelector('#create-join-container').classList.remove('show-modal')
+    // document.querySelector('#create-join-container').classList.remove('show-modal')
     document.querySelector('#room-title').innerHTML = roomName
     if(isRocording) {
         startRecording(roomName)
@@ -175,10 +181,9 @@ socket.on('userLeft', (user) => {
 socket.on('userAskedForPerms', (user) => {
     console.log('userAskedForPerms', user) 
     console.log('room state', roomState)
-
     for (let aud of roomState.audience) {
         if(aud._id === user._id){
-            aud.isAsked = true;
+            aud.isAsked = !aud.isAsked;
             break;
         }
     }
@@ -266,6 +271,10 @@ socket.on('adminReJoinedRoomSuccess', async(user, room,token)=>{
     await join(room.APP_ID,token,room.name,user.uid)
     console.log("state.isMuted ===",state.isMuted)
     toggleMic(!state.isMuted)
+
+    //record when rejoin
+    let roomName = `${room.name}1`
+    room.isRecording ? startRecording(roomName) : ''
 
 })
 
@@ -447,9 +456,14 @@ const renderFooter = (state) => {
 
     if(document.querySelector('#footer-hand')) {
         document.querySelector('#footer-hand').addEventListener('click', ()=> {
+            state.isAskedState = !state.isAskedState;
             socket.emit('askForPerms') 
             console.log('you asked for perms')
-            snackbar(snackbarContainer,'info', `<b>info: </b> you asked to speak`, 5000);
+            if(state.isAskedState){
+                snackbar(snackbarContainer,'info', `<b>info: </b> you asked to speak`, 2000);
+            } else {
+                snackbar(snackbarContainer,'info', `<b>info: </b> you take your hand down`, 2000);
+            }
         })
     }
 
@@ -596,14 +610,15 @@ const fetchRoom = async function(id){
 
 
  export const joinRoomFun = async(id) => {
-    if(document.querySelector('#create-join-container').classList.contains('show-modal')) {
-        document.querySelector('#create-join-container').classList.remove('show-modal')
-    }
+    // if(document.querySelector('#create-join-container').classList.contains('show-modal')) {
+    //     document.querySelector('#create-join-container').classList.remove('show-modal')
+    // }
     document.querySelector('.create-room-container').classList.add('show-modal')
         const roomName = await fetchRoom(id);
         console.log(roomName);
         if(roomName){
             socket.emit('joinRoom', roomName);
+            document.querySelector('.loader-container').classList.add('show-modal')
         } else {
             snackbar(snackbarContainer,'error', `<b>Error: </b>  something went wrong, please try later `, 5000);
         }
@@ -624,6 +639,8 @@ window.addEventListener('load', () => {
     if(roomId){
 
         joinRoomFun(roomId)
+    } else {
+        document.querySelector('.loader-container').classList.add('show-modal')
     }
 })
 

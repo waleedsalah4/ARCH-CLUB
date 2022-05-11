@@ -11,16 +11,16 @@ const language = document.getElementById('language');
 let feedBackDiv;
 
 
-const chechIfUserIsSign = () => {
-  const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
-  if(isLoggedIn === true) {
-      window.location = '../home/index.html'
-  } else{
-      return
-  }
-}
+// const chechIfUserIsSign = () => {
+//   const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+//   if(isLoggedIn === true) {
+//       window.location = '../home/index.html'
+//   } else{
+//       return
+//   }
+// }
 
-chechIfUserIsSign()
+// chechIfUserIsSign()
 
 
 const signUpFeedback = (message) => {

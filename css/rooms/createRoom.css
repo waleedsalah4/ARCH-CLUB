@@ -177,23 +177,23 @@ body{
 }
 
 /* for showing create room modal or join private room */
-.create-join-container {
-    background-color: rgba(0,0,0, 0.6);
-    display: none;
+.loader-container {
+    background-color: rgba(0,0,0, 1);
+    display: block;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 3000;
+    z-index: 3001;
     min-width: 25%;
 }
 
-.create-join-container.show-modal {
-    display: block;
+.loader-container.show-modal {
+    display: none;
 }
 
-.event-modal {
+.loader-container .event-loader-modal{
     /* background-color: #fff; */
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0, 0.3);
@@ -206,23 +206,12 @@ body{
     width: 450px; */
     animation: modalopen var(--modal-duration);
 }
-.join-private-room {
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 28px;
-    padding: 6rem;
-    background: #3E317A ;
-    border-radius: 7px;
-}
 
-.join-private-room .room-id {
-    width: 100%;
-}
-
-.join-private-room .room-id input{
-    width: 100%;
-   padding: 10px;
+@keyframes modalopen {
+    form {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

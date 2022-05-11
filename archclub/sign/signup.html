@@ -11,6 +11,18 @@
     <title>ARCH CLUB | SignUp</title>
 </head>
 <body>
+    <script>
+        const chechIfUserIsSign = () => {
+          const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+          if(isLoggedIn === true) {
+              window.location = '../home/index.html'
+          } else{
+              return
+          }
+        }
+  
+        chechIfUserIsSign()
+    </script>
     
     <div class="logo">Logo</div>
     <div class="main-container">

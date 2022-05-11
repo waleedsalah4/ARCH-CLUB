@@ -21,6 +21,20 @@
     <title>ARCH CLUB | Events</title>
 </head>
 <body>
+
+
+    <script>
+        const chechIfUserIsSign = () => {
+            const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+            if(isLoggedIn === true) {
+                return
+            } else{
+                window.location = '/';
+            }
+        }
+        chechIfUserIsSign()
+    </script>
+
     <div class="sideBar" id="events-sidebar">
 
     </div>
