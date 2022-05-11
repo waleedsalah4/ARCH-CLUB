@@ -1,5 +1,6 @@
 #header{
     margin-bottom: 2rem;
+    justify-content: space-between;
 }
 @media (max-width: 900px) {
     #header {
@@ -9,14 +10,22 @@
 @media (max-width: 600px) {
     #header {
         font-size: 12px;
+        justify-content: unset;
     }
 }
 @media (max-width: 320px) {
     #header {
-        margin-left: 4.5rem;
+        /* margin-left: 4.5rem; */
         font-size: 9px;
+        justify-content: unset;
     }
 }
+@media (max-width: 320px) {
+    .home-header{
+        margin-left: 4.5rem;
+    }
+}
+
 
 .logo{
     color: var(--primary-color);
@@ -58,6 +67,34 @@
     align-items: center;
     gap: 10px 40px;
 }
+@media (max-width: 750px) {
+    .left-header-part  {
+        gap: 10px 8px;
+    }
+}
+
+.join-create-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px 20px;
+}
+@media (max-width: 750px) {
+    .join-create-div  {
+        flex-direction: column;
+        gap: 15px 0;
+        margin-top: 1rem;
+    }
+}
+
+
+@media (max-width: 400px) {
+    .join-create-div  {
+        flex-direction: column;
+        gap: 15px 0;
+        margin-top: 1rem;
+    }
+}
 
 .left-header-part .create-btn{
     padding: 0.7rem;
@@ -84,12 +121,13 @@
     font-size: 15px;
     padding: 0.5rem;
     background: #6a4cff;
-    border-radius: 4px;
+    border: none;
+    border-radius: 2px;
     cursor: pointer;
 }
 
 
-@media (max-width: 600px) {
+@media (max-width: 750px) {
     .room-btn a,
     .room-btn .join-private {
         font-size: 10px;
@@ -97,7 +135,7 @@
 }
 
 
-@media (max-width: 320px) {
+@media (max-width: 400px) {
     .room-btn a,
     .room-btn .join-private {
         font-size: 9px;

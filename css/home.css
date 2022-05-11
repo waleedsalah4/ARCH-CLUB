@@ -78,6 +78,17 @@ hr {
     margin-top: 1rem;
     margin-left: 4rem;
 }
+
+@media (max-width: 996px) {
+    .main-content {
+        margin-left: 0;
+    }
+}
+@media (max-width: 320px) {
+    .main-content {
+        margin-left: 3rem;
+    }
+}
 /* .main-content .top-nav{
     display: flex;
     flex-direction: row;

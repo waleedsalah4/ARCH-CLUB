@@ -30,6 +30,17 @@
     height: 4em;
 }
 
+@media (max-width: 600px) {
+    .search-box  {
+        width: 24em;
+    }
+}
+@media (max-width: 400px) {
+    .search-box  {
+        width: 24em;
+    }
+}
+
 .search-input{
     margin-left: 1em;
 }
@@ -97,7 +108,7 @@
 }
 
 .podcast-component{
-    /* margin-left: 5em; */
+    margin-left: 3rem;
 }
 
 /*feed back*/

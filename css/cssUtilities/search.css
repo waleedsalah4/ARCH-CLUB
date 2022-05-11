@@ -60,6 +60,19 @@
     margin-left: 1em ;
     cursor: pointer;
 }
+
+@media (max-width: 600px) {
+    .search-box .searchIcon {
+        width: 21px;
+    }
+}
+
+@media (max-width: 320px) {
+    .search-box .searchIcon {
+        width: 19px;
+    }
+}
+
 .search-input{
     background-color: #25242D;
     color: #928F9B;
