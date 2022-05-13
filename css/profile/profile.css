@@ -252,6 +252,10 @@ body{
     height: 5rem;
     margin-right: .5rem;
 }
+#f img {
+    border-radius: 3em;
+}
+
 /************ end ***********/
 
 
@@ -548,6 +552,15 @@ body{
     transition: all 0.35s;
     z-index: 3;
   }
+
+.load-more-btn {
+    background: #6A4CFF;
+    border: none;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 5px;
+    margin-left: 15em;
+}
 
 /***************/
 

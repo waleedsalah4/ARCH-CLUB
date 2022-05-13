@@ -1,6 +1,6 @@
 import {popupMessage,logout} from './helpers.js';
 import {eventView, deletElmenetFromUi} from './../events/eventCard.js'
-import {renderMainInfo,queryParams} from '../profile/controller.js';
+import {renderMainInfo,queryParams,insertLoadMoreEventsBtn} from '../profile/controller.js';
 import { loadSpinner, clearLoader} from '../loader.js';
 import { podcastFeedback  } from "../podcast/feedBack.js";
 import PodcastClass from '../profile/PodcastClass.js';
@@ -292,12 +292,12 @@ export const getOtherUser = async function(id){
 }
 
 
-export const getMyEvents = async function(parent){
+export const getMyEvents = async function(parent,page){
     loadSpinner(parent);
     
     try{
 
-        const response = await fetch(`${url}/api/v1/events/me`,{
+        const response = await fetch(`${url}/api/v1/events/me?limit=2&page=${page}`,{
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
@@ -309,9 +309,10 @@ export const getMyEvents = async function(parent){
 
         if(res.status !== 'fail'){
             const {data} = res;
-            parent.innerHTML = '';
+            //parent.innerHTML = '';
             if(data.length > 0 ){
                 data.map(d => eventView(d))
+                insertLoadMoreEventsBtn();
                 
             }
             else{

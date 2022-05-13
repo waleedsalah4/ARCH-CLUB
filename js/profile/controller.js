@@ -7,11 +7,9 @@ import { profileSideBarHref } from '../sideBar/sideBarHref.js';
 
 //elements
 const profileVeiw = document.querySelector('.profile-veiw');
-//const generalBtn = document.querySelectorAll('.cBtn');
 const podcastPopup = document.querySelector('.popup-overlay-podcast');
 export const queryParams = {}
-/* let podcastPage = 1;
-let mypodcastsPage = 1; */
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //side bar element
@@ -126,7 +124,7 @@ const showTabContent = function(){
                     getUserPodcasts(queryParams.id,document.querySelector('.tab-content'));
                 }
                 else{
-                    fetchPodcasts(podcastContainer);
+                    fetchPodcasts();
                 }
             }
 
@@ -155,7 +153,6 @@ const showTabContent = function(){
             if(element.closest('.tab').classList.contains('events')){
                 console.log('events');
                 document.querySelector('.events-content').innerHTML='';
-                //loadSpinner(document.querySelector('.events-content'));
                 await getMyEvents(document.querySelector('.events-content'));
                 clearLoader();
             }
@@ -252,28 +249,21 @@ const deletePodcastPopup =  function(podcast){
 }
 
 /////////////////////////////////////////////////////// Paggination //////////////////////////////////////////////////////////////
-/*  const podcastContainer = document.querySelector('.tab-content');
+let eventPage = 1
 let loadmore;
-export const insertLoadMoreEventsBtn = (my=false) => {
+const eventContainer = document.querySelector('.events-content')
+export const insertLoadMoreEventsBtn = () => {
     const markup =`
-        <div class="load-more">
+        <div class="load-more-events">
             <button class="load-more-btn">Load More</button>
         </div>
     `
-    podcastContainer.insertAdjacentHTML('beforeend', markup)
+    eventContainer.insertAdjacentHTML('beforeend', markup)
 
-    loadmore = document.querySelector('.load-more')
+    loadmore = document.querySelector('.load-more-events')
     loadmore.addEventListener('click', () => {
-        
-        if(my){
-            mypodcastsPage++;
-            fetchPodcasts(podcastContainer, mypodcastsPage)
-        }
-        else{
-            podcastPage++;
-            getUserPodcasts(queryParams.id,podcastContainer, podcastPage,true)
-        }
-        
+        eventPage++
+        getMyEvents(eventContainer, eventPage)
         clearLoadMore(loadmore)
     })
 }
@@ -282,11 +272,8 @@ const clearLoadMore  = (element) => {
     if(element) {
         element.parentElement.removeChild(element)
     }
-    //categorieLoadMore = null 
     loadmore = null;
-}  */
-
-/////////////////////////////////////////////////////// Paggination my podcasts/////
+}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -299,7 +286,7 @@ const init = async function(){
    await getMe();
    getMainInfo();
    //loadSpinner(document.getElementById('podcast-container1'));
-   await fetchPodcasts(podcastContainer);
+   await fetchPodcasts();
    getPodcastId();
    triggerUploadPodcast();
 }
