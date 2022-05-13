@@ -16,6 +16,10 @@ class PodcastClass{
     </div>
     `;
 
+    loadmore;
+    podcastPage = 1;
+    mypodcastsPage = 1;
+
     constructor(){
         //loadSpinner(this.podcastContainerProfile);
     }
@@ -128,6 +132,38 @@ class PodcastClass{
 
     `;
 
+    }
+
+    insertLoadMoreEventsBtn = (my=false,fnc,id) => {
+        const markup =`
+            <div class="load-more">
+                <button class="load-more-btn">Load More</button>
+            </div>
+        `
+        this.podcastContainerProfile.insertAdjacentHTML('beforeend', markup)
+    
+        this.loadmore = document.querySelector('.load-more')
+        this.loadmore.addEventListener('click', () => {
+            
+            if(my){
+                this.mypodcastsPage++;
+                fnc(this.podcastContainerProfile, this.mypodcastsPage)
+            }
+            else{
+                this.podcastPage++;
+                fnc(id,this.podcastContainerProfile, this.podcastPage,true)
+            }
+            
+            this.clearLoadMore(this.loadmore)
+        })
+    }
+
+    clearLoadMore  = (element) => {
+        if(element) {
+            element.parentElement.removeChild(element)
+        }
+        
+        this.loadmore = null;
     }
 }
 

@@ -10,8 +10,8 @@ const profileVeiw = document.querySelector('.profile-veiw');
 //const generalBtn = document.querySelectorAll('.cBtn');
 const podcastPopup = document.querySelector('.popup-overlay-podcast');
 export const queryParams = {}
-let podcastPage = 1;
-let mypodcastsPage = 1;
+/* let podcastPage = 1;
+let mypodcastsPage = 1; */
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //side bar element
@@ -122,11 +122,11 @@ const showTabContent = function(){
                 document.querySelector('.tab-content').innerHTML = '';
                 //loadSpinner(document.querySelector('.tab-content'));
                 if(queryParams.id){
-                   console.log(podcastPage);
-                    getUserPodcasts(queryParams.id,document.querySelector('.tab-content'), podcastPage);
+                   
+                    getUserPodcasts(queryParams.id,document.querySelector('.tab-content'));
                 }
                 else{
-                    fetchPodcasts(podcastContainer, mypodcastsPage);
+                    fetchPodcasts(podcastContainer);
                 }
             }
 
@@ -244,7 +244,7 @@ const deletePodcastPopup =  function(podcast){
         document.querySelector('.delete-podcast-popup-overlay').classList.add('hidden');
         await getMe();
         //renderPodcasts();
-        await fetchPodcasts(podcastContainer, mypodcastsPage);
+        await fetchPodcasts(podcastContainer);
 
     });
     
@@ -252,7 +252,7 @@ const deletePodcastPopup =  function(podcast){
 }
 
 /////////////////////////////////////////////////////// Paggination //////////////////////////////////////////////////////////////
-const podcastContainer = document.querySelector('.tab-content');
+/*  const podcastContainer = document.querySelector('.tab-content');
 let loadmore;
 export const insertLoadMoreEventsBtn = (my=false) => {
     const markup =`
@@ -284,7 +284,7 @@ const clearLoadMore  = (element) => {
     }
     //categorieLoadMore = null 
     loadmore = null;
-}
+}  */
 
 /////////////////////////////////////////////////////// Paggination my podcasts/////
 
@@ -299,7 +299,7 @@ const init = async function(){
    await getMe();
    getMainInfo();
    //loadSpinner(document.getElementById('podcast-container1'));
-   await fetchPodcasts(podcastContainer, mypodcastsPage);
+   await fetchPodcasts(podcastContainer);
    getPodcastId();
    triggerUploadPodcast();
 }
@@ -329,7 +329,7 @@ window.addEventListener('load', () => {
             loadSpinner(profileVeiw);
             document.querySelector('.events').classList.add('hidden');
             getUser(queryParams.id);
-            getUserPodcasts(queryParams.id,document.querySelector('.tab-content'), podcastPage);
+            getUserPodcasts(queryParams.id,document.querySelector('.tab-content'));
             getUserFollowers(queryParams.id);
             getUserFollowing(queryParams.id);
         }

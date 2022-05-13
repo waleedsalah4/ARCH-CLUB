@@ -1,6 +1,6 @@
 import {popupMessage,logout} from './helpers.js';
 import {eventView, deletElmenetFromUi} from './../events/eventCard.js'
-import {renderMainInfo,insertLoadMoreEventsBtn,queryParams} from '../profile/controller.js';
+import {renderMainInfo,queryParams} from '../profile/controller.js';
 import { loadSpinner, clearLoader} from '../loader.js';
 import { podcastFeedback  } from "../podcast/feedBack.js";
 import PodcastClass from '../profile/PodcastClass.js';
@@ -413,7 +413,7 @@ export const fetchPodcasts =  async function(container, page){
             
             document.querySelector('.podcasts .tab-number').textContent =  res.results;
             PodcastClass.renderPodcast(res.data,false,res.results);
-            insertLoadMoreEventsBtn(true)
+            PodcastClass.insertLoadMoreEventsBtn(true,fetchPodcasts)
         }
         else {
             clearLoader()
@@ -435,7 +435,7 @@ else{
 export const getUserPodcasts = async function(id,container ,page,paggined = false){
 
     try{
-        console.log(page);
+       
        loadSpinner(document.querySelector('.tab-content'))
         const response = await fetch(`${url}/api/v1/podcasts?createdBy=${id}&limit=4&page=${page}`,{
             method: 'GET',
@@ -460,7 +460,7 @@ export const getUserPodcasts = async function(id,container ,page,paggined = fals
                 PodcastClass.renderPodcast(data,true,res.results);
             }
            
-            insertLoadMoreEventsBtn()
+            PodcastClass.insertLoadMoreEventsBtn(false,getUserPodcasts,id);
         }else {
             clearLoader()
             podcastFeedback(container,'theres no more podcasts')
