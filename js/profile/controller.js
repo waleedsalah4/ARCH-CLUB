@@ -4,7 +4,7 @@ import { getMe, url  ,uploadPodcast,fetchFollowing , fetchFollowers, getUserFoll
 import { loadSpinner, clearLoader} from '../loader.js';
 import { sideBarView } from '../sideBar/sideBarView.js';
 import { profileSideBarHref } from '../sideBar/sideBarHref.js';
-
+import { followUser, unFollowUser} from "../utilities/profileReq.js";
 //elements
 const profileVeiw = document.querySelector('.profile-veiw');
 const podcastPopup = document.querySelector('.popup-overlay-podcast');
@@ -81,7 +81,7 @@ export const renderMainInfo = function(data,otherUser=false){
 
             </div>
             
-            ${otherUser===true? `<button class="follow-following ${data.isFollowed? 'btn-following-profile' : 'btn-follow-profile'}"> ${data.isFollowed?'Following' : 'Follow' }</button>` :
+            ${otherUser===true? `<button class="follow-following f-btn ${data.isFollowed? 'btn-following-profile' : 'btn-follow-profile'}"> ${data.isFollowed?'Following' : 'Follow' }</button>` :
                             '<a href="edit-profile.html"> <button class="follow-following btn-follow-profile">Edit Profile</button></a>'}
             </div>
 
@@ -95,6 +95,10 @@ export const renderMainInfo = function(data,otherUser=false){
     document.querySelector('.following .tab-number').textContent = data.following;
     document.querySelector('.followers .tab-number').textContent = data.followers;
     showTabContent();
+    if(otherUser){
+        followUnFollow();
+    }
+    
     
 
 }
@@ -278,6 +282,18 @@ const clearLoadMore  = (element) => {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////// Follow & UnFollow User//////////////////////////////////////////////////////////
+
+const followUnFollow = function(){
+    document.querySelector('.f-btn').addEventListener('click',function(e){
+        if(e.target.classList.contains('btn-following-profile')){
+            unFollowUser(queryParams.id, document.querySelector('.f-btn'))
+        }
+        else{
+            followUser(queryParams.id, document.querySelector('.f-btn'))
+        }
+    })
+}
 
 //////////////////////////////////////////////////////////// get user's data onload ///////////////////////////////////////////////
 
