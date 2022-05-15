@@ -292,11 +292,11 @@ export const getOtherUser = async function(id){
 }
 
 
-export const getMyEvents = async function(parent,page){
+export const getMyEvents = async function(parent,page,paggined=false){
     loadSpinner(parent);
     
     try{
-
+        console.log(page); 
         const response = await fetch(`${url}/api/v1/events/me?limit=2&page=${page}`,{
             method: 'GET',
             headers: {
@@ -316,13 +316,25 @@ export const getMyEvents = async function(parent,page){
                 
             }
             else{
-                parent.innerHTML = '';
-                parent.insertAdjacentHTML('beforeend',`
-                <div class="feed-back sucsses">
-                    <p class="feed-back-text">You have No Events</p>
-                    <i class='bx bx-x clear-feed-back'></i>
-                </div>
-                `);
+                
+                if(paggined){
+                    clearLoader();
+                    parent.insertAdjacentHTML('beforeend',`
+                    <div class="feed-back sucsses">
+                        <p class="feed-back-text">End of results!</p>
+                        <i class='bx bx-x clear-feed-back'></i>
+                    </div>
+                    `);
+                }
+                else{
+                    clearLoader();
+                    parent.insertAdjacentHTML('beforeend',`
+                    <div class="feed-back sucsses">
+                        <p class="feed-back-text">You have No Events</p>
+                        <i class='bx bx-x clear-feed-back'></i>
+                    </div>
+                    `);
+                }
             }
         }
         
@@ -395,7 +407,7 @@ export const getUser = async function(id){
     
 }
 
-export const fetchPodcasts =  async function(container, page){ 
+export const fetchPodcasts =  async function(container, page,paggined = false){ 
     
     try{
         loadSpinner(document.querySelector('.tab-content'))
@@ -413,12 +425,23 @@ export const fetchPodcasts =  async function(container, page){
         if(data.length > 0 ){
             
             document.querySelector('.podcasts .tab-number').textContent =  res.results;
-            PodcastClass.renderPodcast(res.data,false,res.results);
+            if(paggined){
+                PodcastClass.renderPodcast(res.data,false,res.results,true);
+            }
+            else{
+                PodcastClass.renderPodcast(res.data,false,res.results);
+            }
+            
             PodcastClass.insertLoadMoreEventsBtn(true,fetchPodcasts)
         }
         else {
             clearLoader()
-            podcastFeedback(container,'theres no more podcasts')
+            if(paggined){
+                podcastFeedback(container,'End of results!')
+            }
+            else{
+                podcastFeedback(container,'its Empty here!')
+            }
         }
 }
 
@@ -464,7 +487,12 @@ export const getUserPodcasts = async function(id,container ,page,paggined = fals
             PodcastClass.insertLoadMoreEventsBtn(false,getUserPodcasts,id);
         }else {
             clearLoader()
-            podcastFeedback(container,'theres no more podcasts')
+            if(paggined){
+                podcastFeedback(container,'End of results!')
+            }
+            else{
+                podcastFeedback(container,'its Empty here!')
+            }
         }
     }
     
@@ -509,10 +537,10 @@ export const getUserFollowers = async function(id,container = Follow.followersCo
         else {
             clearLoader()
             if(paggined){
-                podcastFeedback(container,'there is no more followers')
+                podcastFeedback(container,'End of results!')
             }
             else{
-                podcastFeedback(container,'there is no followers')
+                podcastFeedback(container,'its Empty here!')
             }
             
         }  
@@ -560,10 +588,10 @@ export const getUserFollowing = async function(id = queryParams.id,container = F
         else {
             clearLoader()
             if(paggined){
-                podcastFeedback(container,'End of results ')
+                podcastFeedback(container,'End of results!')
             }
             else{
-                podcastFeedback(container,'there is no following')
+                podcastFeedback(container,'its Empty here!')
             }
             
         }  
@@ -632,7 +660,7 @@ export const followUser = async(id, btnValue) => {
         if(res.status !== 'fail'){
             btnValue.textContent = 'unFollow';
             console.log(btnValue.textContent)
-            btnValue.classList.add('btn-following-profile');
+            btnValue.classList = 'follow-following f-btn btn-following-profile';
         }
         else{
             btnValue.textContent = 'unFollow';
@@ -660,7 +688,7 @@ export const unFollowUser = async(id, btnValue) => {
         
         if(res.status !== 'fail'){
             btnValue.textContent = 'Follow';
-            btnValue.classList.add('btn-follow-profile');
+            btnValue.classList = 'follow-following f-btn btn-follow-profile';
         }
         else{
             btnValue.textContent = 'unFollow';

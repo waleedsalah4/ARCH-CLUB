@@ -72,7 +72,8 @@ class Follow{
                 <button class="load-more-btn">Load More</button>
             </div>
         `
-        this.followingContainer.insertAdjacentHTML('beforeend', markup)
+        document.querySelector('.load-followeing').innerHTML = '';
+        document.querySelector('.load-followeing').insertAdjacentHTML('beforeend', markup)
 
         this.loadmore = document.querySelector('.load-more-following')
         this.loadmore.addEventListener('click', () => {
@@ -86,11 +87,13 @@ class Follow{
 
     followersPaggination(fnc){
             const markup =`
-            <div class="load-more-followers">
+            <div class="load-more-followers ">
                 <button class="load-more-btn">Load More</button>
             </div>
         `
-        this.followersContainer.insertAdjacentHTML('beforeend', markup)
+        
+        document.querySelector('.load-followers').innerHTML = '';
+        document.querySelector('.load-followers').insertAdjacentHTML('beforeend', markup)
 
         this.loadmore = document.querySelector('.load-more-followers')
         this.loadmore.addEventListener('click', () => {
@@ -108,7 +111,8 @@ class Follow{
             <button class="load-more-btn">Load More</button>
         </div>
     `
-    this.followingContainer.insertAdjacentHTML('beforeend', markup)
+    document.querySelector('.load-followeing').innerHTML = '';
+    document.querySelector('.load-followeing').insertAdjacentHTML('beforeend', markup)
 
     this.loadmore = document.querySelector('.load-more-my-following')
     this.loadmore.addEventListener('click', () => {
@@ -126,7 +130,8 @@ class Follow{
             <button class="load-more-btn">Load More</button>
         </div>
     `
-    this.followersContainer.insertAdjacentHTML('beforeend', markup)
+    document.querySelector('.load-followers').innerHTML = '';
+    document.querySelector('.load-followers').insertAdjacentHTML('beforeend', markup)
 
     this.loadmore = document.querySelector('.load-more-my-followers')
     this.loadmore.addEventListener('click', () => {

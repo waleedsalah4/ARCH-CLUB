@@ -136,8 +136,8 @@ class PodcastClass{
 
     insertLoadMoreEventsBtn = (my=false,fnc,id) => {
         const markup =`
-            <div class="load-more">
-                <button class="load-more-btn">Load More</button>
+            <div class="load-more custom-center">
+                <button class="load-more-btn mll">Load More</button>
             </div>
         `
         this.podcastContainerProfile.insertAdjacentHTML('beforeend', markup)
@@ -147,7 +147,7 @@ class PodcastClass{
             
             if(my){
                 this.mypodcastsPage++;
-                fnc(this.podcastContainerProfile, this.mypodcastsPage)
+                fnc(this.podcastContainerProfile, this.mypodcastsPage,true)
             }
             else{
                 this.podcastPage++;

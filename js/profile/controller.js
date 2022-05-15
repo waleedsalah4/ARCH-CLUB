@@ -5,6 +5,8 @@ import { loadSpinner, clearLoader} from '../loader.js';
 import { sideBarView } from '../sideBar/sideBarView.js';
 import { profileSideBarHref } from '../sideBar/sideBarHref.js';
 import { followUser, unFollowUser} from "../utilities/profileReq.js";
+import Follow from './Follow.js';
+import PodcastClass from './PodcastClass.js';
 //elements
 const profileVeiw = document.querySelector('.profile-veiw');
 const podcastPopup = document.querySelector('.popup-overlay-podcast');
@@ -114,9 +116,16 @@ const showTabContent = function(){
        /*  console.log('clicked');
         console.log(e.target); */
 
-        if(e.target.matches('label') || e.target.matches('input')){
+        if( e.target.matches('input')){ //e.target.matches('label') ||
             /* console.log(e.target); */
             const element = e.target;
+            Follow.followersPage = 1;
+            Follow.followingPage = 1;
+            Follow.myFollowersPage = 1;
+            Follow.myFollowingPage = 1;
+            PodcastClass.podcastPage = 1;
+            PodcastClass.mypodcastsPage =1;
+            eventPage = 1;
 
             if(element.closest('.tab').classList.contains('podcasts')){
                 console.log('podcasts');
@@ -258,8 +267,8 @@ let loadmore;
 const eventContainer = document.querySelector('.events-content')
 export const insertLoadMoreEventsBtn = () => {
     const markup =`
-        <div class="load-more-events">
-            <button class="load-more-btn">Load More</button>
+        <div class="load-more-events custom-center">
+            <button class="load-more-btn ">Load More</button>
         </div>
     `
     eventContainer.insertAdjacentHTML('beforeend', markup)
@@ -267,7 +276,7 @@ export const insertLoadMoreEventsBtn = () => {
     loadmore = document.querySelector('.load-more-events')
     loadmore.addEventListener('click', () => {
         eventPage++
-        getMyEvents(eventContainer, eventPage)
+        getMyEvents(eventContainer, eventPage,true)
         clearLoadMore(loadmore)
     })
 }
@@ -333,8 +342,8 @@ window.addEventListener('load', () => {
             document.querySelector('.events').classList.add('hidden');
             getUser(queryParams.id);
             getUserPodcasts(queryParams.id,document.querySelector('.tab-content'));
-            getUserFollowers(queryParams.id);
-            getUserFollowing(queryParams.id);
+            //getUserFollowers(queryParams.id);
+            //getUserFollowing(queryParams.id);
         }
         
     }
