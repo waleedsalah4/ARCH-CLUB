@@ -169,17 +169,17 @@ export const fetchFollowing = async function(container = Follow.followingContain
         else {
             clearLoader()
             if(paggined){
-                podcastFeedback(container,'End of results ')
+                podcastFeedback(document.querySelector('.load-followeing'),'End of results ')
             }
             else{
-                podcastFeedback(container,'there is no following')
+                podcastFeedback(document.querySelector('.load-followeing'),'there is no following')
             }
             
         }  
     }
     else{
         clearLoader()
-        podcastFeedback(container,res.message);
+        podcastFeedback(document.querySelector('.load-followeing'),res.message);
     }
     }
 
@@ -219,17 +219,17 @@ export const fetchFollowers = async function(container = Follow.followersContain
         else {
             clearLoader()
             if(paggined){
-                podcastFeedback(container,'End of results ')
+                podcastFeedback(document.querySelector('.load-followers'),'End of results ')
             }
             else{
-                podcastFeedback(container,'there is no followers')
+                podcastFeedback(document.querySelector('.load-followers'),'there is no followers')
             }
             
         }  
     }
     else{
         clearLoader()
-        podcastFeedback(container,res.message);
+        podcastFeedback(document.querySelector('.load-followers'),res.message);
     }
 }
     catch(err){
@@ -618,17 +618,17 @@ export const getUserFollowers = async function(id,container = Follow.followersCo
         else {
             clearLoader()
             if(paggined){
-                podcastFeedback(container,'End of results!')
+                podcastFeedback(document.querySelector('.load-followers'),'End of results!')
             }
             else{
-                podcastFeedback(container,'its Empty here!')
+                podcastFeedback(document.querySelector('.load-followers'),'its Empty here!')
             }
             
         }  
     }
     else{
         clearLoader()
-        podcastFeedback(container,res.message);
+        podcastFeedback(document.querySelector('.load-followers'),res.message);
     }
     
 
@@ -669,17 +669,17 @@ export const getUserFollowing = async function(id = queryParams.id,container = F
         else {
             clearLoader()
             if(paggined){
-                podcastFeedback(container,'End of results!')
+                podcastFeedback(document.querySelector('.load-followeing'),'End of results!')
             }
             else{
-                podcastFeedback(container,'its Empty here!')
+                podcastFeedback(document.querySelector('.load-followeing'),'its Empty here!')
             }
             
         }  
     }
     else{
         clearLoader()
-        podcastFeedback(container,res.message);
+        podcastFeedback(document.querySelector('.load-followeing'),res.message);
     }
 }
 
