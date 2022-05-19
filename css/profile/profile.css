@@ -239,6 +239,10 @@ body{
 .mll {
     margin-left: -30% !important;
 }
+
+.mgs-output{
+    margin-top: 3rem;
+}
 .custom-center{
    
         margin: auto;

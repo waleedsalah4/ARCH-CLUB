@@ -88,10 +88,12 @@ export const createPodcast = async function(podcastData,podName,podCategory){
 
     const res = await response.json();
     if(res.status != 'fail'){
-        popupMessage('Your Podcast Has Been Loaded Successfully!');
+        podcastFeedback(document.querySelector('.mgs-output'),'Your Podcast Has Been Loaded Successfully!')
+        //popupMessage('Your Podcast Has Been Loaded Successfully!');
     }
     else{
-        popupMessage(`${res.message}`);
+        podcastFeedback(document.querySelector('.mgs-output'),`${res.message}`)
+        //popupMessage(`${res.message}`);
     }
     
     console.log(res);

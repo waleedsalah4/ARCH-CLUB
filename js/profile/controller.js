@@ -56,36 +56,38 @@ export const renderMainInfo = function(data,otherUser=false){
 
             <div d-flex>
 
-            <div class="d-flex fr-wrab">
+                <div class="d-flex fr-wrab">
 
-                    <div>
-                    <img  src=${data.photo} alt="user profile picture" class="circle-profile-img">
-                            ${otherUser === false? `<a href="changePhoto.html">
-                            <i class="fa-solid fa-camera current-camera-icon"></i> 
-                                </a>`: ``}
-                    </div>
+                        <div>
+                        <img  src=${data.photo} alt="user profile picture" class="circle-profile-img">
+                                ${otherUser === false? `<a href="changePhoto.html">
+                                <i class="fa-solid fa-camera current-camera-icon"></i> 
+                                    </a>`: ``}
+                        </div>
 
-                    <div class="ms-4 mt-4">
-                        <h2 class="user-name mt-1 p-2 pb-1 fw-bold">${data.name}</h2>        
-                        <p class="user-bio pb-1">${data.bio} </p>
-                    </div>
+                        <div class="ms-4 mt-4">
+                            <h2 class="user-name mt-1 p-2 pb-1 fw-bold">${data.name}</h2>        
+                            <p class="user-bio pb-1">${data.bio} </p>
+                        </div>
+                        
+                        ${otherUser!= false? '':
+                        `<div class="add-podcast-container">
+                        <input type="file" name="file" id="podcast-file" style="display: none; " >
+                        <h2 class="text-light  fw-bold fs-1  podcast-component-heading"> 
+                            <button class="add-podcast-btn" onclick="document.getElementById('podcast-file').click()">
+                                <i class="fa-solid fa-circle-plus fs-3 me-4"></i>
+                                Add podcast
+                            </button>
+                        </h2>
+                    </div>`
+                    }
                     
-                    ${otherUser!= false? '':
-                    `<div class="add-podcast-container">
-                    <input type="file" name="file" id="podcast-file" style="display: none; " >
-                    <h2 class="text-light  fw-bold fs-1  podcast-component-heading"> 
-                        <button class="add-podcast-btn" onclick="document.getElementById('podcast-file').click()">
-                            <i class="fa-solid fa-circle-plus fs-3 me-4"></i>
-                            Add podcast
-                        </button>
-                    </h2>
-                </div>`
-                }
 
             </div>
             
             ${otherUser===true? `<button class="follow-following f-btn ${data.isFollowed? 'btn-following-profile' : 'btn-follow-profile'}"> ${data.isFollowed?'Following' : 'Follow' }</button>` :
                             '<a href="edit-profile.html"> <button class="follow-following btn-follow-profile">Edit Profile</button></a>'}
+                            <div class="mgs-output"></div>
             </div>
 
             `;
@@ -153,6 +155,7 @@ const showTabContent = function(){
 
             if(element.closest('.tab').classList.contains('following')){
                 console.log('following');
+                document.querySelector('.load-followeing').innerHTML = '';
                 document.querySelector('.following-content').innerHTML = '';
                 if(queryParams.id){
                    
@@ -200,7 +203,8 @@ const podcastInfosForm = async function(file){
         document.querySelector('.add-podcast-btn').innerHTML = `<i class="fa-solid fa-circle-plus fs-3 me-4"></i>
         Add podcast`;
         file.value = null;
-        init();
+        setTimeout(init,5000);
+        //init();
         
     }
 }

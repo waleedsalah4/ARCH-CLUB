@@ -185,14 +185,15 @@ label {
     justify-content: space-between;
     gap: 2px 4px;
     padding: 10px;
+    background: #6a4cff !important;
 }
 .feed-back.sucsses{
     background: #6a4cff;
 }
 
-.feed-back.fail{
+/* .feed-back.fail{
     background:#ac071f;
-}
+} */
 
 .feed-back-text {
     display: inline-block;
