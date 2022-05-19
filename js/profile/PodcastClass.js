@@ -136,13 +136,13 @@ class PodcastClass{
 
     insertLoadMoreEventsBtn = (my=false,fnc,id) => {
         const markup =`
-            <div class="load-more custom-center">
+            <div class="load-more load-more-podcasts custom-center">
                 <button class="load-more-btn mll">Load More</button>
             </div>
         `
         this.podcastContainerProfile.insertAdjacentHTML('beforeend', markup)
     
-        this.loadmore = document.querySelector('.load-more')
+        this.loadmore = document.querySelector('.load-more-podcasts')
         this.loadmore.addEventListener('click', () => {
             
             if(my){
