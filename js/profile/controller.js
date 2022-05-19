@@ -7,6 +7,7 @@ import { profileSideBarHref } from '../sideBar/sideBarHref.js';
 import { followUser, unFollowUser} from "../utilities/profileReq.js";
 import Follow from './Follow.js';
 import PodcastClass from './PodcastClass.js';
+import Myevents from './Myevents.js';
 //elements
 const profileVeiw = document.querySelector('.profile-veiw');
 const podcastPopup = document.querySelector('.popup-overlay-podcast');
@@ -115,7 +116,6 @@ const showTabContent = function(){
     document.querySelector('.tabs').addEventListener('click', async function(e){
        /*  console.log('clicked');
         console.log(e.target); */
-
         if( e.target.matches('input')){ //e.target.matches('label') ||
             /* console.log(e.target); */
             const element = e.target;
@@ -125,7 +125,7 @@ const showTabContent = function(){
             Follow.myFollowingPage = 1;
             PodcastClass.podcastPage = 1;
             PodcastClass.mypodcastsPage =1;
-            eventPage = 1;
+            Myevents.eventPage = 1;
 
             if(element.closest('.tab').classList.contains('podcasts')){
                 console.log('podcasts');
@@ -164,6 +164,7 @@ const showTabContent = function(){
             }
 
             if(element.closest('.tab').classList.contains('events')){
+                let eventPage = 1
                 console.log('events');
                 document.querySelector('.events-content').innerHTML='';
                 await getMyEvents(document.querySelector('.events-content'));
@@ -254,7 +255,7 @@ const deletePodcastPopup =  function(podcast){
         document.querySelector('.delete-podcast-popup-overlay').classList.add('hidden');
         await getMe();
         //renderPodcasts();
-        await fetchPodcasts(podcastContainer);
+        await fetchPodcasts(PodcastClass.podcastContainerProfile);
 
     });
     

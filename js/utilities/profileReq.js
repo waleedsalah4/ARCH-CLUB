@@ -1,6 +1,7 @@
 import {popupMessage,logout} from './helpers.js';
-import {eventView, deletElmenetFromUi} from './../events/eventCard.js'
+import {eventView, deletElmenetFromUi,puttingHandlers,updateEventHandling} from './../events/eventCard.js'
 import {renderMainInfo,queryParams,insertLoadMoreEventsBtn} from '../profile/controller.js';
+import Myevents from '../profile/Myevents.js';
 import { loadSpinner, clearLoader} from '../loader.js';
 import { podcastFeedback  } from "../podcast/feedBack.js";
 import PodcastClass from '../profile/PodcastClass.js';
@@ -294,7 +295,7 @@ export const getOtherUser = async function(id){
 
 export const getMyEvents = async function(parent,page,paggined=false){
     loadSpinner(parent);
-    
+    console.log('getMy Events');
     try{
         console.log(page); 
         const response = await fetch(`${url}/api/v1/events/me?limit=2&page=${page}`,{
@@ -311,9 +312,11 @@ export const getMyEvents = async function(parent,page,paggined=false){
             const {data} = res;
             //parent.innerHTML = '';
             if(data.length > 0 ){
-                data.map(d => eventView(d))
-                insertLoadMoreEventsBtn();
-                
+                /* data.map(d => eventView(d))
+                puttingHandlers();*/
+                clearLoader();
+                Myevents.renderEvent(data);
+                Myevents.insertLoadMoreEventsBtn(getMyEvents); 
             }
             else{
                 
@@ -349,6 +352,83 @@ export const getMyEvents = async function(parent,page,paggined=false){
 }
 
 
+export const updateEvent = async function(id,changeData){
+    console.log('hi');
+    try{
+        
+        const response = await fetch(`${url}/api/v1/events/${id}`,{
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(changeData)
+    });
+
+        const res = await response.json();
+        //console.log(res);
+         const user = res.user;
+         
+
+        if(res.status !== 'success') {
+            popupMessage(res.message);
+            console.log("failed");
+           /*  getMyEvents(document.querySelector('.events-content')); */
+           //document.querySelector('.user-Events').click()
+            console.log(res.message)
+            
+        }
+        else{
+            
+            popupMessage(`Changed successfully!`);
+            //document.querySelector('.events-content').innerHTML = '';
+            //getMyEvents(document.querySelector('.events-content'));
+            console.log("clicked");
+            /* Myevents.eventContainer.innerHTML = '';
+            document.querySelector('.user-Events').click()  */
+           
+           //getMyEvents( Myevents.eventContainer);
+
+        }
+    }
+
+    catch(err){
+        console.log(err.message);
+    }
+
+}
+
+export const getEventById = async function(id){
+    try{
+        
+        const response = await fetch(`${url}/api/v1/events/${id}`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+                'Content-Type': 'application/json'
+            }
+    });
+
+        const res = await response.json();
+        console.log(res);
+        if(res.status !== 'success') {
+            //popupMessage(res.message);
+        
+            console.log(res.message)
+            
+        }
+        else{
+            /* updateEventHandling(res,id); */
+            Myevents.updateEventHandling(res,id);
+        }
+    }
+
+    catch(err){
+        console.log(err.message);
+    }
+
+}
+
 
 export const deleteEventById = async function(id){
     try{
@@ -370,7 +450,8 @@ export const deleteEventById = async function(id){
 
         else{
             // console.log('deleted successfully')
-            deletElmenetFromUi(id)
+            /* deletElmenetFromUi(id) */
+            Myevents.deletElmenetFromUi(id)
             popupMessage(`the event has been deleted successfully!`);
         }
 
@@ -608,42 +689,6 @@ export const getUserFollowing = async function(id = queryParams.id,container = F
     
 }
 
-export const updateEvent = async function(id,changeData){
-
-    try{
-        
-        const response = await fetch(`${url}/api/v1/events/${id}`,{
-            method: 'PATCH',
-            headers: {
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(changeData)
-    });
-
-        const res = await response.json();
-        //console.log(res);
-         const user = res.user;
-         
-
-        if(res.status !== 'success') {
-            popupMessage(res.message);
-            console.log(res.message)
-            
-        }
-        else{
-            
-            popupMessage(`Changed successfully!`);
-            getMyEvents(document.querySelector('.events-content'));
-
-        }
-    }
-
-    catch(err){
-        console.log(err.message);
-    }
-
-}
 
 
 export const followUser = async(id, btnValue) => {
