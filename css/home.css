@@ -387,8 +387,8 @@ hr {
     height: 64px;
     margin: 8px;
     border-radius: 50%;
-    border: 6px solid var(--active-color);
-    border-color: var(--active-color) transparent var(--active-color) transparent;
+    border: 6px solid #6a4cff;
+    border-color: #6a4cff transparent #6a4cff transparent;
     animation: spinner 1.2s linear infinite;
   }
   @keyframes spinner {

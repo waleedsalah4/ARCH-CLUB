@@ -4,8 +4,8 @@
 }
 
 .home-search {
-    margin-top: 0;
-    margin-left: 6rem ;
+    margin-top: 1.3rem;
+    margin-right: auto;
 }
 
 @media (max-width: 600px) {
@@ -17,7 +17,7 @@
 @media (max-width: 320px) {
     .home-search {
         font-size: 9px;
-        margin-left: 1rem;
+        /* margin-left: 1rem; */
     }
 }
 

@@ -1,6 +1,7 @@
 #header{
     margin-bottom: 2rem;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    gap: 0px 6px;
 }
 @media (max-width: 900px) {
     #header {
@@ -35,7 +36,8 @@
 }
 
 .edit-logo{
-    margin: 1.5rem 8rem;
+    /* margin: 1.5rem 8rem; */
+    margin-left: 6rem;
 }
 
 .logo img {
