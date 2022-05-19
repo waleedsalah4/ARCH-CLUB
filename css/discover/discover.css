@@ -78,14 +78,14 @@ html{
 }
 
 
-.header-container img{
+/* .header-container img{
     width: 7em;
     height: 7em;
     padding: .7em;
     border: 4px dashed var(--primary-color);
     margin-right: 4em; 
     margin-top: 2em;
-}
+} */
 
 .top-podcasters{
     margin: 2em 2em 2em 7em;

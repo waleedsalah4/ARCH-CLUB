@@ -55,9 +55,8 @@ createbtn.addEventListener('click' ,()=>{
         let rmVal = getRoomName.value;
         let catVal = document.querySelector('#categories').value
         console.log(rmVal,catVal ,roomType, recordRoom)
-
-    
-        //start load your room
+        
+       // start load your room
         createRoom({
             name: rmVal,
             category: catVal,

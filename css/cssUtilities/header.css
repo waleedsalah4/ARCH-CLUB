@@ -38,6 +38,11 @@
     margin: 1.5rem 8rem;
 }
 
+.logo img {
+    width: 4rem;
+    height: 4rem;
+}
+
 .left-header-part img{
     width: 6em;
     height: 6em;

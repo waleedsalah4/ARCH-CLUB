@@ -8,7 +8,9 @@ let toggleIcon;
 export const sideBarView = (hrefObject, container) => {
     const markup = `
     <div class="top">
-        <div class="sidebar-logo">Logo</div>
+        <div class="sidebar-logo">
+        <img src="/assets/logo/mipmap-mdpi/ic_launcher.png" alt="logo">
+        </div>
         <div class="bar-icon-container"> 
             <i class="fa-solid fa-bars bar-icon   appear"></i> 
         </div>

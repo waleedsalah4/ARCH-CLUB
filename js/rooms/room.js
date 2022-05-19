@@ -165,6 +165,7 @@ socket.on('userJoined', (user) => {
     addItem(user);
     console.log(state)
     renderRoom(roomState, state);
+    playAudio('/assets/audio/userEnter.wav')
 })
 
 socket.on('userLeft', (user) => {
@@ -175,7 +176,7 @@ socket.on('userLeft', (user) => {
     roomState.brodcasters = roomState.brodcasters.filter(usr => usr._id !== user._id)
 
     renderRoom(roomState, state)
-
+    playAudio('/assets/audio/userLeft.wav')
 })
 
 socket.on('userAskedForPerms', (user) => {
@@ -206,6 +207,7 @@ socket.on('userChangedToBrodcaster', (user)=> {
     roomState.audience = roomState.audience.filter(usr => usr._id !== user._id)
     addUserToSpeakers(user)
     renderRoom(roomState, state)
+    playAudio('/assets/audio/userBecomeSpeaker.wav')
 
     // console.log('newState',newState)
     console.log('state', state)
@@ -236,6 +238,8 @@ socket.on('userChangedToAudience', (user)=>{
    
     addItem(user)
     renderRoom(roomState, state)
+    playAudio('/assets/audio/userBecomeAudienc.wav')
+
     roomState.userUid = user.uid;
     // console.log('room state after change user to audience',roomState)
     // console.log('newState',newState)
@@ -280,6 +284,8 @@ socket.on('adminReJoinedRoomSuccess', async(user, room,token)=>{
 
 socket.on('adminLeft', ()=>{
     console.log('admin has left if he does not come back after one min room will ended')
+    snackbar(snackbarContainer,'info', `<b>Error: </b> admin has left if he does not come back after one min room will ended `, 5000);
+    playAudio('/assets/audio/adminLeft.wav')
 })
 
 socket.on('roomEnded',()=>{
@@ -300,6 +306,12 @@ function addItem(obj){
 
 function addUserToSpeakers(user){
     roomState.brodcasters.push(user)
+}
+
+const playAudio = (src) =>{
+    let audio = new Audio(src);
+    audio.play();
+    
 }
 
 
