@@ -1,4 +1,4 @@
-export const limiTitle = (title, limit =17) => {
+export const limiTitle = (title, limit =15) => {
     const newTitle = [];
     if (title.length > limit) {
         title.split('').reduce((acc, cur) => {

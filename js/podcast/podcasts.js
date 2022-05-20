@@ -89,18 +89,31 @@ const createCategory = async() => {
             loadSpinner(podcastContainer);
             if(categoreisItems[i].textContent === 'All'){
 
+                //clear load more
                 if(document.querySelector('.load-more')){
                     clearLoadMore(document.querySelector('.load-more'))
                 }
+                //clear feed back
+                if(document.querySelector('.feed-back')){
+                    document.querySelector('.feed-back').parentElement.removeChild(document.querySelector('.feed-back'))
+                }
+
                 //clearLoadMore(categorieLoadMore)
                 if(document.querySelector('.load-more-category')){
                     categorieLoadMore.parentElement.removeChild(categorieLoadMore)
                     categorieLoadMore = null
                 }
+
                 podPage = 1
                 getAllMyFollowingPodcasts(podcastContainer,podPage,mainContentcontainer)
 
             } else {
+                //clear feed back
+                if(document.querySelector('.feed-back')){
+                    document.querySelector('.feed-back').parentElement.removeChild(document.querySelector('.feed-back'))
+                }
+
+                //clear load more
                 if(document.querySelector('.load-more')){
                     clearLoadMore(document.querySelector('.load-more'))
                 }
