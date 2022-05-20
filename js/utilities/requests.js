@@ -4,8 +4,10 @@ import { podcastFeedback } from '../podcast/feedBack.js';
 
 
 
-const token = JSON.parse(localStorage.getItem('user-token'))
 
+const token = JSON.parse(localStorage.getItem('user-token'))
+let podcastsArr = []
+let podcatsbyCategoryArr = []
 
 
 export const getAllMyFollowingPodcasts = async(podcastContainer ,page, feedBackContainer) => {
@@ -24,7 +26,11 @@ export const getAllMyFollowingPodcasts = async(podcastContainer ,page, feedBackC
             clearLoader()
             
             if(data.length > 0 ){
+                // podcastContainer.innerHTML = ''
+                // podcastsArr = [...podcastsArr,...data]
+                // console.log('podcastsArr =>', podcastsArr)
                 data.map(d => displayPodcasts(d))
+                // podcastsArr.map(d => displayPodcasts(d))
                 insertLoadMoreBtn()
             }else {
                 podcastFeedback(feedBackContainer,'your followings have no more podcasts yet',0)
@@ -96,5 +102,6 @@ export const searchForPodcast = async(podcastContainer,value) => {
         podcastFeedback(podcastContainer,error.message)
     }
 }
+
 
 

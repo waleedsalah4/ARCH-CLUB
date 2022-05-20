@@ -2,18 +2,21 @@ import { loadSpinner, clearLoader } from '../loader.js';
 import { limiTitle } from './podcastsView.js';
 import {getCategories}from '../utilities/getCategory.js';
 import { getAllMyFollowingPodcasts, getMyFollowingPodcastsByCategoryName } from '../utilities/requests.js';
+import { likePodcast, disLikePodcast } from '../utilities/LikePodcats.js'
 // import {podcastFeedback} from '../podcast/feedBack.js';
 // import {requesting, podPage} from '../utilities/requests.js';
 import { podcastsSideBarHref } from '../sideBar/sideBarHref.js';
 import { sideBarView } from '../sideBar/sideBarView.js';
 
 const podcastsSideBar = document.querySelector('#podcasts-sidebar')
+const snakeBarContainer = document.querySelector('#snackbar-container')
 
 const userImg = document.querySelector('#user-avatar');
 const user_avatar = JSON.parse(localStorage.getItem('user-data'));
 
 let podPage = 1;
-let categoryItemsPage = 1
+let categoryItemsPage = 1;
+let likeIcon;
 
 let playerContentHolder = document.querySelector('.player-content')
 let podPlayerContainer;
@@ -85,9 +88,12 @@ const createCategory = async() => {
             podcastContainer.innerHTML = '';
             loadSpinner(podcastContainer);
             if(categoreisItems[i].textContent === 'All'){
-                clearLoadMore(loadmore)
+
+                if(document.querySelector('.load-more')){
+                    clearLoadMore(document.querySelector('.load-more'))
+                }
                 //clearLoadMore(categorieLoadMore)
-                if(categorieLoadMore){
+                if(document.querySelector('.load-more-category')){
                     categorieLoadMore.parentElement.removeChild(categorieLoadMore)
                     categorieLoadMore = null
                 }
@@ -95,8 +101,11 @@ const createCategory = async() => {
                 getAllMyFollowingPodcasts(podcastContainer,podPage,mainContentcontainer)
 
             } else {
-                clearLoadMore(loadmore)
-                if(categorieLoadMore){
+                if(document.querySelector('.load-more')){
+                    clearLoadMore(document.querySelector('.load-more'))
+                }
+                // clearLoadMore(loadmore)
+                if(document.querySelector('.load-more-category')){
                     categorieLoadMore.parentElement.removeChild(categorieLoadMore)
                     categorieLoadMore = null
                 }
@@ -136,14 +145,19 @@ export const displayPodcasts = (podcast) => {
         </div>
         <div class="description p-2">
             <div class="podcast-name">
-                <h4 title="${podcast.name}">${limiTitle(podcast.name)}</h4>
+                <a href="./play-podcasts.html#${podcast._id}" target="_blank">
+                    <h4 title="${podcast.name}">${limiTitle(podcast.name)}</h4>
+                </a>
             </div>
             <p class="p-1 " title="go to ${podcast.createdBy.name} page">
                 By <a href="../profile/index.html?id=${podcast.createdBy._id}" class="fw-bold" target="_blank">${podcast.createdBy.name}</a>
             </p>
             <div class="likes">
-                <p>${podcast.likes}</p>
-                <i class="fa-solid fa-heart fa-2x"></i>
+                <p id="podLikesNums-${podcast._id}">${podcast.likes}</p>
+                <div class="likesIcon ${podcast.isLiked ? 'isLiked' : ''}" id="isLikedPod-${podcast._id}">
+                    <i class="fa-solid fa-heart fa-2x"></i>
+                </div>
+                
             </div>
             <hr>
             
@@ -175,6 +189,28 @@ export const displayPodcasts = (podcast) => {
     `;
 
     podcastContainer.insertAdjacentHTML('beforeend', markup)
+  
+    document.querySelector(`#isLikedPod-${podcast._id}`).addEventListener('click', ()=>{
+            if(document.querySelector(`#isLikedPod-${podcast._id}`).classList.contains('isLiked')) {
+                console.log('do unlike req')
+                disLikePodcast(
+                    podcast._id,
+                    document.querySelector(`#isLikedPod-${podcast._id}`),
+                    document.querySelector(`#podLikesNums-${podcast._id}`),
+                    snakeBarContainer
+                )
+            } else{
+                console.log('do like req')
+                likePodcast(
+                    podcast._id,
+                    document.querySelector(`#isLikedPod-${podcast._id}`),
+                    document.querySelector(`#podLikesNums-${podcast._id}`),
+                    snakeBarContainer
+                )
+            }
+        })
+
+
     playPodcastBtn = document.querySelector(`#play-podcast-btn-${podcast._id}`)
     playPodcastBtn.addEventListener('click', () => {
         if(podPlayerContainer){

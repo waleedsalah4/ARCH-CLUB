@@ -180,3 +180,11 @@
 .d-flex .category {
     margin-bottom: 0.3rem;
 }
+
+.likesIcon {
+    cursor: pointer;
+}
+
+.likesIcon.isLiked {
+    color: #6a4cff;
+}

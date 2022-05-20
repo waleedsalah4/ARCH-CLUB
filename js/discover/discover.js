@@ -1,4 +1,5 @@
 import { getAllPodcasts, discoverUsersReq, searchForUsers } from "../utilities/discoverReq.js";
+import { likePodcast, disLikePodcast} from "../utilities/LikePodcats.js";
 import { followUser, unFollowUser} from "../utilities/Follow.js";
 import { sideBarView } from "../sideBar/sideBarView.js";
 import { discoverSideBarHref } from "../sideBar/sideBarHref.js";
@@ -109,14 +110,18 @@ export const discoverPodcasts = (podcast) => {
         </div>
         <div class="description p-2">
             <div class="podcast-name">
-                <h4 title="${podcast.name}">${limiTitle(podcast.name)}</h4>
+                <a href="../podcasts/play-podcasts.html#${podcast._id}" target="_blank">
+                    <h4 title="${podcast.name}">${limiTitle(podcast.name)}</h4>
+                </a>
             </div>
             <p class="p-1 " title="go to ${podcast.createdBy.name} page">
                 By <a href="../profile/index.html?id=${podcast.createdBy._id}" class="fw-bold" target="_blank">${podcast.createdBy.name}</a>
             </p>
             <div class="likes">
-                <p>${podcast.likes}</p>
-                <i class="fa-solid fa-heart fa-2x"></i>
+                <p id="podLikesNums-${podcast._id}">${podcast.likes}</p>
+                <div class="likesIcon ${podcast.isLiked ? 'isLiked' : ''}" id="isLikedPod-${podcast._id}">
+                    <i class="fa-solid fa-heart fa-2x"></i>
+                </div>
             </div>
             <hr>
             
@@ -147,6 +152,28 @@ export const discoverPodcasts = (podcast) => {
     `;
 
     podcastsContainer.insertAdjacentHTML('beforeend', markup)
+
+    document.querySelector(`#isLikedPod-${podcast._id}`).addEventListener('click', ()=>{
+        if(document.querySelector(`#isLikedPod-${podcast._id}`).classList.contains('isLiked')) {
+            console.log('do unlike req')
+            disLikePodcast(
+                podcast._id,
+                document.querySelector(`#isLikedPod-${podcast._id}`),
+                document.querySelector(`#podLikesNums-${podcast._id}`),
+                snackbarContainer
+            )
+        } else{
+            console.log('do like req')
+            likePodcast(
+                podcast._id,
+                document.querySelector(`#isLikedPod-${podcast._id}`),
+                document.querySelector(`#podLikesNums-${podcast._id}`),
+                snackbarContainer
+            )
+        }
+    })
+
+
     playPodcastBtn = document.querySelector(`#play-podcast-btn-${podcast._id}`)
     playPodcastBtn.addEventListener('click', () => {
         if(podPlayerContainer){
