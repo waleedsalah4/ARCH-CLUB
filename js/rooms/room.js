@@ -49,10 +49,37 @@ let socket = io('https://audiocomms-podcast-platform.herokuapp.com', {
 window.socket = socket;
 // window.Me = Me;
 
+
+
+const handleErrorMsg = (msg) => {
+    if(msg.includes("tried to join room twice")){
+        document.querySelector('.loader-container').classList.remove('show-modal')
+        snackbar(snackbarContainer,'error', `<b>Error: </b> tried to join room twice`, 5000, redirectWhenRoomEnded);
+    }
+    if(msg.includes("active room you created")){
+        
+        snackbar(snackbarContainer,'error', `<b>Error: </b> cannot do this action because there is an active room you created`, 5000 );
+    }
+    if(msg.includes("Duplicate field value")){
+        
+        snackbar(snackbarContainer,'error', `<b>Error: </b>there is an active room with this name please check different name`, 5000 );
+    }
+    if(msg.includes("not found")){
+        snackbar(snackbarContainer,'error', `<b>Error: </b>there is no room with this id`, 5000 ,redirectWhenRoomEnded);
+    }
+    if(msg.includes("Invalid input data")){
+        snackbar(snackbarContainer,'error', `<b>Error: </b>Invalid input data. Name must be en-US alphanumeric`, 5000);
+    }
+}
+
 socket.on('errorMessage', (msg) => {
     // snackbar(snackbarContainer,)
-    snackbar(snackbarContainer,'error', `<b>Error: </b>  ${msg}`, 5000);
+    // document.querySelector('.loader-container').classList.remove('show-modal')
+    
+    handleErrorMsg(msg)
+    //snackbar(snackbarContainer,'error', `<b>Error: </b>  ${msg}`, 10000);
     console.log(msg)
+    // handleErrorMsg(msg)
 });
 
 socket.on("connect", () => {
@@ -83,11 +110,14 @@ socket.on('disconnect', async(reason)=>{
             }
         } , 3000) 
 
-    } else{
+    } else if(reason.includes("io server disconnect")){
+        snackbar(snackbarContainer,'error', `<b>Error: </b>romm ended`, 5000, redirectWhenRoomEnded);
+    } else {
+        
+        console.log(reason)
         window.location = '/archclub/home/index.html';
     }
 
-    console.log(reason)
  })
 
 
@@ -288,10 +318,18 @@ socket.on('adminLeft', ()=>{
     playAudio('/assets/audio/adminLeft.wav')
 })
 
-socket.on('roomEnded',()=>{
-    console.log('room ended')
-    leave()
+const redirectWhenRoomEnded = () => {
+    
     window.location = '/archclub/home/index.html';
+}
+
+socket.on('roomEnded',()=>{
+    leave()
+    if(state.isAdmin) {
+        redirectWhenRoomEnded()
+    }else {
+        snackbar(snackbarContainer,'info', `<b>info: </b> room ended `, 2500, redirectWhenRoomEnded);
+    }
 })
 
 export const createRoom = function(obj){ 
@@ -607,9 +645,16 @@ const fetchRoom = async function(id){
         if(res.status !='fail'){
             const {data} = res;
             console.log(data.name);
-            return (data.name);
+            // return (data.name);
+
+            if(data.name){
+                socket.emit('joinRoom', data.name);
+                document.querySelector('.loader-container').classList.add('show-modal')
+            }
+
         } else{
-            snackbar(snackbarContainer,'error', `<b>Error: </b>  ${res.message}`, 5000);
+            // console.log(res.message)
+            snackbar(snackbarContainer,'error', `<b>Error: </b> there is no room with this id`, 5000, redirectWhenRoomEnded);
         }
         
         
@@ -621,20 +666,22 @@ const fetchRoom = async function(id){
 }
 
 
+
+
  export const joinRoomFun = async(id) => {
     // if(document.querySelector('#create-join-container').classList.contains('show-modal')) {
     //     document.querySelector('#create-join-container').classList.remove('show-modal')
     // }
     document.querySelector('.create-room-container').classList.add('show-modal')
-        const roomName = await fetchRoom(id);
-        console.log(roomName);
-        if(roomName){
-            socket.emit('joinRoom', roomName);
-            document.querySelector('.loader-container').classList.add('show-modal')
-        } else {
-            snackbar(snackbarContainer,'error', `<b>Error: </b>  something went wrong, please try later `, 5000);
-        }
+     await fetchRoom(id);
+    //     console.log(roomName);
+    // if(roomName){
+    //     socket.emit('joinRoom', roomName);
+    //     document.querySelector('.loader-container').classList.add('show-modal')
+    // }
 }
+
+
   
 const queryParams = {}
 const queryArr = window.location.search.slice(1).split('&')

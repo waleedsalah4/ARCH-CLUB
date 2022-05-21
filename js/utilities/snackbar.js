@@ -1,7 +1,7 @@
-export function snackbar(snackbarContainer,type, msg, time){
+export function snackbar(snackbarContainer,type, msg, time, redirect){
     const para = document.createElement('P');
     para.classList.add('snackbar');
-    para.innerHTML = `${msg} <span> &times </span>`;
+    para.innerHTML = `${msg}`;
 
     if(type === 'error'){
         para.classList.add('error');
@@ -21,6 +21,9 @@ export function snackbar(snackbarContainer,type, msg, time){
 
     setTimeout(()=>{
             snackbarContainer.removeChild(para)
+            if(redirect){
+                redirect()
+            }
     }, time)
 
 }

@@ -70,7 +70,7 @@ export const eventView = (evt) => {
         </div>
     </div>
     `
-    eventContainer.insertAdjacentHTML('afterbegin', markup)
+    eventContainer.insertAdjacentHTML('beforeend', markup)
 }
 
 export const insertLoadMoreEventsBtn = () => {
@@ -102,12 +102,14 @@ const getDate = (date) => {
     dateObj = new Date(date);
     // date: dateObj.toDateString(),
     // time: formatAMPM(dateObj)
+    console.log(dateObj)
     return `${dateObj.toDateString()} at ${formatAMPM(dateObj)}`
+    // return `${dateObj.toLocaleDateString()} at ${formatAMPM(dateObj)}`
 }
 
 function formatAMPM(date) {
 
-    var hours = date.getHours()-2;
+    var hours = date.getHours();
     var minutes = date.getMinutes();
     var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
@@ -152,7 +154,7 @@ createEventForm.addEventListener('submit', (e)=> {
     const eventDataObj = {
         name: eventName.value,
         description: eventTextarea.value,
-        date: new Date(`${eventDate.value}, ${eventTime.value}`).toLocaleString()
+        date: new Date(`${eventDate.value}, ${eventTime.value}`).toISOString()
     }
     if(eventDataObj.name && eventDataObj.description && eventDate.value && eventTime.value){
         // console.log(eventDataObj)

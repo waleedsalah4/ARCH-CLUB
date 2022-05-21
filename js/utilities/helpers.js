@@ -30,7 +30,7 @@ export const popupMessage = function(msg,time=3000){
 
 function formatAMPM(date) {
 
-    var hours = date.getHours()-2;
+    var hours = date.getHours();
     var minutes = date.getMinutes();
     var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;

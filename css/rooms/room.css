@@ -139,6 +139,7 @@
     /* justify-content: space-between; */
     align-items: flex-start;
     flex-wrap: wrap;
+    gap: 20px 38px;
   }
   
   /* #page .house .screen main > div .user {
@@ -150,7 +151,7 @@
   } */
   
   #page .house .screen main > div .user {
-    width: 15%;
+    /* width: 15%; */
     height: 100px;
     display: flex;
     flex-direction: column;
@@ -159,7 +160,7 @@
     margin-top: 16px;
   }
   
-  @media (max-width: 850px) {
+  /* @media (max-width: 850px) {
     #page .house .screen main > div .user {
         width: 25%;
         min-width: 25%;
@@ -171,7 +172,7 @@
         width: 35%;
         min-width: 35%;
     }
-  }
+  } */
 
   #page .house .screen main > div .user .avatar {
     width: 65px;
