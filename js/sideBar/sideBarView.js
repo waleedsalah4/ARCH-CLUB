@@ -1,6 +1,14 @@
 export const sideBarView = (hrefObject, container) => {
     const markup = `
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <li class="nav-item ">
+            <a class="nav-link li-item" href="${hrefObject.home}">
+                <div>Home</div>
+                <div>
+                    <i class="fa-solid fa-house"></i>
+                </div>
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link li-item" href="${hrefObject.discover}">
                 <div>Discover</div>
