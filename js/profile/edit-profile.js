@@ -27,7 +27,7 @@ const popupOverlayBio = document.querySelector('.popup-overlay-bio');
 
 
 
-const editProfileSideBar = document.querySelector('#edit-profile-sidbar')
+const editProfileSideBar = document.querySelector('.insertLinks')
 
 /////////////////////////// render user data ////////////////////
 

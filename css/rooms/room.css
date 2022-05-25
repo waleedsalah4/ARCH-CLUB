@@ -75,17 +75,17 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding: 30px;
-    margin-left: 49px;
+    padding: 10px;
+    /* margin-left: 49px; */
   }
   
   #page .house {
-    width: 80%;
+    width: 70%;
     min-width: 331.908px;
-    height: 600px;
+    height: 530px;
     background: var(--primary-color);
     border-radius: 33px;
-    margin-top: 65px;
+    margin-top: 20px;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -457,7 +457,7 @@
 }
 
 .private-room{
-  margin-left: 49px;
+  /* margin-left: 49px; */
     min-width: 331.908px;
     display: flex;
     align-items: center;

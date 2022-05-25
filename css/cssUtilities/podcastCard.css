@@ -6,7 +6,8 @@
 
 
 .podcast-component{
-    margin: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 2rem;
     background-color: #1B1C1F;
     border-radius: 1.3rem;
     /* width: 458px; */
@@ -95,6 +96,10 @@
 .description .likes {
     display: flex;
     gap: 0px 15px;
+}
+
+.player-content {
+    margin-top: 8rem;
 }
 
 .pod-palyer-container {

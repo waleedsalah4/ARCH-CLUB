@@ -1,17 +1,21 @@
 :root{
     --primary-color: #6A4CFF;
+    --sidebar-primary-color: #6A4CFF;
     --main-dark-color: #0C0B0E;
     --main-gray-color: #232229;
     --main-icon-color: #FFACA9;
     --hover-bg-color: #1B1923; 
-    --white-color: #FFFFFF;
-    --main-background:linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), conic-gradient(from 142.8deg at 37.82% 47.52%, #3D2E87 0deg, rgba(48, 41, 80, 0) 346.88deg, #3D2E87 360deg);
-    --root-font-size: 100%;
+    --text-color: #FFFFFF;
+    --text-secondary-color: #928a8e;
 }
-
 
 html{
     font-size: var(--root-font-size);
+}
+body{
+    background-color: var(--main-dark-color) ;
+    color: var(--text-color);
+    /*overflow: hidden;*/
 }
 .hidden {
     display: none;
@@ -65,6 +69,7 @@ html{
     display: flex;
     justify-content: space-between;
     margin-bottom: 2em;
+    margin-left: 0;
 }
 
 @media (max-width: 400px) {

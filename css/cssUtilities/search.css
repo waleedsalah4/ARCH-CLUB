@@ -6,6 +6,7 @@
 .home-search {
     margin-top: 1.3rem;
     margin-right: auto;
+    margin-left: 1rem;
 }
 
 @media (max-width: 600px) {

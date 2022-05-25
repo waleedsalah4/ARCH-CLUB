@@ -2,7 +2,7 @@ import { sideBarView } from '../sideBar/sideBarView.js';
 import { roomSideBarHref } from '../sideBar/sideBarHref.js';
 import { snackbar } from '../utilities/snackbar.js';
 import {client,changeRole ,join, leave, agoraState ,toggleMic, startRecording, recorder} from './agora.js';
-const roomSideBar = document.querySelector('#room-sidebar')
+const roomSideBar = document.querySelector('.insertLinks')
 
 const roomSpeaker = document.querySelector('.room-speakers')
 const roomListeners = document.querySelector('.room-listeners')
@@ -56,6 +56,10 @@ const handleErrorMsg = (msg) => {
         document.querySelector('.loader-container').classList.remove('show-modal')
         snackbar(snackbarContainer,'error', `<b>Error: </b> tried to join room twice`, 5000, redirectWhenRoomEnded);
     }
+    if(msg.includes('You are already in room')){
+        document.querySelector('.loader-container').classList.remove('show-modal')
+        snackbar(snackbarContainer,'error', `<b>Error: </b>'You are already in room'`, 5000);
+    }
     if(msg.includes("active room you created")){
         
         snackbar(snackbarContainer,'error', `<b>Error: </b> cannot do this action because there is an active room you created`, 5000 );
@@ -70,6 +74,8 @@ const handleErrorMsg = (msg) => {
     if(msg.includes("Invalid input data")){
         snackbar(snackbarContainer,'error', `<b>Error: </b>Invalid input data. Name must be en-US alphanumeric`, 5000);
     }
+    
+    
 }
 
 socket.on('errorMessage', (msg) => {

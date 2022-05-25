@@ -114,9 +114,9 @@ body{
     outline: none;
     width: 20.5em;
     height: 2.5em;
-    background: #FFACA9;
+    background: #fff;
     border-radius: 11px;
-    
+    border: none;
 }
 
 

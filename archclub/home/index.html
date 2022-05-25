@@ -9,11 +9,11 @@
     
     <link rel="icon" type="image/png" href="../../assets/chatroom-icon.png">
 
-    <link href="../../css/profile/all.min.css" rel="stylesheet">
-    <link href="../../css/profile/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/all.min.css" rel="stylesheet">
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- icons -->
-    <link rel="stylesheet" href="../../css/sidebar/sidebar.css">
+    <!-- <link rel="stylesheet" href="../../css/sidebar/sidebar.css"> -->
     <link rel="stylesheet" href="../../css/cssUtilities/search.css">
     <link rel="stylesheet" href="../../css/cssUtilities/header.css">
     <link rel="stylesheet" href="../../css/home.css">
@@ -36,9 +36,22 @@
         chechIfUserIsSign()
     </script>
 
-    <div class="sideBar" id="home-sideBar">
+    <!-- <div class="sideBar" id="home-sideBar">
        
-    </div>
+    </div> -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/archclub/home/index.html">
+            <img src="/assets/logo/mipmap-mdpi/ic_launcher.png" alt="logo">
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+           <div class="collapse navbar-collapse insertLinks" id="navbarTogglerDemo02">
+           <!-- insert content here -->
+          </div>
+        </div>
+    </nav>
 
      <!-- for showing create room modal or join private room -->
         <div class="join-private-container" id="join-private-container">
@@ -51,11 +64,7 @@
 
               <!--start header -->
               <div class="header-container d-flex align-items-center home-header" id="header">
-                <div class="logo edit-logo">
-                    <a href="../home/index.html">
-                        <img src="/assets/logo/mipmap-mdpi/ic_launcher.png" alt="logo">
-                    </a>
-                </div>
+                
                 <div class="search home-search">
     
                     <li class="search-box text-center d-flex search-box-home">
@@ -74,11 +83,6 @@
                             <a href="../rooms/room.html">Create Room</a>
                         </div> 
                     </div> 
-                    <div>
-                        <a href="../profile/index.html" id="user-avatar">
-                                <!-- <img  src="../../assets/user2.png" alt="user profile picture" class="circle-profile-img"> -->
-                        </a>
-                    </div>
                 </div>
             </div>
             <!--end header -->

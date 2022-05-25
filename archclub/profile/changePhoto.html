@@ -22,6 +22,19 @@
 
 </head>
 <body>
+
+    <script>
+        const chechIfUserIsSign = () => {
+            const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
+            if(isLoggedIn === true) {
+                return
+            } else{
+                window.location = '/';
+            }
+        }
+        chechIfUserIsSign()
+    </script>
+    
     <h1 class="logo p-4">
         <a href="../home/index.html">
             <img src="/assets/logo/mipmap-mdpi/ic_launcher.png" alt="logo">

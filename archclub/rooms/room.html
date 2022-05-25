@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="../../assets/chatroom-icon.png">
     
-    <link href="../../css/profile/all.min.css" rel="stylesheet">
-    <link href="../../css/profile/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/all.min.css" rel="stylesheet">
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="../../css/sidebar/sidebar.css">
+    <link rel="stylesheet" href="../../css/cssUtilities/header.css">
     <link rel="stylesheet" href="../../css/cssUtilities/snackbar.css">
     <link rel="stylesheet" href="../../css/cssUtilities/spinner.css">
     <link rel="stylesheet" href="../../css/rooms/createRoom.css">
@@ -29,9 +29,24 @@
     }
     chechIfUserIsSign()
   </script>
-    <div class="sideBar" id="room-sidebar">
+    <!-- <div class="sideBar" id="room-sidebar">
         
-    </div>
+    </div> -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/archclub/home/index.html">
+          <img src="/assets/logo/mipmap-mdpi/ic_launcher.png" alt="logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+         <div class="collapse navbar-collapse insertLinks" id="navbarTogglerDemo02">
+         <!-- insert content here -->
+        </div>
+      </div>
+    </nav>
+
     <section id="snackbar-container"></section>
 
     <div class="loader-container">

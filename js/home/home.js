@@ -5,10 +5,12 @@ import { getCategories } from '../utilities/getCategory.js';
 import { getAllRooms, getRoomsByCategoryName } from './fetchRooms.js';
 import { addJoinPrivateRoom } from './joinPrivateRoomCard.js';
 
-const user_avatar = JSON.parse(localStorage.getItem('user-data'));
-const userImg = document.querySelector('#user-avatar')
+// const user_avatar = JSON.parse(localStorage.getItem('user-data'));
+// const userImg = document.querySelector('#user-avatar')
 
-const homeSideBar = document.querySelector('#home-sideBar')
+// const homeSideBar = document.querySelector('#home-sideBar')
+const homeSideBar = document.querySelector('.insertLinks')
+
 const joinPrivateRoomModal = document.querySelector('#join-private-container');
 const JoinModalcontainer = document.querySelector('#event-modal')//hold content
 
@@ -97,18 +99,7 @@ createCategory();
 
 
 
-const insertUserImg = () => {
-    
-    if(user_avatar){
-        const markup = `
-            <img  src="${user_avatar.photo}" alt="user profile picture" class="circle-profile-img">
-        `
-        userImg.insertAdjacentHTML('beforeend', markup)
-    }
-    else{
-        return;
-    }
-}
+
 
 
 
@@ -178,7 +169,6 @@ window.addEventListener('click', e => {
 
 window.addEventListener('load', ()=> {
     sideBarView(homeSideBarHref,homeSideBar)
-    insertUserImg()
     getAllRooms(roomContainer, roomPage)
 })
 

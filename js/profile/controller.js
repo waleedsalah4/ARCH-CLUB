@@ -16,7 +16,7 @@ export const queryParams = {}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //side bar element
-const profileSideBar = document.querySelector('#profile-sidebar');
+const profileSideBar = document.querySelector('.insertLinks');
 
 
 // follow-following general

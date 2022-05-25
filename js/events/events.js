@@ -3,10 +3,11 @@ import { sideBarView } from "../sideBar/sideBarView.js";
 import { eventsSideBarHref } from "../sideBar/sideBarHref.js";
 import { snackbar } from "../utilities/snackbar.js";
 
-const eventSidBar = document.querySelector('#events-sidebar')
+// const eventSidBar = document.querySelector('#events-sidebar')
+const eventSidBar = document.querySelector('.insertLinks')
 
-const user_avatar = JSON.parse(localStorage.getItem('user-data'));
-const userImg = document.querySelector('#user-avatar')
+// const user_avatar = JSON.parse(localStorage.getItem('user-data'));
+// const userImg = document.querySelector('#user-avatar')
 const snackEventBarContainer = document.querySelector('#snackbar-container')
 
 const eventContainer = document.querySelector('.events-container')
@@ -33,19 +34,7 @@ const modal = document.querySelector('#modal');
 
 let dateObj;
 
-//get user image
-const insertUserImg = () => {
-    
-    if(user_avatar){
-        const markup = `
-            <img  src="${user_avatar.photo}" alt="user profile picture" class="circle-profile-img">
-        `
-        userImg.insertAdjacentHTML('beforeend', markup)
-    }
-    else{
-        return;
-    }
-}
+
 
 
 export const eventView = (evt) => {
@@ -231,7 +220,6 @@ window.addEventListener('click', e => {
 
 window.addEventListener('load', () =>{
     sideBarView(eventsSideBarHref, eventSidBar)
-    insertUserImg()
     getAllMyFollowingEvents(eventContainer, eventPage)
 });
 

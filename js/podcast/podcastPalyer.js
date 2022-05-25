@@ -6,7 +6,7 @@ const token = JSON.parse(localStorage.getItem('user-token'))
 const podcastId = window.location.hash.replace('#', '');
 
 //add side bar
-const playPodcastsSidebar = document.querySelector('#play-podcasts-sidebar')
+const playPodcastsSidebar = document.querySelector('.insertLinks')
 
 
 //run when window loads

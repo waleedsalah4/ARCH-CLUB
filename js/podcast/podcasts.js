@@ -8,11 +8,12 @@ import { likePodcast, disLikePodcast } from '../utilities/LikePodcats.js'
 import { podcastsSideBarHref } from '../sideBar/sideBarHref.js';
 import { sideBarView } from '../sideBar/sideBarView.js';
 
-const podcastsSideBar = document.querySelector('#podcasts-sidebar')
+// const podcastsSideBar = document.querySelector('#podcasts-sidebar')
+const podcastsSideBar = document.querySelector('.insertLinks')
 const snakeBarContainer = document.querySelector('#snackbar-container')
 
-const userImg = document.querySelector('#user-avatar');
-const user_avatar = JSON.parse(localStorage.getItem('user-data'));
+// const userImg = document.querySelector('#user-avatar');
+// const user_avatar = JSON.parse(localStorage.getItem('user-data'));
 
 let podPage = 1;
 let categoryItemsPage = 1;
@@ -35,20 +36,6 @@ const categoriesContainer = document.querySelector('.categories-container')
 let categoreisItems = [];
 
 
-
-
-//-------------------------------------
-//run when window loads
-// const chechIfUserIsSign = () => {
-//     const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
-//     if(isLoggedIn === true) {
-//         return
-//     } else{
-//         window.location = '/';
-//     }
-// }
-// chechIfUserIsSign()
-//-------------------------------------
 
 //---------------podcasts category----------------------
 
@@ -308,23 +295,11 @@ const insertPodPlayerElement = (podsrc, name) => {
 
 
 
-//get user image
-const insertUserImg = () => {
-    
-    if(user_avatar){
-        const markup = `
-            <img  src="${user_avatar.photo}" alt="user profile picture" class="circle-profile-img">
-        `
-        userImg.insertAdjacentHTML('beforeend', markup)
-    }
-    else{
-        return;
-    }
-}
+
 
 window.addEventListener('load', () =>{
     sideBarView(podcastsSideBarHref, podcastsSideBar)
-    insertUserImg()
+    // insertUserImg()
     //mainContentcontainer => for feedback
     getAllMyFollowingPodcasts(podcastContainer, podPage, mainContentcontainer)
  });
