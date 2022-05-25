@@ -8,7 +8,6 @@ let playPodcastBtn;
 
 class PodcastClass{
     podcastContainerProfile = document.getElementById('podcast-container1');
-    //podcastContainerProfile = document.querySelector('.podcasts-content');
     emptyMessageMarkup = `
     <div class="feed-back sucsses">
         <p class="feed-back-text">You have Not uploaded any Podcasts</p>
