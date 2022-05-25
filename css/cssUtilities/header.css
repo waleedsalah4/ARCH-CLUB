@@ -80,7 +80,7 @@
     height:15em;
     padding: 1.5em;
     border-radius: 500px;
-    border:4px dashed var(--main-icon-color);
+    border:4px dashed #6A4CFF;
     box-sizing: border-box;
 }
 
