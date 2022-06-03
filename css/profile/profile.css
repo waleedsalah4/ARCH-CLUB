@@ -81,8 +81,15 @@ body{
     text-decoration: underline;
 }
 
+.main-content {
+    width: 98vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
  .inside {
-    margin-top: .5em;
+    margin-bottom: 10rem;
 } 
 
 .btn-follow-profile{
@@ -207,16 +214,19 @@ body{
 #f{
     flex-wrap: wrap;
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    justify-content: center;
+    /* align-items: center; */
     padding: 3em;
     width: 100%;
-    margin-left: 8em;
+    /* margin-left: 8em; */
 }
 #f li {
     /* padding: .8rem; */
-    width: 50%;
+    /* width: 50%; */
     margin-bottom: 3.3rem;
+    margin-left: 5rem;
+    flex: 1 0 37%;
+    padding: 5px;
 }
 
 
@@ -246,10 +256,12 @@ body{
 }
 .custom-center{
    
-        margin: auto;
-        width: 50%;
-        /* border: 3px solid green; */
-        padding: 10px;
+    /* margin: auto; */
+    width: 100%;
+    /* border: 3px solid green; */
+    padding: 10px;
+    display: flex;
+    justify-content: center;
       
 }
 #f li p span,
@@ -549,6 +561,7 @@ body{
     transition: all 0.35s;
     flex-wrap: wrap;
     display: flex;
+    justify-content: space-between;
 }
 
 .tab-switch:checked + .tab-label {
@@ -574,7 +587,7 @@ body{
     color: white;
     padding: 0.5rem;
     border-radius: 5px;
-    margin-left: 29%;
+    /* margin-left: 29%; */
 }
 
 /***************/

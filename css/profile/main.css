@@ -120,7 +120,7 @@ label {
     padding: 1em;
     z-index: 1001;
     width: 34em;
-    height: 14em;
+    /* height: 14em; */
     border-radius: 2em;
     box-shadow: 0px 0px 6px #caddf0;
 }

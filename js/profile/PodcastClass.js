@@ -83,7 +83,8 @@ class PodcastClass{
 
     Markup(podcastData,otherUser){
     return `
-    <div class="podcast-component" style="margin-left:auto" data-id=${podcastData._id} data-name=${podcastData.name}>
+    <div>
+    <div class="podcast-component" data-id=${podcastData._id} data-name=${podcastData.name} style="margin-right: 0;">
                             <div class="pic" title="open podcats in podcasts player">
                                 <a href="../podcasts/play-podcasts.html#${podcastData._id}" target="_blank">
                                  <img src=${podcastData.createdBy.photo} alt="user podcast">
@@ -128,7 +129,7 @@ class PodcastClass{
                             </div>`: ``}
 
                         </div>
-
+        </div>
     `;
 
     }
