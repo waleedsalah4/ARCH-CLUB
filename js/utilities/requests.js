@@ -13,7 +13,7 @@ let podcatsbyCategoryArr = []
 export const getAllMyFollowingPodcasts = async(podcastContainer ,page, feedBackContainer) => {
     try {
         loadSpinner(podcastContainer)
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/following/me?limit=4&page=${page}`, {
+        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/following/me?limit=6&page=${page}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -52,7 +52,7 @@ export const getAllMyFollowingPodcasts = async(podcastContainer ,page, feedBackC
 
 export const getMyFollowingPodcastsByCategoryName = async(podcastContainer,category,page, feedBackContainer) => {
     try {
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/following/me?category=${category}&limit=4&page=${page}`, {
+        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/following/me?category=${category}&limit=6&page=${page}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,

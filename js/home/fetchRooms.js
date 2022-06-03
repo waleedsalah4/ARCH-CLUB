@@ -88,7 +88,7 @@ export const searchForRoom = async(roomContainer,value) => {
         if(res.status !== 'fail'){
             const {data} = res;
             clearLoader()
-            data.length > 0 ? data.map(d => displayPodcasts(d)) : ZeroData(roomContainer ,`No rooms with ${value} name`)
+            data.length > 0 ? data.map(d => roomCard(d, roomContainer)) : ZeroData(roomContainer ,`No rooms with ${value} name`)
         }
         else{
             clearLoader()

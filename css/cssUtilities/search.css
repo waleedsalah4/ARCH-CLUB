@@ -29,7 +29,7 @@
 .search-box {
     background-color: #25242D;
     width: 24em;
-    height: 3.3em;
+    height: 3em;
     border-radius: 2em;
     padding: 9px;
     margin-top: 3em;
@@ -56,9 +56,10 @@
 
 .search-box .searchIcon{
     color: white;
-    /* width: 1rem;
-    height: 5rem; */
-    margin-left: 1em ;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 0.5rem;
+    margin-left: 1rem;
     cursor: pointer;
 }
 

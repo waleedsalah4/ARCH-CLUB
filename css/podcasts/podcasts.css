@@ -46,8 +46,8 @@ body{
 }
 
 .search-box {
-    width: 35em;
-    height: 4em;
+    width: 34em;
+    height: 3em;
 }
 
 @media (max-width: 600px) {
@@ -61,9 +61,9 @@ body{
     }
 }
 
-.search-input{
+/* .search-input{
     margin-left: 1em;
-}
+} */
 
 .categories-container{
     max-width: 50em;
