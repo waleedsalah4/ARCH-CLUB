@@ -58,7 +58,7 @@ const handleErrorMsg = (msg) => {
     }
     if(msg.includes('You are already in room')){
         document.querySelector('.loader-container').classList.remove('show-modal')
-        snackbar(snackbarContainer,'error', `<b>Error: </b>'You are already in room'`, 5000);
+        snackbar(snackbarContainer,'error', `<b>Error: </b>'You are already in room'`, 5000,redirectWhenRoomEnded);
     }
     if(msg.includes("active room you created")){
         
