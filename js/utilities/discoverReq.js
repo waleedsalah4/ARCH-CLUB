@@ -7,7 +7,7 @@ const token = JSON.parse(localStorage.getItem('user-token'))
 export const getAllPodcasts = async(podcastContainer,page) => {
     try {
         loadSpinner(podcastContainer)
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts?page=${page}&limit=6`, {
+        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/notMe?page=${page}&limit=6`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,

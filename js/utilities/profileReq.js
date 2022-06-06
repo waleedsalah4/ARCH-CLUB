@@ -499,41 +499,38 @@ export const fetchPodcasts =  async function(container, page,paggined = false){
             headers: {
                 'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
             }
-    });
+        });
 
-    const res = await response.json();
-    
-    if(res.status !== 'fail'){
-        const {data} = res;
-        if(data.length > 0 ){
-            
-            document.querySelector('.podcasts .tab-number').textContent =  res.results;
-            if(paggined){
-                PodcastClass.renderPodcast(res.data,false,res.results,true);
+        const res = await response.json();
+        
+        if(res.status !== 'fail'){
+            const {data} = res;
+            if(data.length > 0 ){
+                
+                document.querySelector('.podcasts .tab-number').textContent =  res.results;
+                if(paggined){
+                    PodcastClass.renderPodcast(res.data,false,res.results,true);
+                }
+                else{
+                    PodcastClass.renderPodcast(res.data,false,res.results);
+                }
+                
+                PodcastClass.insertLoadMoreEventsBtn(true,fetchPodcasts)
             }
-            else{
-                PodcastClass.renderPodcast(res.data,false,res.results);
+            else {
+                clearLoader()
+                if(paggined){
+                    podcastFeedback(container,'End of results!')
+                }
+                else{
+                    podcastFeedback(container,'its Empty here!')
+                }
             }
-            
-            PodcastClass.insertLoadMoreEventsBtn(true,fetchPodcasts)
-        }
-        else {
+        } else{
             clearLoader()
-            if(paggined){
-                podcastFeedback(container,'End of results!')
-            }
-            else{
-                podcastFeedback(container,'its Empty here!')
-            }
+            podcastFeedback(container,res.message);
         }
-}
-
-else{
-    clearLoader()
-    podcastFeedback(container,res.message);
-}
     }
-
     catch(err){
         console.log(err);
     }

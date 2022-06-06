@@ -139,7 +139,7 @@ const showTabContent = function(){
                     getUserPodcasts(queryParams.id,document.querySelector('.tab-content'));
                 }
                 else{
-                    fetchPodcasts();
+                    fetchPodcasts(PodcastClass.podcastContainerProfile);
                 }
             }
 
@@ -316,7 +316,7 @@ const init = async function(){
    await getMe();
    getMainInfo();
    //loadSpinner(document.getElementById('podcast-container1'));
-   await fetchPodcasts();
+   await fetchPodcasts(PodcastClass.podcastContainerProfile);
    getPodcastId();
    triggerUploadPodcast();
 }
