@@ -1,13 +1,16 @@
 .podcasts-container{
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
+
 
 
 
 .podcast-component{
     margin-right: 2rem;
     margin-bottom: 2rem;
+    margin-left: 1rem;
     background-color: #1B1C1F;
     border-radius: 1.3rem;
     /* width: 458px; */

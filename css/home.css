@@ -29,6 +29,7 @@ body{
     min-height: 100vh;
     background-color: var(--body-color);
     transition: var(--tran-05);
+    min-width: 320px;
 }
 hr {
     width: 900px;

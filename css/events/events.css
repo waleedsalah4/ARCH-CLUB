@@ -15,7 +15,7 @@ html{
 body{
     background-color: var(--main-dark-color) ;
     color: var(--text-color);
-    /*overflow: hidden;*/
+    min-width: 375px;
 }
 
 
