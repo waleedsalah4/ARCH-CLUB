@@ -126,15 +126,21 @@
 }
 
 @media (max-width: 600px) {
+    .pod-palyer-container{
+        width: 90%;
+    }
     .pod-player .pod-name {
-        font-size: 10px;
+        font-size: 11px;
     }
 }
 
 @media (max-width: 600px) {
+    .pod-player {
+        width: 100%;
+    }
     .pod-player audio {
         height: 2rem;
-        width: 14rem;
+        width: 100%;
     }
 }
 

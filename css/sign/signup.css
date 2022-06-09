@@ -25,6 +25,9 @@ body{
     transition: var(--tran-05);
 }
 
+.logo {
+    padding: 2rem;
+}
 /*for all sign pages*/
 .main-container{
     display: flex;
@@ -35,6 +38,12 @@ body{
 }
 .signup-container{
     width: 400px;
+}
+
+@media (max-width: 410px) {
+    .signup-container{
+        width: 360px;
+    }
 }
 
 
