@@ -1,6 +1,7 @@
 import { sideBarView } from '../sideBar/sideBarView.js';
 import { roomSideBarHref } from '../sideBar/sideBarHref.js';
 import { snackbar } from '../utilities/snackbar.js';
+import { limiTitle } from '../podcast/podcastsView.js'
 import {client,changeRole ,join, leave, agoraState ,toggleMic, startRecording, recorder} from './agora.js';
 const roomSideBar = document.querySelector('.insertLinks')
 
@@ -407,7 +408,7 @@ const renderSpeakers = (speaker) => {
         <div class="user-name ${ speaker.isAdmin ? '' : 'speaker'}">
             ${speaker.isAdmin ? `<img src="../../assets/room/star.svg" alt="">` : ''}
             <div>
-                ${speaker.name}
+                ${limiTitle(speaker.name)}
             </div>
             ${speaker.isAdmin ? '' : `<div class="user-role">speaker</div>`}
         </div>
@@ -437,7 +438,7 @@ const renderlisteners = (audience) => {
         </span>
         <div class="user-name listener">
             <div>
-                ${audience.name}
+                ${limiTitle(audience.name)}
             </div>
             <div class="user-role">listener</div>
         </div>
@@ -583,7 +584,7 @@ const insertuserModal = (user, type) => {
                 <img src="${user.photo}" alt="Avatar">
             </div>
             <h3> 
-                <a href="#">${user.name}</a>
+                <a href="../profile/index.html?id=${user._id}" target="_blank">${user.name}</a>
             </h3>
         </div>
         ${state.isAdmin  ? `
