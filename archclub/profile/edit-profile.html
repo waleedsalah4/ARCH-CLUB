@@ -15,9 +15,9 @@
     <link href="../../css/all.min.css" rel="stylesheet">
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="../../css/profile/profile.css" >
     <link rel="stylesheet" href="../../css/profile/main.css">
     <link rel="stylesheet" href="../../css/cssUtilities/header.css">
-    <link href="../../css/profile/profile.css" rel="stylesheet">
     <link rel="stylesheet" href="../../css/profile/edit-profile.css">
     <title>CLUBCAST | Edit Profile</title>
 
@@ -76,7 +76,7 @@
     </div>
 
         
-        <div class="container">
+
             
 
             <div class="contain-content">
@@ -86,48 +86,51 @@
                        <div class="general">
                             <img  src="../../assets/avatar2.svg" alt="user profile picture" class="circle-profile-img user-photo">
                             <h2 class="text-light  fw-bold user-name"></h2>
-                            <a href="changePhoto.html">
-                                <i class="fa-solid fa-camera current-camera-icon"></i>
+                            <a href="changePhoto.html" class="change-photo">
+                                <i class="fa-solid fa-camera camera-icon"></i>
                             </a>
-                                
-                             
+                                    
                        </div>
                         
                        
                     </div>
 
                     <div class="right-form">
-                        <form action="" class="edit-form" >
-                            <label for="edittingNAme">Edit Name</label><br>
-                            <input type="text" name="editName" id="editName" placeholder="Tony Smart"> <br>
+                        <div>
+                            <form action="" class="edit-form" >
+                                <label for="edittingNAme">Edit Name</label><br>
+                                <input type="text" name="editName" id="editName" placeholder="Tony Smart"> <br>
 
-                            <label for="editEmail">Edit Email</label><br>
-                            <input type="text" name="email" id="editEmail" placeholder="Tony@gmail.com"><br>
+                                <label for="editEmail">Edit Email</label><br>
+                                <input type="text" name="email" id="editEmail" placeholder="Tony@gmail.com"><br>
 
-                            <input type="submit" class="btn-following-profile submit-edit-btn">
-                        </form>
+                                <input type="submit" class="btn-following-profile submit-edit-btn">
+                            </form>
 
-                        <form action="" class="change-pass-form hidden">
-                            <label for="title">Change Password</label> <br>
-                            <input type="password" name="oldPassword" id="oldPassword" placeholder="Old Password"> <br>
-                            <input type="password" name="newPassword" id="newPassword" placeholder="new Password"> <br>
-                            <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password"> <br>
-                            <input type="submit" class="btn-following-profile submit-change-btn" value="Change"> 
+                            <form action="" class="change-pass-form hidden">
+                                <label for="title">Change Password</label> <br>
+                                <input type="password" name="oldPassword" id="oldPassword" placeholder="Old Password"> <br>
+                                <input type="password" name="newPassword" id="newPassword" placeholder="new Password"> <br>
+                                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password"> <br>
+                                <input type="submit" class="btn-following-profile submit-change-btn" value="Change"> 
 
-                        </form>
+                            </form>
+                        </div>
+                            <div class="edit-buttons ">
+                                <button class="btn-follow-profile change-pass">Change Password</button>
+                                <button class="btn-follow-profile edit-bio">Edit Bio</button>
+                                <button class="btn-follow-profile delete-acc" id="delete-acc">Delete Account</button>
+                                <button class="btn-follow-profile back-btn hidden">Back</button>
+            
+                            </div>
+                        
                     </div>
                 </div>
 
-                <div class="edit-buttons ">
-                    <button class="btn-follow-profile change-pass">Change Password</button>
-                    <button class="btn-follow-profile edit-bio">Edit Bio</button>
-                    <button class="btn-follow-profile delete-acc" id="delete-acc">Delete Account</button>
-                    <button class="btn-follow-profile back-btn hidden">Back</button>
-
-                </div>
+               
             </div>
             
-        </div>
+       
      
     </div>
 

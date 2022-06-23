@@ -36,7 +36,7 @@ body{
     margin-bottom: 3em;
 }
 @media(max-width:700px){
-    .events-container .event-component{
+    .event-component{
         width: 300px;
     }
 }
@@ -168,7 +168,7 @@ body{
 /*feed back*/
 
 .feed-back {
-    width: 400px;
+    width: 344px;
     max-height: 6rem;
     display: flex;
     justify-content: space-between;

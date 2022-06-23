@@ -12,7 +12,7 @@ html{
 }
 body{
     background-color: var(--main-dark-color) ;
-    /*overflow: hidden;*/
+    min-width: 330px;
 }
 
 
@@ -40,19 +40,36 @@ body{
 }
 */
 
+.main{
+    width: 100%;
+    margin-top: 1.5rem;
+    margin-left: 1rem;
+}
+
 .profile-veiw{
     width: 100%;
     height: auto;
     border-radius: 38px;
-    position: relative;
+    /* position: relative; */
     color: white;
 }
 
+.userImg-and-podBtn {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 31px 22px;
+}
+
+.user-image{
+    position: relative;
+}
+
 .profile-veiw img{
-    width: 10em;
-    height:10em;
+    width: 8em;
+    height: 8em;
     padding: .7em;
-    border-radius: 500px;
+    border-radius: 50%;
     border:4px dashed #6F52FF;
     box-sizing: border-box;
     /* position: absolute;
@@ -94,13 +111,11 @@ body{
 
 .btn-follow-profile{
     color: white;
-    font-size: 1.375rem;
+    font-size: 1.3rem;
     font-weight: bold;
-    /* margin-top: 60px; */
     margin-top: 1em;
-    width: 23.5em;
     outline: none;
-    /* width: 250px; */
+    width: 12rem;
     height: 2.5em;
     background: #6A4CFF;
     border-radius: 11px;
@@ -119,7 +134,7 @@ body{
     font-weight: bold;
     margin-top: 1em;
     outline: none;
-    width: 20.5em;
+    width: 12rem;
     height: 2.5em;
     background: #fff;
     border-radius: 11px;
@@ -215,7 +230,7 @@ body{
     flex-wrap: wrap;
     display: flex;
     justify-content: center;
-    /* align-items: center; */
+    align-items: center;
     padding: 3em;
     width: 100%;
     /* margin-left: 8em; */
@@ -224,7 +239,7 @@ body{
     /* padding: .8rem; */
     /* width: 50%; */
     margin-bottom: 3.3rem;
-    margin-left: 5rem;
+    /* margin-left: 5rem; */
     flex: 1 0 37%;
     padding: 5px;
 }
@@ -291,8 +306,8 @@ body{
 
 .current-camera-icon{
     position: absolute;
-    top: 3em;
-    left: 3em;
+    top: 69px;
+    left: 94px;
     font-size: 3em;
     opacity: .8;
     color: #C8C6CE;
@@ -315,12 +330,17 @@ body{
     font-size: 1.5rem;
     border-radius: 50em;
     margin-top: .5em;
-    margin-left: 12em;
+    /* margin-left: 12em; */
 }
 
+.disc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
 .podcast-component .delete-icon{
-    margin: 0rem -1.5rem;
+    /* margin: 0rem -1.5rem; */
     cursor: pointer;
 }
 
@@ -333,7 +353,7 @@ body{
 .user-bio{
     font-weight: 500;
     color: #838588;
-    width: 21em;
+    /* width: 21em; */
     
 }
 
@@ -350,12 +370,15 @@ body{
 
 .btnHolder{
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
+    gap: 1px 10px;
+    flex-wrap: wrap;
 }
 
-.delBtn{
+/* .delBtn{
     width: 10em;
-}
+} */
 
 #cancel-deleation{
     background-color: #a0a7b4;
@@ -430,6 +453,7 @@ body{
 
 .modal-content {
     padding: 20px;
+    background-color: transparent;
 }
 
 .modal-form div {
@@ -444,6 +468,11 @@ body{
 .modal-form .form-input {
     padding: 8px;
     width: 100%;
+}
+
+.update-actions {
+    display: flex;
+    gap: 10px 20px;
 }
 
 .submit-btn {
@@ -487,33 +516,104 @@ body{
 }
 
 /**************** tab component *********/
+
+.profile-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px 65px;
+}
+@media(max-width:540px){
+    .profile-tabs {
+        justify-content: space-evenly;
+        gap: 0;
+        margin-left: 1rem;
+    }
+}
+
+.profile-tabs .profile-tab {
+    display: flex;
+    gap: 2px 8px;
+    font-size: 1rem;
+    padding: 0.8rem;
+    cursor: pointer;
+    transition: all 1s ease-in-out;
+}
+@media(max-width:660px){
+    .profile-tabs .profile-tab {
+        font-size: 0.7rem;
+        padding: 0.2rem;
+    }
+}
+.profile-tabs .profile-tab.active{
+    border-bottom: 1px solid var(--primary-color);
+}
+
+.number-of {
+    color: #4e4c50;
+}
+
+
+
+/* cards */
+.profile-cards{
+    margin-top: 3rem;
+    margin-left: 1rem;
+}
+
+
+
+.pod-components,
+.following-components,
+.events-components{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+
+
+
+
+/* followers, following in components divs */
+
+.follow-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px 20px;
+    margin-bottom: 2rem;
+    /* width: 50%; */
+}
+/* .follow-item .follow-img {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+} */
+.follow-item .follow-img img{
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    margin-right: .5rem;
+}
+/*
+
 .tabs,.tab, .tab-switch, .tab-label, .tab-content
  { box-sizing: border-box; }
 
 
 .tabs {
   position: relative;
-  /* margin: 3rem 0; */
   background-color: #0C0B0E;
-  width: 70em;
   min-height: 20em;
   height: 60vh;
   margin-bottom: 1em;
   border-radius: 21px 21px 0px 0px;
+  display: flex;
+  justify-content: space-around;
 
 }
-.tabs::before,
-.tabs::after {
-  content: "";
-  display: table;
-}
-.tabs::after { clear: both; }
 
-.tab { 
-    float: left;
-    width: 23%;
-    /* min-height: 3em; */
- }
 
 .tab-switch { display: none; }
 
@@ -524,7 +624,6 @@ body{
     height: 3.5em;
     padding: 0.3em 1.618em;
     background: #0C0B0E;
-    /* border-right: 0.125rem solid #16a085; */
     border-radius: 21px 21px 0px 0px;
     color: #75757B;
     cursor: pointer;
@@ -545,7 +644,6 @@ body{
 
 .tab-content {
     padding: 1.618rem;
-    /* border-bottom: 0.25rem solid #bdc3c7; */
     width: 100%;
     height: auto;
     position: absolute;
@@ -561,14 +659,18 @@ body{
     transition: all 0.35s;
     flex-wrap: wrap;
     display: flex;
-    justify-content: space-between;
+    gap: 10px 108px;
+}
+@media(max-width: 770px){
+    .tab-content{
+        justify-content: center;
+    }
 }
 
 .tab-switch:checked + .tab-label {
     background: #21212B;
     color: #6A4CFF;
     border-bottom: 0;
-    /* border-right: 0.0625rem solid #fff; */
     transition: all 0.35s;
     z-index: 2;
     border-bottom: 0.12rem solid #6A4CFF;
@@ -580,7 +682,7 @@ body{
     transition: all 0.35s;
     z-index: 3;
   }
-
+*/
 .load-more-btn {
     background: #6A4CFF;
     border: none;
@@ -596,14 +698,10 @@ body{
 /************************* responsive ******************************************/
 
 
-@media(max-width:1100px){
 
-    
-
-}
 
 /******************  portrait tablets ************************/
-
+/*
 
 @media(max-width:1000px){
 
@@ -680,55 +778,52 @@ body{
 }
 
 }
-
+*/
 
 
 
 /* for larg mobiles */
 
-
 @media(max-width:600px){
 
+/*
     .tab-label{
         font-size: 1rem;
         
     }
 
-    .tabs{
-        width: 45em;
-    }
     
     #f {
         margin-left: 0em;
         flex-direction: column;
     }
 
-    #f li {
-        width: 16rem;
-    }
+   
 
-    .podcast-component{
-        width: 25rem;
-        margin-left: 0 !important;
-        
-    }
-
-    .podcast-name{
-        font-weight: 500 !important;
-        font-size: 1rem !important;
-        word-wrap: break-word;
-    }
+    
 
     .delete-icon {
         margin: 0rem -2.5rem !important;
+    }*/
+
+    .podcast-component{
+        margin-left: 0 !important;
+        font-size: 11px
+        
     }
+
+    /* .podcast-name{
+        font-weight: 500 !important;
+        font-size: 1rem !important;
+        word-wrap: break-word;
+    } */
 }
 
 
 
 /* for small mobiles */
 
-
+/*
 @media(max-width:440px){
 
     .container{
@@ -775,5 +870,5 @@ body{
     }
 }
 
-
+*/
 

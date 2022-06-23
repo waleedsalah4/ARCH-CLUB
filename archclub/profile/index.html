@@ -13,12 +13,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,500;1,400&display=swap" rel="stylesheet">
     <link href="../../css/all.min.css" rel="stylesheet">
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
-   
+
+    <link rel="stylesheet" href="../../css/cssUtilities/snackbar.css">
     <link rel="stylesheet" href="../../css/cssUtilities/header.css">
     <link rel="stylesheet" href="../../css/cssUtilities/spinner.css">
     <link rel="stylesheet" href="../../css/profile/main.css">
-    <link rel="stylesheet" href="../../css/events/events.css">
     <link href="../../css/profile/profile.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/events/events.css">
     <link rel="stylesheet" href="../../css/cssUtilities/podcastCard.css">
     <title>CLUBCAST | Profile</title>
 
@@ -37,6 +38,7 @@
         chechIfUserIsSign()
     </script>
     
+    <section id="snackbar-container"></section>
      <!-- start the navbar-->
 
      <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
@@ -88,18 +90,18 @@
     </div>
 
     <div class="delete-event-popup-overlay hidden">
-        <div class="popup-box">
+        <!-- <div class="popup-box">
             <p class="popup-message">Are You Sure You Want To Delete This Event?</p>
             <div class="btnHolder">
                 <input type="button" class="btn-following-profile delBtn confirm-event-deleation"  value="Yes">
-                <input type="button" class="btn-following-profile delBtn" id = "cancel-event-deleation" value="Cancel">
+                <input type="button" class="btn-following-profile delBtn" id="cancel-event-deleation" value="Cancel">
             </div>
             
-        </div>
+        </div> -->
     </div>
 
-    <div class="update-event-popup-overlay hidden ">
-        <div class="popup-box">
+    <div class="update-event-popup-overlay hidden">
+        <!-- <div class="popup-box">
             
             <div class="modal-content">
                 <form class="modal-form" id="event-create-form">
@@ -120,7 +122,7 @@
             </div>
 
             
-        </div>
+        </div> -->
     </div>
 
     
@@ -145,10 +147,10 @@
     
 
      <!------------------------------ start Content "other user profile"  ---------------->
-    <div class="container d-flex align-items-center align-items-center" style="margin: 0">
+    <div class="d-flex align-items-center align-items-center" style="margin: 0">
         <div class="profile " > 
             <div class="main-content">
-               <div>
+               <div class="main">
                     <div class="profile-veiw p-3">
                         
                         <!--  <img  src="../../assets/user.jpg" alt="user profile picture" class="circle-profile-img">
@@ -167,78 +169,70 @@
                                 <a href="edit-profile.html"> <button class="follow-following btn-follow-profile">Edit Profile</button></a>
                         </div> -->
                         <!--<button class="follow-following btn-follow-profile">Follow</button>-- teeeeeeeeeeeest-->
-
                     </div>
-                    <!-- test-->
-                    <div class="inside  py-5"> 
-
-                        <div class="tabs">
-
-                            <div class="tab podcasts ms-5">
-                                <input type="radio" name="css-tabs" id="tab-1" checked class="tab-switch">
-                                <label for="tab-1" class="tab-label"><span class="tab-number"> </span>  <br> Podcasts </label>
-                                <div class="tab-content podcasts-content" id="podcast-container1"></div>
-                                <div class="load-podcasts  custom-center"></div>
-                            </div>
-
-                            <div class="tab followers">
-                                <input type="radio" name="css-tabs" id="tab-2" class="tab-switch">
-                                <label for="tab-2" class="tab-label"> <span class="tab-number "></span> <br> Followers</label>
-                                <div class="tab-content tab-content-followers">
-                                     <ul id="f" class="followers-content">
-
-                                    </ul>
-                                    <div class="load-followers  custom-center"></div>
-                                </div>
-                            </div>
-
-                            <div class="tab following">
-                                <input type="radio" name="css-tabs" id="tab-3" class="tab-switch">
-                                <label for="tab-3" class="tab-label"><span class="tab-number"> </span> <br> Following</label>
-                                <div class="tab-content ">
-                                    <ul id="f" class="following-content">
-
-                                    </ul>
-                                    <div class="load-followeing  custom-center"></div>
-                                </div>
-                            </div>
-        
-                            <div class="tab events hidden">
-                                <input type="radio" name="css-tabs" id="tab-4" class="tab-switch">
-                                <label for="tab-4" class="tab-label user-Events " style="padding-top:2.2rem">My Events</label>
-                                <div class="tab-content ">
-                                    <div class="events-content">
-
-                                    </div>
-                                </div>
-                            </div>
-                        
+                
+                    <div class="profile-tabs">
+                        <div class="profile-tab podcasts-div active">
+                            <p class="number-of number-of-podcasts"></p>
+                            Podcasts
+                        </div>
+                        <div class="profile-tab following-div">
+                            <p class="number-of number-of-following"></p>
+                            Following
+                        </div>
+                        <div class="profile-tab followers-div">
+                            <p class="number-of number-of-followers"></p>
+                            Followers
+                        </div>
+                        <div class="profile-tab events-div">
+                            <p class="number-of number-of-events"></p>
+                            Events
                         </div>
                     </div>
-                        <!--test-->
-                </div>
-            </div>
-        </div>
+                    <div class="profile-cards">
+                        <div class="profile-card podcasts-cards">
+                            <div class="pod-components">
 
-     <!--------------------------------------if the current user profile -------------------------------------->
-     <div class="profile-player-content">
-        <!-- <div class="pod-palyer-container">
-            <div class="pod-player">
-                <h6 class="pod-name">
-                    test11115464
-                </h6>
-                <audio src="https://res.cloudinary.com/dnpol9y6s/video/upload/v1647607539/podcasts/h0tqa0zdbl4yekqxr6df.mp4" controls></audio>
-            </div>
-            <i class="fa-solid fa-x"></i>
-        </div> -->
+                            </div>
+                        </div>
+                        <div class="profile-card following-cards hidden">
+                            <div class="following-components"></div>
+                        </div>
+                        <div class="profile-card followers-cards hidden">
+                            <div class="followers-components"></div>
+                        </div>
+                        <div class="profile-card Events-cards hidden"> 
+                            <div class="events-components"></div>
+                        </div>
+                    </div>
+        
+                    
 
-    </div>
-</div>
+                    <!-------if the current user profile ---------------->
+                    <div class="profile-player-content">
+                        <!-- <div class="pod-palyer-container">
+                            <div class="pod-player">
+                                <h6 class="pod-name">
+                                    test11115464
+                                </h6>
+                                <audio src="https://res.cloudinary.com/dnpol9y6s/video/upload/v1647607539/podcasts/h0tqa0zdbl4yekqxr6df.mp4" controls></audio>
+                            </div>
+                            <i class="fa-solid fa-x"></i>
+                        </div> -->
+
+                    </div> 
+
+
+                </div><!--end of main  -->
+            </div><!--end of main content -->
+        </div><!--end of profile -->
+    </div><!--end of d-flex -->
 
     
     <script src="../../js/profile/all.min.js"></script>
     <script src="../../js/profile/bootstrap.bundle.min.js"></script>
-    <!-- <script src="../../js/profile/side-bar.js" type="module"></script> -->
+   
     <script src="../../js/profile/controller.js" type="module"></script>
+    <!-- <script src="../../js/profile/loadMore.js" type="module"></script> -->
 </body>
 </html>

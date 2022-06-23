@@ -1,11 +1,11 @@
-import {popupMessage,logout} from './helpers.js';
-import {eventView, deletElmenetFromUi,puttingHandlers,updateEventHandling} from './../events/eventCard.js'
+import {popupMessage} from './helpers.js';
+// import {eventView, deletElmenetFromUi,puttingHandlers,updateEventHandling} from './../events/eventCard.js'
 import {renderMainInfo,queryParams,insertLoadMoreEventsBtn} from '../profile/controller.js';
-import Myevents from '../profile/Myevents.js';
+// import Myevents from '../profile/Myevents.js';
 import { loadSpinner, clearLoader} from '../loader.js';
-import { podcastFeedback  } from "../podcast/feedBack.js";
-import PodcastClass from '../profile/PodcastClass.js';
-import Follow from '../profile/Follow.js';
+// import { podcastFeedback  } from "../podcast/feedBack.js";
+// import PodcastClass from '../profile/PodcastClass.js';
+// import Follow from '../profile/Follow.js';
 
 export const url = 'https://audiocomms-podcast-platform.herokuapp.com';
 
@@ -34,114 +34,286 @@ export const getMe = async function(){
 }
 
 
-export const generateSignature = async function(){
-
-    try { 
-    const response = await fetch(`${url}/api/v1/podcasts/generateSignature`,{
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-        }
-    });
-    
-    const res = await response.json();
-    
-    if(res.status !== 'fail'){
-        
-        const signature = res;
-
-        localStorage.setItem('user-signature', JSON.stringify(signature));
-    
-    }
-}
-    catch(er){
-        console.log(er);
-    }
-
-}
-
-/********* */
-export const createPodcast = async function(podcastData,podName,podCategory){
-
-    try{
-        
-        const podcastBody = {
-            "name": podName,
-            "category": podCategory,
-            "audio": {
-                "public_id": podcastData.public_id,
-            }
-    }
-    console.log(podcastBody);
-
-        const response = await fetch(`${url}/api/v1/podcasts`,{
+export const followUser = async(id, btnValue) => {
+    btnValue.textContent = 'following...';
+    try {
+        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/${id}/following`, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-                'content-type': 'application/json'
+                Authorization: `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
             },
-            body : JSON.stringify(podcastBody)
+        });
+        const res = await response.json();
+        
+        if(res.status !== 'fail'){
+            btnValue.textContent = 'unFollow';
+            console.log(btnValue.textContent)
+            btnValue.classList = 'follow-following f-btn btn-following-profile';
+        }
+        else{
+            btnValue.textContent = 'unFollow';
+            alert(res.message);
+            
+        }
+    } catch(error) {
+        // alert(error.message)
+        btnValue.textContent = 'Follow';
+        alert(error.message)
+        
     }
-    );
+}
 
-    
+export const unFollowUser = async(id, btnValue) => {
+    try {
+        btnValue.textContent = 'unFollowing...';
+        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/${id}/following`, {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+        });
+        const res = await response.json();
+        
+        if(res.status !== 'fail'){
+            btnValue.textContent = 'Follow';
+            btnValue.classList = 'follow-following f-btn btn-follow-profile';
+        }
+        else{
+            btnValue.textContent = 'unFollow';
+            alert(res.message);
+          
+        }
+    } catch(error) {
+        // alert(error.message)
+        btnValue.textContent = 'unFollow';
+        alert(error.message)
+        
+    }
+}
+
+export const getUser = async function(id){
+
+    try{
+
+        const response = await fetch(`${url}/api/v1/users/${id}`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+    });
 
     const res = await response.json();
-    if(res.status != 'fail'){
-        podcastFeedback(document.querySelector('.mgs-output'),'Your Podcast Has Been Loaded Successfully!')
-        //popupMessage('Your Podcast Has Been Loaded Successfully!');
-    }
-    else{
-        podcastFeedback(document.querySelector('.mgs-output'),`${res.message}`)
-        //popupMessage(`${res.message}`);
+    // console.log(res);
+    if(res.status !== 'fail'){
+        const {data} = res;
+        renderMainInfo(data,true);
+        
+    }     
+}
+
+    catch(error){
+        console.log(error);
     }
     
-    console.log(res);
-
-}
-    catch(error){
-        
-        
-        console.log(error);
-    }
-
-
 }
 
+export const getOtherUser = async function(id){
 
-export const uploadPodcast = async function(file,podName,podCategory){
     try{
-        //1)generating signature
-        await generateSignature();
-        const signature = JSON.parse(localStorage.getItem('user-signature'));
 
-        let form = new FormData();
-        form.append('file',file.files[0]);
-        form.append('folder',"podcasts");
-        form.append("resource_type", "audio");
-
-        //2)upload to cloudinary
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${signature.cloudName}/video/upload?api_key=${signature.apiKey}&timestamp=${signature.timestamp}&signature=${signature.signature}`,
-        {
-            method: 'POST',
-            body: form,
-        }
-            );
+        const response = await fetch(`${url}/api/v1/users/${id}`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+    });
 
         const res = await response.json();
-        //3) create podcast
         console.log(res);
-        await createPodcast(res,podName,podCategory)
+        
     }
 
     catch(error){
-        popupMessage(`${error.message}`);
+        console.log(error);
+    }
+
+}
+
+/*
+export const getMyEvents = async function(parent,page,paggined=false){
+    loadSpinner(parent);
+    console.log('getMy Events');
+    try{
+        console.log(page); 
+        const response = await fetch(`${url}/api/v1/events/me?limit=2&page=${page}`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+    });
+
+        const res = await response.json();
+        console.log(res);
+
+        if(res.status !== 'fail'){
+            const {data} = res;
+            //parent.innerHTML = '';
+            if(data.length > 0 ){
+                // data.map(d => eventView(d))
+                //puttingHandlers();
+                clearLoader();
+                Myevents.renderEvent(data);
+                Myevents.insertLoadMoreEventsBtn(getMyEvents); 
+            }
+            else{
+                
+                if(paggined){
+                    clearLoader();
+                    parent.insertAdjacentHTML('beforeend',`
+                    <div class="feed-back sucsses">
+                        <p class="feed-back-text">End of results!</p>
+                        <i class='bx bx-x clear-feed-back'></i>
+                    </div>
+                    `);
+                }
+                else{
+                    clearLoader();
+                    parent.insertAdjacentHTML('beforeend',`
+                    <div class="feed-back sucsses">
+                        <p class="feed-back-text">You have No Events</p>
+                        <i class='bx bx-x clear-feed-back'></i>
+                    </div>
+                    `);
+                }
+            }
+        }
+        
+    }
+
+    catch(error){
+        console.log(error);
+    }
+
+
+
+}
+
+
+export const updateEvent = async function(id,changeData){
+    console.log('hi');
+    try{
+        
+        const response = await fetch(`${url}/api/v1/events/${id}`,{
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(changeData)
+    });
+
+        const res = await response.json();
+        //console.log(res);
+         const user = res.user;
+         
+
+        if(res.status !== 'success') {
+            popupMessage(res.message);
+            console.log("failed");
+            getMyEvents(document.querySelector('.events-content')); 
+           //document.querySelector('.user-Events').click()
+            console.log(res.message)
+            
+        }
+        else{
+            
+            popupMessage(`Changed successfully!`);
+            //document.querySelector('.events-content').innerHTML = '';
+            //getMyEvents(document.querySelector('.events-content'));
+            console.log("clicked");
+            Myevents.eventContainer.innerHTML = '';
+            document.querySelector('.user-Events').click() 
+           
+           //getMyEvents( Myevents.eventContainer);
+
+        }
+    }
+
+    catch(err){
+        console.log(err.message);
+    }
+
+}
+
+export const getEventById = async function(id){
+    try{
+        
+        const response = await fetch(`${url}/api/v1/events/${id}`,{
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+                'Content-Type': 'application/json'
+            }
+    });
+
+        const res = await response.json();
+        console.log(res);
+        if(res.status !== 'success') {
+            //popupMessage(res.message);
+        
+            console.log(res.message)
+            
+        }
+        else{
+             updateEventHandling(res,id);
+            Myevents.updateEventHandling(res,id);
+        }
+    }
+
+    catch(err){
+        console.log(err.message);
+    }
+
+}
+
+
+export const deleteEventById = async function(id){
+    try{
+
+        const response = await fetch(`${url}/api/v1/events/${id}`,{
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
+            },
+    });
+
+        const res = await response.json();
+        // console.log(res);
+        if(res.status !== 'success') {
+            popupMessage(res.message);
+            console.log(res.message)
+            
+        }
+
+        else{
+            // console.log('deleted successfully')
+             deletElmenetFromUi(id) 
+            Myevents.deletElmenetFromUi(id)
+            popupMessage(`the event has been deleted successfully!`);
+        }
+
+    }
+
+    catch(error){
         console.log(error);
     }
 }
 
 
+*/
 
+
+/*
 
 export const fetchFollowing = async function(container = Follow.followingContainer,page ,paggined=false){
     loadSpinner(document.querySelector('.following-content'));
@@ -154,7 +326,6 @@ export const fetchFollowing = async function(container = Follow.followingContain
     });
 
     const res = await response.json();
-    /* Follow.renderFollowing(res.data); */
     if(res.status !== 'fail'){
         const {data} = res;
 
@@ -238,9 +409,9 @@ export const fetchFollowers = async function(container = Follow.followersContain
         console.log(err);
     }
 }
+*/
 
-
-
+/*
 export const deletePodcast = async function(id){
     try{
 
@@ -270,226 +441,9 @@ export const deletePodcast = async function(id){
         console.log(error);
     }
 }
+*/
 
-
-export const getOtherUser = async function(id){
-
-    try{
-
-        const response = await fetch(`${url}/api/v1/users/${id}`,{
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-            },
-    });
-
-        const res = await response.json();
-        console.log(res);
-        
-    }
-
-    catch(error){
-        console.log(error);
-    }
-
-}
-
-
-export const getMyEvents = async function(parent,page,paggined=false){
-    loadSpinner(parent);
-    console.log('getMy Events');
-    try{
-        console.log(page); 
-        const response = await fetch(`${url}/api/v1/events/me?limit=2&page=${page}`,{
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-            },
-    });
-
-        const res = await response.json();
-        console.log(res);
-
-        if(res.status !== 'fail'){
-            const {data} = res;
-            //parent.innerHTML = '';
-            if(data.length > 0 ){
-                /* data.map(d => eventView(d))
-                puttingHandlers();*/
-                clearLoader();
-                Myevents.renderEvent(data);
-                Myevents.insertLoadMoreEventsBtn(getMyEvents); 
-            }
-            else{
-                
-                if(paggined){
-                    clearLoader();
-                    parent.insertAdjacentHTML('beforeend',`
-                    <div class="feed-back sucsses">
-                        <p class="feed-back-text">End of results!</p>
-                        <i class='bx bx-x clear-feed-back'></i>
-                    </div>
-                    `);
-                }
-                else{
-                    clearLoader();
-                    parent.insertAdjacentHTML('beforeend',`
-                    <div class="feed-back sucsses">
-                        <p class="feed-back-text">You have No Events</p>
-                        <i class='bx bx-x clear-feed-back'></i>
-                    </div>
-                    `);
-                }
-            }
-        }
-        
-    }
-
-    catch(error){
-        console.log(error);
-    }
-
-
-
-}
-
-
-export const updateEvent = async function(id,changeData){
-    console.log('hi');
-    try{
-        
-        const response = await fetch(`${url}/api/v1/events/${id}`,{
-            method: 'PATCH',
-            headers: {
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(changeData)
-    });
-
-        const res = await response.json();
-        //console.log(res);
-         const user = res.user;
-         
-
-        if(res.status !== 'success') {
-            popupMessage(res.message);
-            console.log("failed");
-           /*  getMyEvents(document.querySelector('.events-content')); */
-           //document.querySelector('.user-Events').click()
-            console.log(res.message)
-            
-        }
-        else{
-            
-            popupMessage(`Changed successfully!`);
-            //document.querySelector('.events-content').innerHTML = '';
-            //getMyEvents(document.querySelector('.events-content'));
-            console.log("clicked");
-            /* Myevents.eventContainer.innerHTML = '';
-            document.querySelector('.user-Events').click()  */
-           
-           //getMyEvents( Myevents.eventContainer);
-
-        }
-    }
-
-    catch(err){
-        console.log(err.message);
-    }
-
-}
-
-export const getEventById = async function(id){
-    try{
-        
-        const response = await fetch(`${url}/api/v1/events/${id}`,{
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-                'Content-Type': 'application/json'
-            }
-    });
-
-        const res = await response.json();
-        console.log(res);
-        if(res.status !== 'success') {
-            //popupMessage(res.message);
-        
-            console.log(res.message)
-            
-        }
-        else{
-            /* updateEventHandling(res,id); */
-            Myevents.updateEventHandling(res,id);
-        }
-    }
-
-    catch(err){
-        console.log(err.message);
-    }
-
-}
-
-
-export const deleteEventById = async function(id){
-    try{
-
-        const response = await fetch(`${url}/api/v1/events/${id}`,{
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-            },
-    });
-
-        const res = await response.json();
-        // console.log(res);
-        if(res.status !== 'success') {
-            popupMessage(res.message);
-            console.log(res.message)
-            
-        }
-
-        else{
-            // console.log('deleted successfully')
-            /* deletElmenetFromUi(id) */
-            Myevents.deletElmenetFromUi(id)
-            popupMessage(`the event has been deleted successfully!`);
-        }
-
-    }
-
-    catch(error){
-        console.log(error);
-    }
-}
-
-export const getUser = async function(id){
-
-    try{
-
-        const response = await fetch(`${url}/api/v1/users/${id}`,{
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-            },
-    });
-
-    const res = await response.json();
-    console.log(res);
-    if(res.status !== 'fail'){
-        const {data} = res;
-        renderMainInfo(data,true);
-        
-    }     
-}
-
-    catch(error){
-        console.log(error);
-    }
-    
-}
-
+/*
 export const fetchPodcasts =  async function(container, page,paggined = false){ 
     
     try{
@@ -688,61 +642,5 @@ export const getUserFollowing = async function(id = queryParams.id,container = F
     
 }
 
+*/
 
-
-export const followUser = async(id, btnValue) => {
-    btnValue.textContent = 'following...';
-    try {
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/${id}/following`, {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-            },
-        });
-        const res = await response.json();
-        
-        if(res.status !== 'fail'){
-            btnValue.textContent = 'unFollow';
-            console.log(btnValue.textContent)
-            btnValue.classList = 'follow-following f-btn btn-following-profile';
-        }
-        else{
-            btnValue.textContent = 'unFollow';
-            alert(res.message);
-            
-        }
-    } catch(error) {
-        // alert(error.message)
-        btnValue.textContent = 'Follow';
-        alert(error.message)
-        
-    }
-}
-
-export const unFollowUser = async(id, btnValue) => {
-    try {
-        btnValue.textContent = 'unFollowing...';
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/${id}/following`, {
-            method: 'DELETE',
-            headers: {
-                Authorization: `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
-            },
-        });
-        const res = await response.json();
-        
-        if(res.status !== 'fail'){
-            btnValue.textContent = 'Follow';
-            btnValue.classList = 'follow-following f-btn btn-follow-profile';
-        }
-        else{
-            btnValue.textContent = 'unFollow';
-            alert(res.message);
-          
-        }
-    } catch(error) {
-        // alert(error.message)
-        btnValue.textContent = 'unFollow';
-        alert(error.message)
-        
-    }
-}

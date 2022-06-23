@@ -1,16 +1,43 @@
+import { 
+    getMe,
+    getUser,
+} from '../utilities/profileReq.js';
 
-import { getMe, url  ,uploadPodcast,fetchFollowing , fetchFollowers, getUserFollowing,getUserFollowers,
-        deletePodcast,getMyEvents,getUser,getUserPodcasts,fetchPodcasts} from '../utilities/profileReq.js';
+import { 
+    getMyPodcasts,
+    uploadPodcast,
+    getMyFollowing,
+    getMyFollowers,
+    getMyEvents,
+    
+    getOtherUserPodcasts,
+    getAnotherUserFollowing,
+    getOtherUserFollowers,
+    getOtherUserEvents,
+ } from '../utilities/profileRequests.js';
+
 import { loadSpinner, clearLoader} from '../loader.js';
 import { sideBarView } from '../sideBar/sideBarView.js';
 import { profileSideBarHref } from '../sideBar/sideBarHref.js';
 import { followUser, unFollowUser} from "../utilities/profileReq.js";
-import Follow from './Follow.js';
-import PodcastClass from './PodcastClass.js';
-import Myevents from './Myevents.js';
+// import Follow from './Follow.js';
+// import PodcastClass from './PodcastClass.js';
+// import Myevents from './Myevents.js';
 //elements
 const profileVeiw = document.querySelector('.profile-veiw');
 const podcastPopup = document.querySelector('.popup-overlay-podcast');
+
+let snakeBarContainer = document.querySelector('#snackbar-container')
+const podcastsCards = document.querySelector('.pod-components')
+const followingCards = document.querySelector('.following-components')
+const followersCards = document.querySelector('.followers-components')
+const EventsCards = document.querySelector('.events-components')
+//for podcasts player
+let playerContentHolder = document.querySelector('.profile-player-content');
+let podPlayerContainer;
+let playPodcastBtn;
+
+
 export const queryParams = {}
 
 
@@ -19,28 +46,6 @@ export const queryParams = {}
 const profileSideBar = document.querySelector('.insertLinks');
 
 
-// follow-following general
-/* generalBtn.forEach(btn=> {
-    btn.addEventListener('click',()=>{
-        if(btn.classList.contains('follow-btn')){
-            btn.textContent = "Following";
-            btn.classList.remove('follow-btn');
-            btn.classList.add('following-btn');
-        }
-    
-        else{
-            btn.textContent = "Follow";
-            btn.classList.remove('following-btn');
-            btn.classList.add('follow-btn');
-        }
-    })
-}); */
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////// rendering profile main infos ///////////////////
 
 const getMainInfo = function(){
     const userData = JSON.parse(localStorage.getItem('user-data') );
@@ -56,29 +61,31 @@ export const renderMainInfo = function(data,otherUser=false){
 
             <div d-flex>
 
-                <div class="d-flex fr-wrab">
+                <div class="userImg-and-podBtn">
 
-                        <div>
-                        <img  src=${data.photo} alt="user profile picture" class="circle-profile-img">
+                        <div class="user-image">
+                            <img  src=${data.photo} alt="user profile picture" class="circle-profile-img">
                                 ${otherUser === false? `<a href="changePhoto.html">
                                 <i class="fa-solid fa-camera current-camera-icon"></i> 
                                     </a>`: ``}
+
+                            <div>
+                                <h2 class="user-name mt-1 p-2 pb-1 fw-bold">${data.name}</h2>        
+                                <p class="user-bio pb-1">${data.bio} </p>
+                            </div>
                         </div>
 
-                        <div class="ms-4 mt-4">
-                            <h2 class="user-name mt-1 p-2 pb-1 fw-bold">${data.name}</h2>        
-                            <p class="user-bio pb-1">${data.bio} </p>
-                        </div>
+                        
                         
                         ${otherUser!= false? '':
                         `<div class="add-podcast-container">
                         <input type="file" name="file" id="podcast-file" style="display: none; " >
-                        <h2 class="text-light  fw-bold fs-1  podcast-component-heading"> 
+                        
                             <button class="add-podcast-btn" onclick="document.getElementById('podcast-file').click()">
                                 <i class="fa-solid fa-circle-plus fs-3 me-4"></i>
                                 Add podcast
                             </button>
-                        </h2>
+                        
                     </div>`
                     }
                     
@@ -95,11 +102,12 @@ export const renderMainInfo = function(data,otherUser=false){
     
     profileVeiw.innerHTML = '';
     profileVeiw.insertAdjacentHTML("beforeend",markup);
+
+    /*
     clearingNumbers();
-    //document.querySelector('.podcasts .tab-number').textContent = numOfPods;
     document.querySelector('.following .tab-number').textContent = data.following;
     document.querySelector('.followers .tab-number').textContent = data.followers;
-    showTabContent();
+    showTabContent();*/
     if(otherUser){
         followUnFollow();
     }
@@ -108,6 +116,7 @@ export const renderMainInfo = function(data,otherUser=false){
 
 }
 
+/*
 const clearingNumbers = function(){
     document.querySelector('.podcasts .tab-number').textContent = '';
     document.querySelector('.following .tab-number').textContent = '';
@@ -116,10 +125,8 @@ const clearingNumbers = function(){
 
 const showTabContent = function(){
     document.querySelector('.tabs').addEventListener('click', async function(e){
-       /*  console.log('clicked');
-        console.log(e.target); */
-        if( e.target.matches('input')){ //e.target.matches('label') ||
-            /* console.log(e.target); */
+       
+        if( e.target.matches('input')){ 
             const element = e.target;
             Follow.followersPage = 1;
             Follow.followingPage = 1;
@@ -180,14 +187,17 @@ const showTabContent = function(){
     });
 }
 
-
+*/
 
 
 
 
 //////////////////////////////////////////////////////////// uploading podcast ///////////////////////////////////////////////
 
-
+const uiObjData = {
+    podConatiner: podcastsCards,
+    snakeBarContainer
+}
 const podcastInfosForm = async function(file){
     const podName = document.getElementById('podcast-name').value;
     const podCategory = document.getElementById('podcast-category').value;
@@ -198,13 +208,16 @@ const podcastInfosForm = async function(file){
     else{
         console.log(podName,podCategory);
         podcastPopup.classList.add('hidden');
-        document.querySelector('.add-podcast-btn').textContent = 'Loadding podcast...';
-        await uploadPodcast(file,podName,podCategory);
-        document.querySelector('.add-podcast-btn').innerHTML = `<i class="fa-solid fa-circle-plus fs-3 me-4"></i>
-        Add podcast`;
-        file.value = null;
-        setTimeout(init,5000);
-        //init();
+        if(file){
+            document.querySelector('.add-podcast-btn').textContent = 'Loadding podcast...';
+            document.querySelector('.add-podcast-btn').disabled = true;
+            await uploadPodcast(file,podName,podCategory,uiObjData);
+            document.querySelector('.add-podcast-btn').innerHTML = `<i class="fa-solid fa-circle-plus fs-3 me-4"></i>
+            Add podcast`;
+            document.querySelector('.add-podcast-btn').disabled = false;
+            file.value = null;
+        }
+       
         
     }
 }
@@ -234,7 +247,7 @@ const triggerUploadPodcast = function(){
 /////////////////////////////////////////////////////// delete podcast /////////////////////
 
 //get podcast Id
-
+/*
 const getPodcastId = function(){
     document.querySelectorAll('.delete-pod').forEach(delPod=>{
         delPod.addEventListener('click',function(e){
@@ -245,7 +258,8 @@ const getPodcastId = function(){
         
     });
 }
-
+*/
+/*
 const deletePodcastPopup =  function(podcast){
 
     document.querySelector('.delete-podcast-popup-overlay').classList.remove('hidden');
@@ -264,7 +278,7 @@ const deletePodcastPopup =  function(podcast){
     });
     
 
-}
+}*/
 
 /////////////////////////////////////////////////////// Paggination //////////////////////////////////////////////////////////////
 let eventPage = 1
@@ -309,15 +323,96 @@ const followUnFollow = function(){
     })
 }
 
+
+
+//------------tabs------------
+let tabs = []
+
+tabs = Array.from(document.querySelectorAll('.profile-tab'))
+let cards = [];
+cards = Array.from(document.querySelectorAll('.profile-card'))
+
+for(let i=0; i< tabs.length; i++){
+    tabs[i].onclick = function(){
+        removeAllCtegorActive();
+        tabs[i].classList.add('active')
+        hideAllOtherDivs(tabs[i])
+        // tabs[i].classList.remove('hidden')
+        cards[i].classList.remove('hidden')
+    }
+}
+
+
+function hideAllOtherDivs (item){
+    // console.log(item)
+    cards.forEach(card =>{
+        card.classList.add('hidden')
+    })
+    // if(item.classList.contains('podcasts-div')){
+    //     document.querySelector('.podcasts-cards').classList.remove('hidden')
+    //     console.log('hide')
+    // }
+    // if(item.classList.contains('following-div')){
+    //     console.log('true')
+    //     document.querySelector('.following-cards').classList.remove('hidden')
+    // }
+    // if(item.classList.contains('followers-div')){
+    //     document.querySelector('.followers-cards').classList.remove('hidden')
+    // }
+    // if(item.classList.contains('events-div')){
+    //     document.querySelector('.events-cards').classList.remove('hidden')
+    // }
+}
+
+function removeAllCtegorActive() {
+    tabs.forEach(btn =>
+        btn.classList.remove('active')
+    );
+}
+
+
+
+
+export function insertPodPlayerElement(podsrc, name) {
+    let podPlayerContainer;
+    const markup = `
+        <div class="pod-palyer-container">
+                <div class="pod-player">
+                    <h6 class="pod-name">
+                        ${name}
+                    </h6>
+                    <audio src="${podsrc}" autoplay controls></audio>
+                </div>
+                <div id="remove-player-container">
+                    <i class="fa-solid fa-x"></i>
+                </div>
+        </div>
+    `;
+    playerContentHolder.insertAdjacentHTML('beforeend', markup)
+    podPlayerContainer = document.querySelector('.pod-palyer-container')
+    document.querySelector('#remove-player-container').addEventListener('click', ()=> {
+        podPlayerContainer.parentElement.removeChild(podPlayerContainer)
+        podPlayerContainer = null
+    });
+}
+
+
+
+
 //////////////////////////////////////////////////////////// get user's data onload ///////////////////////////////////////////////
 
 const init = async function(){
-   loadSpinner(profileVeiw);
-   await getMe();
-   getMainInfo();
+    loadSpinner(profileVeiw);
+    await getMe();
+    getMainInfo();
+    await getMyPodcasts(podcastsCards,1,snakeBarContainer)
+    await getMyFollowing(followingCards,1,snakeBarContainer)
+    await getMyFollowers(followersCards,1,snakeBarContainer)
+    await getMyEvents(EventsCards,1,snakeBarContainer)
+
    //loadSpinner(document.getElementById('podcast-container1'));
-   await fetchPodcasts(PodcastClass.podcastContainerProfile);
-   getPodcastId();
+//    await fetchPodcasts(PodcastClass.podcastContainerProfile);
+//    getPodcastId();
    triggerUploadPodcast();
 }
 
@@ -327,7 +422,6 @@ const init = async function(){
 window.addEventListener('load', () => {
     // console.log(profileSideBar)
 
-    //solved by omar 😂
     const queryArr = window.location.search.slice(1).split('&')
     //const queryParams = {}
     queryArr.forEach(elem => {
@@ -344,16 +438,20 @@ window.addEventListener('load', () => {
         }
         else{
             loadSpinner(profileVeiw);
-            document.querySelector('.events').classList.add('hidden');
+            // document.querySelector('.events-div').classList.add('hidden');
             getUser(queryParams.id);
-            getUserPodcasts(queryParams.id,document.querySelector('.tab-content'));
+            getOtherUserPodcasts(queryParams.id,podcastsCards,1,snakeBarContainer);
+            getAnotherUserFollowing(queryParams.id,followingCards,1,snakeBarContainer);
+            getOtherUserFollowers(queryParams.id,followersCards,1,snakeBarContainer)
+            getOtherUserEvents(queryParams.id,EventsCards,1,snakeBarContainer)
+            // getUserPodcasts(queryParams.id,document.querySelector('.tab-content'));
             //getUserFollowers(queryParams.id);
             //getUserFollowing(queryParams.id);
         }
         
     }
     else{
-        document.querySelector('.events').classList.remove('hidden');
+        // document.querySelector('.events').classList.remove('hidden');
         init();
     }
 
