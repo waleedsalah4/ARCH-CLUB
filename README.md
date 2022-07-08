@@ -27,8 +27,8 @@ it's a social media built on voice ✔👌
 - add text chat support
 
 
-#mobile app:
+# mobile app:
 https://github.com/AhmedHamed-20/club_cast
 
-#backend:
+# backend:
 https://github.com/omarbadawy/audiocomms-podcast-api
