@@ -18,6 +18,21 @@ it's a social media built on voice ✔👌
 - edit your profile information (photo-name-bio-password)
 - search about (users-podcasts-public rooms)
 
+# Technologies
+- HTML/CSS/Javascript
+- agora
+- socket_io
+
+# upcoming features
+- add text chat support
+
+
+# mobile app:
+https://github.com/AhmedHamed-20/club_cast
+
+# backend:
+https://github.com/omarbadawy/audiocomms-podcast-api
+
 # Screenshots
 <img src="https://user-images.githubusercontent.com/69516726/178084612-cf9409cc-7337-421f-b1bc-4b7760ff4910.png"> 
 <img src="https://user-images.githubusercontent.com/69516726/178084889-b87e83ee-b2ab-493f-8f28-df72e6093980.png">
@@ -41,19 +56,3 @@ it's a social media built on voice ✔👌
 <img src="https://user-images.githubusercontent.com/69516726/178085564-f17b67b6-da6e-48d9-907e-1ff782dc1f7f.png">
 <img src="https://user-images.githubusercontent.com/69516726/178085570-d1c7ed92-1bd5-417b-9242-fd28fe64bff8.png">
 <img src="https://user-images.githubusercontent.com/69516726/178085576-160cfe0e-2f43-4a0c-9ad9-cc26d2351606.png">
-
-
-# Technologies
-- HTML/CSS/Javascript
-- agora
-- socket_io
-
-# upcoming features
-- add text chat support
-
-
-# mobile app:
-https://github.com/AhmedHamed-20/club_cast
-
-# backend:
-https://github.com/omarbadawy/audiocomms-podcast-api
