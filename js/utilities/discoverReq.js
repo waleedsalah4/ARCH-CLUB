@@ -87,14 +87,18 @@ export const searchForUsers = async(container,value) => {
         const res = await response.json();
         
         if(res.status !== 'fail'){
-            const {data} = res;
-            data.length > 0 ? data.map(d => renderSearchUserResult(d)) : podcastFeedback(container ,`No user with ${value} name`)
+            // console.log(res)
+            const {users} = res;
+            users.length > 0 ? users.map(d => renderSearchUserResult(d)) : podcastFeedback(container ,`No user with ${value} name`)
+
         }
         else{
+            // console.log(res)
             podcastFeedback(container,res.message);
         }
     } catch(error) {
         // alert(error.message)
+        // console.log(error.message)
         podcastFeedback(container,error.message)
     }
 }
