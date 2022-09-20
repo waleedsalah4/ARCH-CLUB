@@ -88,8 +88,8 @@ export const searchForUsers = async(container,value) => {
         
         if(res.status !== 'fail'){
             // console.log(res)
-            const {users} = res;
-            users.length > 0 ? users.map(d => renderSearchUserResult(d)) : podcastFeedback(container ,`No user with ${value} name`)
+            const {data} = res;
+            data.length > 0 ? data.map(d => renderSearchUserResult(d)) : podcastFeedback(container ,`No user with ${value} name`)
 
         }
         else{
