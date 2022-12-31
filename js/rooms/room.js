@@ -1,3 +1,4 @@
+import { url } from '../config.js';
 import { sideBarView } from '../sideBar/sideBarView.js';
 import { roomSideBarHref } from '../sideBar/sideBarHref.js';
 import { snackbar } from '../utilities/snackbar.js';
@@ -41,7 +42,7 @@ let roomState = {
 
 export let Me= {}
 
-let socket = io('https://audiocomms-podcast-platform.herokuapp.com', {
+let socket = io(`${url}`, {
     auth: {
         token,
     }
@@ -177,7 +178,7 @@ socket.on('createRoomSuccess', async(user,room,token) => {
 
 socket.on('joinRoomSuccess', (user, room, token) => {
     console.log('join room',user,room,token)
-    handleUIWhenCreateRoom(room.name, room.isRecording)
+    // handleUIWhenCreateRoom(room.name, room.isRecording)
     user.isMuted = false;
     room.admin.isAdmin = true;
     Me = {...user};
@@ -636,7 +637,7 @@ const insertuserModal = (user, type) => {
 }
 
 
-const url = 'https://audiocomms-podcast-platform.herokuapp.com';
+
 const fetchRoom = async function(id){
 
     try{

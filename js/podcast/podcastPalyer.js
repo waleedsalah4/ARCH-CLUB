@@ -1,3 +1,4 @@
+import { url } from "../config.js";
 import { sideBarView } from "../sideBar/sideBarView.js";
 import { snackbar } from "../utilities/snackbar.js";
 import { playPodcastsSideBarHref } from "../sideBar/sideBarHref.js";
@@ -153,7 +154,7 @@ const displayPodPlayer = (data) => {
 
 const likePodcastById = async(token, id) => {
     try{
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/likes/${id}`, {
+        const response = await fetch(`${url}/api/v1/podcasts/likes/${id}`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -174,7 +175,7 @@ const likePodcastById = async(token, id) => {
 
 const disLikePodcastById = async(token, id) => {
     try{
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/likes/${id}`, {
+        const response = await fetch(`${url}/api/v1/podcasts/likes/${id}`, {
             method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -196,7 +197,7 @@ const disLikePodcastById = async(token, id) => {
 
 const getPodcastbyId = async(token, id) => {
     try {
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/${id}`, {
+        const response = await fetch(`${url}/api/v1/podcasts/${id}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,

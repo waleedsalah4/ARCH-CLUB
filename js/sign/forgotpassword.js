@@ -1,3 +1,5 @@
+import { url } from '../config.js';
+
 const mainContainer = document.querySelector('.main-container')
 let feedBackDiv;
 const submitBtn = document.querySelector('.submit-btn')
@@ -50,7 +52,7 @@ const getValues = ()=>{
 const forgotPasswordReq = async (data) => {
     submitBtn.textContent = 'Sending Email...'
     try {
-        const response = await fetch("https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/forgotPassword", {
+        const response = await fetch(`${url}/api/v1/users/forgotPassword`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',

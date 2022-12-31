@@ -1,3 +1,4 @@
+import { url } from '../config.js';
 import {displayPodcasts, insertLoadMoreBtn, insertLoadMoreBtnForCategories} from '../podcast/podcasts.js';
 import { loadSpinner,clearLoader } from '../loader.js';
 import { podcastFeedback } from '../podcast/feedBack.js';
@@ -13,7 +14,7 @@ let podcatsbyCategoryArr = []
 export const getAllMyFollowingPodcasts = async(podcastContainer ,page, feedBackContainer) => {
     try {
         loadSpinner(podcastContainer)
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/following/me?limit=6&page=${page}`, {
+        const response = await fetch(`${url}/api/v1/podcasts/following/me?limit=6&page=${page}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -52,7 +53,7 @@ export const getAllMyFollowingPodcasts = async(podcastContainer ,page, feedBackC
 
 export const getMyFollowingPodcastsByCategoryName = async(podcastContainer,category,page, feedBackContainer) => {
     try {
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/following/me?category=${category}&limit=6&page=${page}`, {
+        const response = await fetch(`${url}/api/v1/podcasts/following/me?category=${category}&limit=6&page=${page}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -83,7 +84,7 @@ export const getMyFollowingPodcastsByCategoryName = async(podcastContainer,categ
 //search for podcast
 export const searchForPodcast = async(podcastContainer,value) => {
     try {
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/search?s==${value}`, {
+        const response = await fetch(`${url}/api/v1/podcasts/search?s==${value}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,

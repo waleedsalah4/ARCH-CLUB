@@ -1,3 +1,4 @@
+import { url } from "../config.js";
 import { loadSpinner, clearLoader } from "../loader.js";
 import { ZeroData } from "../utilities/FeedBackMessages.js";
 import { roomCard } from "./roomCard.js";
@@ -8,7 +9,7 @@ const token = JSON.parse(localStorage.getItem('user-token'))
 export const getAllRooms = async (roomContainer, page) => {
     try {
         loadSpinner(roomContainer)
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/rooms?limit=4&page=${page}`, {
+        const response = await fetch(`${url}/api/v1/rooms?limit=4&page=${page}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -44,7 +45,7 @@ export const getAllRooms = async (roomContainer, page) => {
 export const getRoomsByCategoryName = async(roomContainer,category,page) => {
     try {
         loadSpinner(roomContainer)
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/rooms/?category=${category}&limit=4&page=${page}`, {
+        const response = await fetch(`${url}/api/v1/rooms/?category=${category}&limit=4&page=${page}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -77,7 +78,7 @@ export const getRoomsByCategoryName = async(roomContainer,category,page) => {
 export const searchForRoom = async(roomContainer,value) => {
     try {
         loadSpinner(roomContainer)
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/rooms/search?s=${value}`, {
+        const response = await fetch(`${url}/api/v1/rooms/search?s=${value}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,

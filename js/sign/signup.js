@@ -1,3 +1,4 @@
+import { url } from '../config.js';
 const mainContainer = document.querySelector('.main-container')
 const signupForm = document.querySelector('.signup-form');
 const userName = document.getElementById('name');
@@ -69,9 +70,6 @@ function getValues () {
 
 //event handlers
 
-
-
-const url = 'https://audiocomms-podcast-platform.herokuapp.com';
 
  const fetchData = async(data) =>  {
   try{

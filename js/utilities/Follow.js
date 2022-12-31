@@ -1,10 +1,11 @@
+import { url } from '../config.js';
 import {snackbar} from '../utilities/snackbar.js';
 const token = JSON.parse(localStorage.getItem('user-token'))
 
 export const followUser = async(id, btnValue, snackbarContainer) => {
     btnValue.textContent = 'following...';
     try {
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/${id}/following`, {
+        const response = await fetch(`${url}/api/v1/users/${id}/following`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -32,7 +33,7 @@ export const followUser = async(id, btnValue, snackbarContainer) => {
 export const unFollowUser = async(id, btnValue, snackbarContainer) => {
     try {
         btnValue.textContent = 'unFollowing...';
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/${id}/following`, {
+        const response = await fetch(`${url}/api/v1/users/${id}/following`, {
             method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${token}`,

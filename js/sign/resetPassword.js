@@ -1,3 +1,4 @@
+import { url } from '../config.js';
 const mainContainer = document.querySelector('.main-container')
 let feedBackDiv;
 const submitBtn = document.querySelector('.submit-btn')
@@ -61,7 +62,7 @@ const token = window.location.search.split('=')[1] //get from url
 const ResetPasswordReq = async (data) => {
     submitBtn.textContent = 'Reseting password...'
     try{
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/resetPassword/${token}`, {
+        const response = await fetch(`${url}/api/v1/users/resetPassword/${token}`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',

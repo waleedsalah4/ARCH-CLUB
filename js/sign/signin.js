@@ -1,3 +1,4 @@
+import { url } from '../config.js';
 const email = document.querySelector('#email')
 const password = document.querySelector('#password')
 const submitBtn = document.querySelector('.submit-btn')
@@ -52,12 +53,11 @@ function getValues () {
 }
 
 
-// const url = 'https://audiocomms-podcast-platform.herokuapp.com/';
 
  const fetchData = async(data) =>  {
     try{
         submitBtn.textContent = 'logging...'
-        const response = await fetch("https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/login", {
+        const response = await fetch(`${url}/api/v1/users/login`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

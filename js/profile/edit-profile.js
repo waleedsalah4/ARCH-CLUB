@@ -3,9 +3,6 @@ import { deleteMe,updatePassword ,updateMe, getMe} from "../utilities/profileEdi
 import { sideBarView } from "../sideBar/sideBarView.js";
 import { profileSideBarHref } from "../sideBar/sideBarHref.js";
 
-
-
-
 const editForm = document.querySelector('.edit-form');
 const chngPassForm = document.querySelector('.change-pass-form');
 const submitEditBtn = document.querySelector('.submit-edit-btn');
@@ -18,7 +15,6 @@ const backbtn = document.querySelector('.back-btn');
 const oldPassword = document.querySelector('#oldPassword');
 const newPassword = document.querySelector('#newPassword');
 const confirmPassword = document.querySelector('#confirmPassword');
-const url = 'https://audiocomms-podcast-platform.herokuapp.com';
 const userName = document.querySelector('.user-name');
 const userPhoto = document.querySelector('.user-photo');
 const openChngBioBtn = document.querySelector('.edit-bio');

@@ -1,3 +1,4 @@
+import { url } from "../config.js";
 import { loadSpinner, clearLoader } from "../loader.js";
 import { snackbar } from '../utilities/snackbar.js';
 import { popupMessage } from './helpers.js';
@@ -22,7 +23,6 @@ import {
 
 
 
-const url = 'https://audiocomms-podcast-platform.herokuapp.com';
 
 const token = JSON.parse(localStorage.getItem('user-token'))
 
@@ -469,7 +469,7 @@ export const getOtherUserEvents = async (id,container,page ,snakeBarContainer) =
 export const updateEventById = async (id,data,snakeBarContainer,eventsContainer) =>{
     try{
         console.log('data before submition',data)
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/events/${id}`,{
+        const response = await fetch(`${url}/api/v1/events/${id}`,{
             method: 'PATCH',
             headers: {
                 'Authorization': `Bearer ${token}`,

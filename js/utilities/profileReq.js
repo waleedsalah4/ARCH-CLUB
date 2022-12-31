@@ -1,3 +1,4 @@
+import { url } from '../config.js';
 import {popupMessage} from './helpers.js';
 // import {eventView, deletElmenetFromUi,puttingHandlers,updateEventHandling} from './../events/eventCard.js'
 import {renderMainInfo,queryParams,insertLoadMoreEventsBtn} from '../profile/controller.js';
@@ -6,8 +7,6 @@ import { loadSpinner, clearLoader} from '../loader.js';
 // import { podcastFeedback  } from "../podcast/feedBack.js";
 // import PodcastClass from '../profile/PodcastClass.js';
 // import Follow from '../profile/Follow.js';
-
-export const url = 'https://audiocomms-podcast-platform.herokuapp.com';
 
 /** profile */
 
@@ -37,7 +36,7 @@ export const getMe = async function(){
 export const followUser = async(id, btnValue) => {
     btnValue.textContent = 'following...';
     try {
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/${id}/following`, {
+        const response = await fetch(`${url}/api/v1/users/${id}/following`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,
@@ -66,7 +65,7 @@ export const followUser = async(id, btnValue) => {
 export const unFollowUser = async(id, btnValue) => {
     try {
         btnValue.textContent = 'unFollowing...';
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/${id}/following`, {
+        const response = await fetch(`${url}/api/v1/users/${id}/following`, {
             method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${JSON.parse(localStorage.getItem('user-token'))}`,

@@ -1,6 +1,5 @@
 import {popupMessage,logout} from './helpers.js';
-
-export const url = 'https://audiocomms-podcast-platform.herokuapp.com';
+import { url } from '../config.js';
 export const deleteMe = async function(){
 
     try{

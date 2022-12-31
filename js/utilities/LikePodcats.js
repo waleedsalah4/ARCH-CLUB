@@ -1,10 +1,11 @@
+import { url } from '../config.js';
 import { snackbar } from './snackbar.js';
 
 const token = JSON.parse(localStorage.getItem('user-token'))
 
 export const likePodcast = async(id, Likesdiv, likesNums,snakeBarContainer) => {
     try{
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/likes/${id}`, {
+        const response = await fetch(`${url}/api/v1/podcasts/likes/${id}`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -31,7 +32,7 @@ export const likePodcast = async(id, Likesdiv, likesNums,snakeBarContainer) => {
 
 export const disLikePodcast = async(id, Likesdiv, likesNums,snakeBarContainer) => {
     try{
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/likes/${id}`, {
+        const response = await fetch(`${url}/api/v1/podcasts/likes/${id}`, {
             method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${token}`,

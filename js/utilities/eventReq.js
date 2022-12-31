@@ -1,3 +1,4 @@
+import { url } from "../config.js";
 import { 
     eventView, insertLoadMoreEventsBtn,
     clearModalAndForm, successFeedBack
@@ -12,7 +13,7 @@ const token = JSON.parse(localStorage.getItem('user-token'))
 export const getAllMyFollowingEvents = async(container ,page) => {
     try {
         loadSpinner(container)
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/events?limit=4&page=${page}&sort=createdAt`, {
+        const response = await fetch(`${url}/api/v1/events?limit=4&page=${page}&sort=createdAt`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -46,7 +47,7 @@ export const createEventReq = async(data, btn, snackbarContainer) => {
     try {
         console.log(data)
         btn.textContent = 'Creating...'
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/events/me`, {
+        const response = await fetch(`${url}/api/v1/events/me`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${token}`,

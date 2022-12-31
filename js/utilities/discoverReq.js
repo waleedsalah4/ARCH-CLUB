@@ -1,3 +1,4 @@
+import { url } from "../config.js";
 import { discoverPodcasts, discoverUsersDisplay, renderSearchUserResult, insertLoadMoreusersBtn ,insertLoadMorePodsBtn} from "../discover/discover.js";
 import { podcastFeedback } from "../podcast/feedBack.js";
 import { loadSpinner,clearLoader } from '../loader.js';
@@ -7,7 +8,7 @@ const token = JSON.parse(localStorage.getItem('user-token'))
 export const getAllPodcasts = async(podcastContainer,page) => {
     try {
         loadSpinner(podcastContainer)
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/podcasts/notMe?page=${page}&limit=6`, {
+        const response = await fetch(`${url}/api/v1/podcasts/notMe?page=${page}&limit=6`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -44,7 +45,7 @@ export const getAllPodcasts = async(podcastContainer,page) => {
 export const discoverUsersReq = async(container, page) => {
     try {
         loadSpinner(container)
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/discover?page=${page}&limit=10&sort=-followers`, {
+        const response = await fetch(`${url}/api/v1/users/discover?page=${page}&limit=10&sort=-followers`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -78,7 +79,7 @@ export const discoverUsersReq = async(container, page) => {
 //search for podcasters
 export const searchForUsers = async(container,value) => {
     try {
-        const response = await fetch(`https://audiocomms-podcast-platform.herokuapp.com/api/v1/users/search?s==${value}`, {
+        const response = await fetch(`${url}/api/v1/users/search?s==${value}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
